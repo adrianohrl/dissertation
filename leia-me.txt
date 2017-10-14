@@ -1,0 +1,11 @@
+Template para o ShareLatex seguindo as normas para apresentação de dissertação de mestrado e tese de doutorado da Universidade Federal de Itajubá de acordo com o arquivo disponível em https://unifei.edu.br/files/arquivos/PRPPG/Norma_para_dissertacao_e_tese.pdf
+
+Instruções gerais:
+
+1 - Editar o arquivo "Configuracoes\info.tex" para alterar o nome do autor, orientador, coorientador, membros da banca, data de aprovação, tipo de documento, etc..
+
+2 - A estrutura do documento pode ser alterada editando o arquivo "principal.tex".
+
+Contato:
+Ricardo Emerson Julio
+email: ricardoej@gmail.com

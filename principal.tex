@@ -1,0 +1,79 @@
+% Modelo de Tese/Dissertação para UNIFEI
+\documentclass[
+% opções da classe memoir
+12pt,
+oneside,
+a4paper,
+oldfontcommands,
+% opções do pacote babel
+english,			% idioma adicional para hifenização
+brazil				% o último idioma é o principal do documento
+]{abntex2} 
+
+% configurações (pacotes, comandos)
+\input{Configuracoes/config.tex}
+% informações (título, autor, instituição, banca examinadora, etc.)
+\input{Configuracoes/info.tex}
+
+% Início do documento
+\begin{document}
+
+% Elementos pré-textuais
+% Capa
+\input{1_Pre_Texto/capa.tex}
+% Folha de Rosto
+\input{1_Pre_Texto/folhaderosto.tex}
+% Folha de Aprovação 1
+\input{1_Pre_Texto/folhadeaprovacao1.tex}
+% Ficha Catalográfica
+\input{1_Pre_Texto/fichacatalografica.tex}
+% Folha de Aprovação 2
+\input{1_Pre_Texto/folhadeaprovacao2.tex}
+% Agradecimentos
+\input{1_Pre_Texto/agradecimentos.tex}
+% Epígrafe
+\input{1_Pre_Texto/epigrafe.tex}
+% Resumo
+\input{2_Resumos/resumo.tex}
+% Resumo em inglês - abstract
+\input{2_Resumos/abstract.tex}
+% Lista de ilustrações
+\input{1_Pre_Texto/listailustracoes.tex}
+% Lista de tabelas
+\input{1_Pre_Texto/listatabelas.tex}
+% Lista de abreviaturas e siglas
+\input{1_Pre_Texto/siglas.tex}
+% Lista de símbolos
+\input{1_Pre_Texto/simbolos.tex}
+% Sumário
+\input{1_Pre_Texto/sumario.tex}
+
+% Elementos textuais
+\textual
+% Introdução
+\input{3_Capitulos/introducao.tex}
+% Capítulos
+\input{3_Capitulos/capitulo1.tex}
+\input{3_Capitulos/capitulo2.tex}
+\input{3_Capitulos/capitulo3.tex}
+\input{3_Capitulos/capitulo4.tex}
+
+% Elementos pós-textuais
+\postextual
+% Apêndices - opcional
+\apendices
+\partapendices 	% imprime uma página indicando o início dos apêndices
+\input{4_Apendices/apendice_a.tex}
+% Anexos - opcional
+\anexos
+\partanexos		% imprime uma página indicando o início dos anexos
+\input{5_Anexos/anexo_a.tex}
+
+\phantompart	% adiciona espaço no sumário
+% Referências bibliográficas - obrigatório
+\bibliography{6_Referencias/bibliografia.bib}
+% Índice remissivo - opcional
+\printindex	% imprime as páginas nas quais as macros \index{palavra a ser indexada} apareceram.
+
+% Fim do documento
+\end{document}

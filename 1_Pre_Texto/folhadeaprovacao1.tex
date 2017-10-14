@@ -1,0 +1,42 @@
+% Isto é um exemplo de Folha de aprovação, elemento obrigatório da NBR
+% 14724/2011 (seção 4.2.1.3). Você pode utilizar este modelo até a aprovação
+% do trabalho. Após isso, substitua todo o conteúdo deste arquivo por uma
+% imagem da página assinada pela banca com o comando abaixo:
+%
+% \includepdf{folhadeaprovacao_final.pdf}
+%
+\begin{folhadeaprovacao}
+\vfill
+
+\begin{center}
+{\large \textbf{\MakeUppercase{\imprimirinstituicao}}}\\
+{\large \textbf{\MakeUppercase{\programaLinhaUm}}}\\
+{\large \textbf{\MakeUppercase{\programaLinhaDois}}}\\[3cm]
+{\Huge \imprimirtitulo}\\[3cm]
+{\large \textbf{\imprimirautor}} \\[1cm]
+
+\end{center}
+\vfill
+\begin{flushright}
+\begin{minipage}{11cm}
+{
+	% frase da aprovação, editar o arquivo "info.tex" para alterar
+	\aprovacao
+}\\[1cm]
+\end{minipage}
+\end{flushright}
+
+	\begin{flushright}
+	\begin{minipage}{11cm}
+		\textit{\large \textbf{Banca Examinadora:\\}}
+		    {\large \imprimirorientador \space (Orientador)\\}
+		    {\large \imprimircoorientador \space (Coorientador)\\}
+			{\large \bancaexaminadora}
+	\end{minipage}
+	\end{flushright}
+\begin{center}
+	\large \textbf{\imprimirlocal}\\
+	\large \textbf{\anodeaprovacao}
+\end{center}
+\end{folhadeaprovacao}
+\newpage

@@ -1,0 +1,66 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% ALTERAR AS INFORMAÇÕES DESSE BLOCO
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% IMPORTANTE: Inserir aqui o tipo do trabalho (mestrado ou doutorado)
+%\def \tipo{doutorado}
+\def \tipo{mestrado}
+
+% Informações de dados para CAPA e FOLHA DE ROSTO
+\titulo{Projeto de um pacote ROS para a gestão de alocação de tarefas complexas em sistemas multi-robôs}
+\autor{Adriano Henrique Rossette Leite}
+\local{Itajubá}
+\data{\today}
+\orientador{Prof. Dr. Guilherme Sousa Bastos}
+%\coorientador{Prof. Dr. Coorientador}
+\instituicao{Universidade Federal de Itajubá}
+\def \programaLinhaUm{Programa de Pós-Graduação em}
+\def \programaLinhaDois{Engenharia Elétrica}
+\def \programa{\programaLinhaUm \space \programaLinhaDois}
+\def \areaconcentracao{Automação e Sistemas Elétricos Industriais}
+
+% Data de aprovação
+\def \diadeaprovacao{01}
+\def \mesdeaprovacao{Fevereiro}
+\def \anodeaprovacao{2018}
+
+% Banca examinadora - Professores convidados
+\def \professorConvidadoUm{Prof. Dr. Convidado1}
+\def \professorConvidadoDois{Prof. Dr. Convidado2}
+\def \professorConvidadoTres{Prof. Dr. Convidado3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifthenelse{\equal{\tipo}{mestrado}}{
+    \def \tipoTrabalhoUm{Dissertação}
+    \def \tipoTrabalhoDois{Mestrado}
+    \def \titulacao{Mestre}
+}{
+    
+    \ifthenelse{\equal{\tipo}{doutorado}}{
+        \def \tipoTrabalhoUm{Tese}
+        \def \tipoTrabalhoDois{Doutorado}
+        \def \titulacao{Doutor}
+    }{
+        \def \tipoTrabalhoUm{Undefined}
+        \def \tipoTrabalhoDois{Undefined}
+        \def \titulacao{Undefined}
+    }
+}
+
+\tipotrabalho{\tipoTrabalhoUm \space (\tipoTrabalhoDois)}
+
+% O preambulo deve conter o tipo do trabalho, o objetivo, o nome da instituição e a área de concentração 
+\preambulo{\tipoTrabalhoUm \space submetida ao \programa \space como parte dos requisitos para obtenção do Título de \titulacao \space em Ciências em \programaLinhaDois.}
+
+% frase utilizada na folha de aprovação
+\def  \aprovacao{\large \tipoTrabalhoUm \space aprovada por banca examinadora em \diadeaprovacao \space de \mesdeaprovacao \space de \anodeaprovacao, conferindo ao autor o título de \textbf {\titulacao \space em Ciências em \programaLinhaDois.}}
+
+% Banca examinadora
+\def \bancaexaminadora{\professorConvidadoUm \\ \professorConvidadoDois \\ \professorConvidadoTres}

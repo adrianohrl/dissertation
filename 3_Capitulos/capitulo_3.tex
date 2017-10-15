@@ -1,0 +1,93 @@
+\chapter[Alocação de Tarefas em Sistemas Multi-Robôs]{Alocação de Tarefas em Sistemas Multi-Robôs} \label{cap:cap3}
+Colocar texto aqui 
+
+% 1a seção do capítulo 3
+\section{Definição Formal} \label{sec:sec3_1}
+Colocar texto aqui
+
+% 2a seção do capítulo 3
+\section{Taxonomias} \label{sec:sec3_2}
+Colocar texto aqui
+
+% 3a seção do capítulo 3
+\section{Arquiteturas} \label{sec:sec3_3}
+Colocar texto aqui
+
+% 1a sub-seção da 3a seção do capítulo 3
+\subsection{ALLIANCE} \label{sub:sub3_3_1}
+
+Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de uma modo diferente.
+
+Sejam $R=\{r_1,r_2,...,r\}$, o conjunto de $n$ robôs heterogêneos, e $T=\{t_1,t_2,...,t_m\}$, o conjunto de $m$ subtarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $A=\{a_{i1},a_{i2},...a_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. 
+
+\textbf{melhorar esse parágrafo} Além disso, o conjunto de $n$ funções $H_k=\{h_1(a_{1k}),h_2(a_{2k}),h_n(a_{nk})\}$, em que $h_i(a_{ik})$ é uma função que retorna a tarefa em $T$ que o robô $r_i$ executa quando sua configuração de ativação $a_{ik}$ é ativada.
+
+A seguir, serão discutidas as funções necessárias para a ativação de uma dada configuração de comportamento $a_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(a_{ij})$.
+
+\begin{equation}
+    aplicável_{ij}(t) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $a_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    recebida_{ij}(k, t_1, t_2) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(a_{ij})$ dentro do intervalo de tempo $(t_1, t_2)$, em que $t_1 < t_2$;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    inibida_{ij}(t) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se outra configuração de comportamento $a_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    impaciência_{ij}(t) =
+    \begin{cases}
+        \min\limits_{x}\delta_{slow_{ij}}(x, t) & \parbox[t]{.6\textwidth}{se $ recebida_{ij}(x, t - \tau_i, t) \ \land \ \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t))$;} \\
+        \delta_{fast_{ij}}(t) & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    reiniciar_{ij}(t) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se $\exists x, recebida_{ij}(x, t - \delta t, t) \ \land \ \lnot recebida_{ij}(x, 0, t - \delta t))$, onde $\delta t$ é o tempo desde a última verificação de comunicação;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    ativa_{ij}(\Delta t, t) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se a configuração de comportamento $a_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    aquiescente_{ij}(t) =
+    \begin{cases}
+        1 & \parbox[t]{.6\textwidth}{se $(ativa_{ij}(\psi_{ij}(t), t) \ \land \ \exists x, recebida_{ij}(x, t - \tau_i, t))
+        \lor ativa_{ij}(\lambda_{ij}(t), t)$;} \\
+        0 & \text{caso contrário.}
+    \end{cases}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+        motivação_{ij}(0) = \ & 0 \\
+        motivação_{ij}(t) = \ & (motivação_{ij}(t - \delta t) + impaciência_{ij}(t)) \times \\
+        & aplicável_{ij}(t) \times \\
+        & inibida_{ij}(t) \times \\
+        & reiniciar_{ij}(t) \times \\
+        & aquiescente_{ij}(t).
+    \end{aligned}
+\end{equation}

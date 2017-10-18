@@ -8,9 +8,9 @@
 \usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
 \usepackage{color}			    % Controle das cores
 \usepackage{graphicx}			% Inclusão de gráficos
-%\usepackage{epstopdf}          %Apenas no windows
+%\usepackage{epstopdf}          % Apenas no windows
 \usepackage{bmpsize}
-\usepackage[cmex10]{amsmath}		% Formulas matemáticas
+\usepackage[cmex10]{amsmath}    % Formulas matemáticas
 \usepackage{amsfonts,amssymb,latexsym}
 %\usepackage{amscls}
 \usepackage{subfig}
@@ -33,7 +33,7 @@
 
 % Pacotes de citações
 \usepackage[brazilian,hyperpageref]{backref}	% Paginas com as citações na bibl
-\usepackage[num, bibjustif]{abntex2cite}		% Citações padrão ABNT
+\usepackage[alf, bibjustif]{abntex2cite}		% Citações padrão ABNT
 \hyphenation{di-mi-nu-i-ção}
 \hyphenation{ha-lo-im-plan-ta-dos}
 
@@ -43,6 +43,10 @@
 \usepackage{pgfplotstable}
 \usepackage{siunitx}
 \usetikzlibrary{pgfplots.groupplots}
+
+% A numeração de figuras e tabelas deve ser contínua em todo o documento (ABNT NBR 14724:2011 seções 5.8 e 5.9). Porém, caso deseje alterar esse comportamento para numeração por capítulos, por exemplo, use:
+%\counterwithin{figure}{section}
+%\counterwithin{table}{section}
 
 % CONFIGURAÇÕES DE PACOTES
 % Configurações do pacote backref

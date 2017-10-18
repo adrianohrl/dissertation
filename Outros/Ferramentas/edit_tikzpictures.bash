@@ -52,7 +52,7 @@ if [[ ! -d ${DIRECTORY} ]]; then
   exit 
 fi
 
-PATTERNS='s/\\_/_/g; s/\\\$/$/g;'
+PATTERNS='s/\\_/_/g; s/\\\$/$/g; s/\\{/{/g; s/\\}/}/g; s/\\ensuremath{\\backslash}/\\/g;'
 if [[ ${VERBOSE} = true ]]; then
   echo "DIRECTORY = ${DIRECTORY}"
   echo "PATTERNS  = ${PATTERNS}"

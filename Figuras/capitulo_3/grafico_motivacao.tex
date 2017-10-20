@@ -1,51 +1,59 @@
 \begin{tikzpicture}
     \begin{groupplot}[
-      group style={rows=6}, 
-      width=0.75\textwidth,
-      height=0.25\textwidth, 
-      xmajorgrids, 
-      ymajorgrids, 
-      enlarge x limits=false,
+        group style={rows=7}, 
+        width=0.75\textwidth,
+        height=0.25\textwidth, 
+        xmajorgrids, 
+        ymajorgrids, 
+        enlarge x limits=false,
     ] 
         \nextgroupplot[
-        %title={Motivação da configuração de comportamento /robot1/wander.},
-        ymin=-0.1,
-        ylabel={$impaci\hat{e}ncia(t)$},
+            %title={Motivação da configuração de comportamento /robot1/wander.},
+            ymin=-0.1,
+            ylabel={$impaci\hat{e}ncia(t)$},
         ]
         \addplot[blue,line width=1pt] table[x index=0,y index=1]{\datatable}; 
         
         \nextgroupplot[
-        ymin=-0.1,
-        ymax=1.1,
-        ylabel={$aquiescente(t)$},
+            ymin=-0.1,
+            ymax=1.1,
+            ylabel={$aquiescente(t)$},
         ] 
         \addplot[blue,line width=1pt] table[x index=0,y index=2]{\datatable}; 
         
         \nextgroupplot[
-        ymin=-0.1,
-        ymax=1.1,
-        ylabel={$inibida(t)$},
+            ymin=-0.1,
+            ymax=1.1,
+            ylabel={$inibida(t)$},
         ] 
         \addplot[blue,line width=1pt] table[x index=0,y index=3]{\datatable}; 
         
         \nextgroupplot[
-        ymin=-0.1,
-        ymax=1.1,
-        ylabel={$reiniciada(t)$},
+            ymin=-0.1,
+            ymax=1.1,
+            ylabel={$reiniciada(t)$},
         ] 
         \addplot[blue,line width=1pt] table[x index=0,y index=4]{\datatable}; 
         
         \nextgroupplot[
-        ymin=-0.1,
-        ymax=1.1,
-        ylabel={$aplic\acute{a}vel(t)$},
+            ymin=-0.1,
+            ymax=1.1,
+            ylabel={$aplic\acute{a}vel(t)$},
         ] 
         \addplot[blue,line width=1pt] table[x index=0,y index=5]{\datatable};
         
         \nextgroupplot[
-        ylabel={$motiva\textit{ç}\tilde{a}o(t)$},
-        xlabel={$t [s]$}
+            ylabel={$motiva\textit{ç}\tilde{a}o(t)$},
         ] 
         \addplot[blue,line width=1pt] table[x index=0,y index=6]{\datatable};
+        \addplot[red,line width=1pt, dashed] table[x index=0,y index=7]{\datatable};
+        
+        \nextgroupplot[
+            ymin=-0.1,
+            ymax=1.1,
+            ylabel={$ativa(t)$},
+            xlabel={$t [s]$}
+        ] 
+        \addplot[blue,line width=1pt] table[x index=0,y index=8]{\datatable};
     \end{groupplot}
 \end{tikzpicture}

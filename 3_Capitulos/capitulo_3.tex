@@ -1,4 +1,5 @@
 \chapter[Alocação de Tarefas em Sistemas Multi-Robôs]{Alocação de Tarefas em Sistemas Multi-Robôs} \label{cap:cap3}
+    
     Colocar texto aqui 
     
     % 1a seção do capítulo 3
@@ -8,11 +9,11 @@
     % 2a seção do capítulo 3
     \section{Taxonomias} \label{sec:taxonomias}
         
-        \citeonline{ref:gerkey2004taxonomy} sugeriram uma taxonomia independente do domínio de três eixos para a classificação de problemas de alocação de tarefas em sistemas multi-robôs. 
+        \citeonline{ref:gerkey2004taxonomy} sugeriram uma taxonomia de três eixos independente do domínio de para a classificação de problemas de alocação de tarefas em sistemas multi-robôs. 
         
-        O primeiro eixo determina o \textit{tipo dos robôs} que compõem o problema. Os tipos de robôs possíveis são: \textit{ST} (acrônimo para \textit{Single-Task}) e \textit{MT} (acrônimo para \textit{Multi-Task}). Problemas que envolvem robôs que só podem executar uma tarefa por vez são compostos por robôs do tipo \textit{ST}. Entretanto, se houver pelo menos um robô capaz de executar mais de uma tarefa simultaneamente, então esse problema é composto por robôs do tipo \textit{MT}. 
+        O primeiro eixo determina o \textit{tipo dos robôs} que compõem o problema. Os tipos de robôs possíveis são: \textit{ST} (acrônimo para \textit{Single-Task}) ou \textit{MT} (acrônimo para \textit{Multi-Task}). Problemas que envolvem robôs que só podem executar uma tarefa por vez são compostos por robôs do tipo \textit{ST}. Entretanto, se houver pelo menos um robô capaz de executar mais de uma tarefa simultaneamente, então esse problema é composto por robôs do tipo \textit{MT}. 
         
-        O segundo eixo da taxonomia determina o \textit{tipo das tarefas} que compõem o problema. Nesse caso, são possíveis os tipos: \textit{ST} (acrônimo para \textit{Single-Robot} e \textit{MR} (acrônimo para \textit{Multi-Robot}). Problemas cujo tipo das tarefas é \textit{SR}, diz-se que todas as tarefas envolvidas só podem ser executadas por um robô. Porém, quando o tipo das tarefas envolvidas é \textit{MR}, diz-se que existe tarefas que podem ser executadas por mais de um robô.
+        O segundo eixo da taxonomia determina o \textit{tipo das tarefas} que compõem o problema. Nesse caso, são possíveis os tipos: \textit{ST} (acrônimo para \textit{Single-Robot}) ou \textit{MR} (acrônimo para \textit{Multi-Robot}). Problemas cujo tipo das tarefas é \textit{SR}, diz-se que todas as tarefas envolvidas só podem ser executadas por um robô. Porém, quando o tipo das tarefas envolvidas é \textit{MR}, diz-se que existe tarefas que podem ser executadas por mais de um robô.
         
         O terceiro eixo, por sua vez, determina o \textit{tipo da alocação} do problema, o qual pode assumir os valores: \textit{IA} (acrônimo para \textit{Instantaneous Assignment}) ou \textit{TA} (acrônimo para \textit{Time-extended Assignment}). O primeiro caso, \textit{IA}, diz repeito à problemas MRTA onde as alocações das tarefas para os robôs são realizadas instantaneamente, sem levar em consideração o estado futuro do sistema. Por outro lado, em problemas cujo tipo de alocação é \textit{TA}, além de conhecido o estado atual de cada rôbo e do ambiente, também é conhecido o conjunto de tarefas que precisarão ser alocadas no futuro. Neste último caso, diversas tarefas são alocadas para um robô, o qual deve executar cada alocação conforme seu agendamento. De acordo com \cite{ref:bastos2008utility}, quando o tipo de alocação do problema MRTA é \textit{IA}, o número de robôs é superior ao número de tarefas alocadas e quando \textit{TA}, o oposto acontece. Isso se deve ao fato de que, em problemas MRTA cujo tipo de alocação é \textit{IA}, o número de robôs no sistema é capaz de suprir a taxa de tarefas a serem atribuídas, de modo que é muito provável que haverão robôs ociosos no sistema; enquanto, naqueles cujo tipo de alocação é \textit{TA}, o número de robôs que compõem o sistema não é suficiente para atender a taxa de tarefas a serem alocadas no sistema.
         
@@ -22,7 +23,7 @@
             \caption{Representação visual da taxonomia de três eixos sugerida por \cite{ref:gerkey2004taxonomy}.} \label{fig:taxomia_mrta}
         \end{figure}
         
-        É visto na Figura \ref{fig:taxomia_mrta} uma representação gráfica da taxonomia de \cite{ref:gerkey2004taxonomy} para a classificação de problemas MRTA (\textit{Multi-Robot Task Allocation}), onde pode-se notar que existem oito problemas MRTA bem definidos.
+        É visto na Figura \ref{fig:taxomia_mrta} uma representação gráfica da taxonomia de \cite{ref:gerkey2004taxonomy} para a classificação de problemas MRTA (\textit{Multi-Robot Task Allocation}), onde pode-se notar que existem oito classes de problemas MRTA bem definidos.
         
         \emph{\color{red} dar exemplo}
         
@@ -31,87 +32,116 @@
     % 3a seção do capítulo 3
     \section{Arquiteturas} \label{sec:sec3_3}
         Colocar texto aqui
-    
-        % 1a sub-seção da 3a seção do capítulo 3
-        \subsection{ALLIANCE} \label{sub:sub3_3_1}
         
-            Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão à ser desempenhada por um grupo de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de um modo diferente.
-            
-            Sejam $R=\{r_1, r_2, \cdots, r\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ subtarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. 
-            
-            \textbf{melhorar esse parágrafo} Além disso, o conjunto de $n$ funções $H_k=\{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$, em que $h_i(c_{ik})$ é uma função que retorna a tarefa em $A$ que o robô $r_i$ executa quando sua configuração de ativação $c_{ik}$ é ativada.
-            
-            A seguir, serão discutidas as funções necessárias para a ativação de uma dada configuração de comportamento $c_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(c_{ij})$.
-            
-            \begin{equation}
-                aplic\acute{a}vel_{ij}(t) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $c_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                recebida_{ij}(k, t_1, t_2) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(c_{ij})$ dentro do intervalo de tempo $(t_1, t_2)$, em que $t_1 < t_2$;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                inibida_{ij}(t) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se outra configuração de comportamento $c_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                impaci\hat{e}ncia_{ij}(t) =
-                \begin{cases}
-                    \min\limits_{x}\delta_{slow_{ij}}(x, t) & \parbox[t]{.5\textwidth}{se $ recebida_{ij}(x, t - \tau_i, t) \, \land \, \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t))$;} \\
-                    \delta_{fast_{ij}}(t) & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                reiniciada_{ij}(t) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se $\exists x, recebida_{ij}(x, t - dt, t) \: \land \: \lnot recebida_{ij}(x, 0, t - dt))$, onde $dt$ é o tempo desde a última verificação de comunicação;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                ativa_{ij}(\Delta t, t) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se a configuração de comportamento $c_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                aquiescente_{ij}(t) =
-                \begin{cases}
-                    1 & \parbox[t]{.5\textwidth}{se $(ativa_{ij}(\psi_{ij}(t), t) \, 
-                    \land \, \exists x, recebida_{ij}(x, t - \tau_i, t)) \, \lor \, ativa_{ij}(\lambda_{ij}(t), t)$;} \\
-                    0 & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            \begin{equation}
-                \begin{aligned}
-                    motiva\textit{ç}\tilde{a}o_{ij}(0) = \ & 0 \\
-                    motiva\textit{ç}\tilde{a}o_{ij}(t) = \ & (motiva\textit{ç}\tilde{a}o_{ij}(t - \delta t) + impaci\hat{e}ncia_{ij}(t)) \\
-                    & \times aplic\acute{a}vel_{ij}(t) \times inibida_{ij}(t) \\
-                    & \times reiniciada_{ij}(t) \times aquiescente_{ij}(t).
-                \end{aligned}
-            \end{equation}
-            
-            \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot1-wander-motivation-new.csv}}\datatable
-            \begin{figure}[htb]
-                \centering
-                \input{Figuras/capitulo_3/grafico_motivacao}
-                \caption{Motivação da configuração de comportamento /robot1/wander.} \label{fig:motivacao}
-            \end{figure}
+        \subsection{Arquiteturas baseadas em comportamento} \label{subsec:arch_comportamento}
+        
+        \subsection{Arquiteturas baseadas em mercado} \label{subsec:arch_mercado}
+    
+    % 4a seção da 3a seção do capítulo 3
+    \section{ALLIANCE} \label{sec:alliance}
+    
+        Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão à ser desempenhada por um grupo de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de um modo diferente.
+        
+        Sejam $R=\{r_1, r_2, \cdots, r_n\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ sub-tarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C_i=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. Por fim, é possível saber qual tarefa em $A$ é executada por $r_i$ quando sua configuração de ativação $c_{ik}$ é ativa. Tal informação é obtida através da função $h_i(c_{ik})$, a qual pertence ao conjunto de $n$ funções $H_i=\{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$.
+        
+        A ativação de uma dada configuração de comportamento $c_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(c_{ij})$ em um dado instante, é dada pela combinação de diversas funções. Cada um delas tem a responsabilidade de monitorar alguma informação relevante sobre o sistema. A seguir, será detalhado o papel de cada uma dessas funções.
+        
+        A primeira função tem como responsabilidade identificar quando a configuração de comportamento $c_{ij}$ é aplicável, a qual é definida pela Equação \ref{eq:alliance_aplicavel}. Esta função lógica é implementada no módulo de \textit{feedback} sensorial, o qual verifica constantemente as condições do ambiente, através dos sensores do robô $r_i$, se \textbf{\color{red}\dots}
+        
+        \begin{equation} \label{eq:alliance_aplicavel}
+            aplic\acute{a}vel_{ij}(t) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $c_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        A Equação \ref{eq:alliance_inibida} mostra uma das funções lógicas que também compõe o cálculo para ativação de $c_{ij}$. Seu papel, neste cálculo, é garantir que o robô $r_i$ só tenha uma configuração de comportamento ativa por vez. Essa função é implementada pelo módulo de supressão, o qual observa a ativação das demais configurações de comportamento de $r_i$. 
+        
+        \begin{equation} \label{eq:alliance_inibida}
+            inibida_{ij}(t) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se outra configuração de comportamento $c_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        Cada configuração de comportamento $c_{ij}$ possui um módulo de comunicação que auxilia vários outros módulos de $c_{ij}$ por meio do monitoramento da comunicação entre os robôs do sistema. Este módulo mantém o histórico das atividades dos demais robôs do sistema no que diz respeito à execução da tarefa $h_i(c_{ij})$. Deste modo, os demais módulos de $c_{ij}$ podem consultar se os outros robôs estavam executando a tarefa $h_i(c_{ij})$ em um dado intervalo de tempo $[t_1; t_2]$, conforme mostra a Equação \ref{eq:alliance_recebida}.
+        
+        \begin{equation} \label{eq:alliance_recebida}
+            recebida_{ij}(k, t_1, t_2) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(c_{ij})$ dentro do intervalo de tempo $[t_1; t_2]$, em que $t_1 < t_2$;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        A próxima função tem a incumbência de reiniciar o cálculo para a ativação da configuração de comportamento $c_{ij}$. Essa função lógica é impulsionada apenas uma vez para cada robô que tenta executar a tarefa $h_i(c_{ij})$. Isto é, no instante em que acontece a primeira rampa de subida na Equação \ref{eq:alliance_recebida} para cada robô $r_k$, está função retorna um nível lógico alto. Essa condição evita que problemas de falhas persistentes não comprometam a completude da missão.
+         
+        \begin{equation} \label{eq:alliance_reiniciada}
+            reiniciada_{ij}(t) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se $\exists x, recebida_{ij}(x, t - dt, t) \,\land\, \lnot recebida_{ij}(x, 0, t - dt)$, onde $dt$ é o tempo desde a última verificação de comunicação;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        A Equação \ref{eq:alliance_ativa} auxilia o módulo de aquiescência no cálculo de desistência para a desativação de $c_{ij}$.
+        
+        \begin{equation} \label{eq:alliance_ativa}
+            ativa_{ij}(\Delta t, t) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se a configuração de comportamento $c_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        O módulo de aquiescência monitora o tempo decorrido após a ativação da configuração de comportamento $c_{ij}$ do robô $r_i$. São duas as suas preocupações: (1) verificar se $c_{ij}$ permaneceu ativo por mais tempo do que o esperado e (2) verificar se o tempo decorrido após um outro robô $r_k$ ter iniciado a execução da tarefa $h_i(c_{ij})$ enquanto $c_{ij}$ tenha excedido o tempo configurado para $r_i$ passar sua vez para outro robô. A Equação \ref{eq:alliance_aquiescente} define as condições em que $r_i$ está aquiescente à ativação de $c_{ij}$.
+        
+        \begin{equation} \label{eq:alliance_aquiescente}
+            aquiescente_{ij}(t) =
+            \begin{cases}
+                1 & \parbox[t]{.5\textwidth}{se $(ativa_{ij}(\psi_{ij}(t), t) \,\land\, \exists x, recebida_{ij}(x, t - \tau_i, t)) \,\lor\, ativa_{ij}(\lambda_{ij}(t), t)$;} \\
+                0 & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        \begin{equation} \label{eq:alliance_impaciencia}
+            impaci\hat{e}ncia_{ij}(t) =
+            \begin{cases}
+                \min\limits_{x}\delta_{slow_{ij}}(x, t) & \parbox[t]{.5\textwidth}{se $recebida_{ij}(x, t - \tau_i, t) \,\land\, \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t)$;} \\
+                \delta_{fast_{ij}}(t) & \text{caso contrário.}
+            \end{cases}
+        \end{equation}
+        
+        A Equação \ref{eq:alliance_motivacao} mostra a função de motivação, a qual combina todas as funções mencionadas anteriormente para a ativação da configuração de comportamento $c_{ij}$. Seu valor inicial é nulo e aumenta mediante a taxa de impaciência instantânea de $r_i$ para ativar $c_{ij}$ quando satisfeitas as seguintes condições: (1) $c_{ij}$ seja aplicável, (2) mas não tenha sido inibida, (3) nem reiniciada; (4) e, ainda, $r_i$ não seja aquiescente em desistir de manter $c_{ij}$ ativa. Quando uma das condições citadas não é satisfeita, seu valor volta a ser nulo. Assim que a motivação de $r_i$ para ativar $c_{ij}$ ultrapassa o limite de ativação, essa configuração de comportamento é ativada.
+        
+        \begin{equation} \label{eq:alliance_motivacao}
+            \begin{aligned}
+                motiva\textit{ç}\tilde{a}o_{ij}(0) = \ & 0 \\
+                motiva\textit{ç}\tilde{a}o_{ij}(t) = \ & (motiva\textit{ç}\tilde{a}o_{ij}(t - dt) + impaci\hat{e}ncia_{ij}(t)) \\
+                & \times aplic\acute{a}vel_{ij}(t) \times inibida_{ij}(t) \\
+                & \times reiniciada_{ij}(t) \times aquiescente_{ij}(t).
+            \end{aligned}
+        \end{equation}
+        
+        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot1-wander-motivation-new.csv}}\datatable
+        \begin{figure}[htb]
+            \centering
+            \input{Figuras/capitulo_3/grafico_motivacao}
+            \caption{Motivação da configuração de comportamento /robot1/wander.} \label{fig:motivacao1}
+        \end{figure}
+        
+        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-wander-motivation-new.csv}}\datatable
+        \begin{figure}[htb]
+            \centering
+            \input{Figuras/capitulo_3/grafico_motivacao}
+            \caption{Motivação da configuração de comportamento /robot2/wander.} \label{fig:motivacao2}
+        \end{figure}
+        
+        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-border-protection-motivation-new.csv}}\datatable
+        \begin{figure}[htb]
+            \centering
+            \input{Figuras/capitulo_3/grafico_motivacao}
+            \caption{Motivação da configuração de comportamento /robot2/border-protection.} \label{fig:motivacao3}
+        \end{figure}

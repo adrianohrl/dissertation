@@ -4,6 +4,8 @@
     
     Seja uma linha de montagem para a produção em série de uma determinado produto, composta por grupo de robôs heterogêneos e, também, por máquinas automáticas. Os processos são realizados pelas máquinas de forma sequencial. E os robôs são responsáveis por transportar matéria-prima e produto semi-acabado de um processo a outro. Além disso, eles devem abastecer os suprimentos das máquinas quando notificados. \emph{\color{red} As máquinas possuem sinalizadores que identificam em qual estado elas se encontram: (1) \textit{aguardando}, modo em que a máquina está ociosa, esperando um novo produto semi-acabado entrar para processar; (2) \textit{preparando}, modo em que a máquina se configura para processar o produto semi-acabado recebido; (3) \textit{\textbf{processando peça}}, modo em que a máquina está trabalhando o produto semi-acabado; (4) \textit{\textbf{peça processada}}, produto já recebeu todo trabalho necessário nesta etapa; (5) \textit{danificada}, ; (6) \textit{em manutenção}, ; e (7) \textit{em abastecimento}, .}
     
+    \textcolor{red}{falar sobre o conteúdo deste capítulo}
+    
     \section{Tarefas} \label{sec:tarefa}
         
         Uma tarefa $a$ pode ser especificada pelos seus requerimentos de recurso, pelo seu tempo de início $s(a)$, pelo seu tempo de término $e(a)$, bem como, sua duração $d(a)$. Em aplicações reais, o tempo de início, de término e a duração de uma tarefa são estimações apenas. Assim, $s(a)$ e $e(a)$ são especificados como variáveis estocásticas que possuem uma alta probabilidade de ocorrer dentro dos intervalos: $s(a) \in [s_{min}(a); s_{max}(a)]$ e $e(a) \in [e_{min}(a); e_{max}(a)]$. Podemos ainda definir esses dois parâmetros como distribuições normais: 
@@ -38,7 +40,6 @@
 
     Existem duas classes de recursos, basicamente: aqueles que podem ser usados novamente, os quais são denominados \textit{recursos reusáveis}; e aqueles que são descartáveis, denominados \textit{recursos consumíveis} \cite{ref:ghallab2004automated}. Cada classe de recurso é caracterizada por um \textit{perfil}. O perfil de um recurso $r$ é uma função do tempo, $z_r(t)$, que define sua quantidade instantânea. A seguir, cada classe de recurso será definida, bem como, será detalhado o perfil de cada uma delas.
     
-    % 1a seção do capítulo 4
     \section{Recursos Reusáveis} \label{sec:recurso_reusavel}
     
         Um recurso reusável é ``emprestado'' por uma tarefa durante sua execução. E quando ela é interrompida ou finalizada, esse recurso é liberado sem alterações. Assim, um recurso reusável $r$ tem uma capacidade total $Q_r$ e uma quantidade corrente $z_r(t) \in [0; Q_r]$. 
@@ -53,7 +54,6 @@
         
         Verifica-se, na Figura \ref{fig:recurso_reusavel}, que o recurso $r$ possui inicialmente uma quantidade equivalente à sua capacidade total, isto é, $z_r(0) = Q_r$. Isso acontece pois nenhuma tarefa fez requisição do recurso $r$. Entretanto, quando a tarefa $a_1$ é iniciada, a quantidade do recurso $r$, em $s(a_1)$, passa a ser $z_r(s(a_1)) = Q_r - q_1$. Em $s(a_2)$, a tarefa $a_2$ é iniciada. Com isso, a quantidade de $r$ passa a valer $z_r(s(a_2)) = Q_r - q_1 - q_2$, pois a tarefa $a_1$ ainda está em execução, utilizando uma quantia $q_1$ de $r$. Quando $a_1$ é finalizada, no instante $e(a_1)$, essa deixa de utilizar o recurso $r$, o qual passa a ter uma quantidade $z_r(e(a_1)) = Q_r - q_2$. Finalmente, ao término de $a_2$, em $e(a_2)$, todas as requisições de $r$ se encerram, fazendo com que sua quantidade volte ao valor de sua capacidade, de modo que, $z_r(e(a_2)) = Q_r$. É importante lembrar que, após cada variação de quantidade, a quantidade do recurso reusável $r$ se mantém constante até que um novo evento ocorra, ou seja, até que uma nova requisição seja iniciada ou encerrada.
     
-    % 2a seção do capítulo 4
     \section{Recursos Consumíveis} \label{sec:recurso_consumivel}
     
         Um recurso consumível pode ser produzido ou consumido durante a execução de uma tarefa. Esta classe de recurso pode ser modelada como um reservatório de capacidade máxima limitada $Q_r$ e nível (quantidade) corrente $z_r(t) \in [0; Q_r]$.
@@ -72,8 +72,6 @@
         
         São mostrados alguns modelos de funções temporais no Apêndice \ref{app:funcoes}. A seguir serão citados os tipos dos modelos sugeridos no Apêndice \ref{app:funcoes} para a função temporal de produção de um dado recurso consumível $r$: (1) a Figura \ref{fig:funcao_degrau_ascendente} mostra um modelo do tipo degrau; (2) a Figura \ref{fig:funcao_linear_ascendente} mostra um modelo do tipo linear; e, enfim, (3) a Figura \ref{fig:funcao_exponencial_ascendente} mostra um modelo do tipo exponencial. Da mesma forma, serão agora citados os tipos dos modelos sugeridos no Apêndice \ref{app:funcoes} para a função temporal de consumo de um dado recurso consumível $r$: (1) é mostrado na Figura \ref{fig:funcao_degrau_descendente} um modelo do tipo degrau; (2) na Figura \ref{fig:funcao_linear_descendente}, é mostrado um modelo do tipo linear; e, por fim, (3) é mostrado na Figura \ref{fig:funcao_exponencial_descendente} um modelo do tipo exponencial.
         
-    
-    % 3a seção do capítulo 4
     \section{Tipos de Recurso} \label{sec:tipos_recurso}
     
         Recursos possuem um tipo, podendo ele ser: (1) contínuo, (2) discreto ou (3) unário. 

@@ -1,12 +1,12 @@
-\chapter[Alocação de Tarefas em Sistemas Multi-Robôs]{Alocação de Tarefas em Sistemas Multi-Robôs} \label{cap:cap3}
+\chapter[Alocação de Tarefas em Sistemas Multi-Robôs]{Alocação de Tarefas em Sistemas Multi-Robôs} \label{cap:mrta}
+
+    Um dos problemas mais desafiadores em aplicações multi-robôs é denominado como \textit{alocação de tarefas}, (MRTA, acrônimo para \textit{Multi-Robot Task Allocation}). Problemas dessa natureza buscam como solução atribuir otimamente um conjunto de robôs para um conjunto de tarefas de maneira que o desempenho geral de um sistema sujeito a um conjunto de limitações seja otimizado.
     
-    Colocar texto aqui 
+    \textcolor{red}{falar sobre o conteúdo deste capítulo}
     
-    % 1a seção do capítulo 3
     \section{Definição Formal} \label{sec:sec3_1}
-    Colocar texto aqui
+        Colocar texto aqui
     
-    % 2a seção do capítulo 3
     \section{Taxonomias} \label{sec:taxonomias}
         
         \citeonline{ref:gerkey2004taxonomy} sugeriram uma taxonomia de três eixos independente do domínio de para a classificação de problemas de alocação de tarefas em sistemas multi-robôs. 
@@ -27,32 +27,44 @@
         
         \emph{\color{red} dar exemplo}
         
+        \textbf{\color{red} Uma nova taxonomia foi sugerida por ...}
+        
+        
         \emph{\color{red} definir o escopo de problemas considerados neste trabalho}
     
-    % 3a seção do capítulo 3
-    \section{Arquiteturas} \label{sec:sec3_3}
-        Colocar texto aqui
+    \section{Arquiteturas MRTA} \label{sec:arquiteturas_mrta}
         
-        \subsection{Arquiteturas baseadas em comportamento} \label{subsec:arch_comportamento}
+        \subsection{Arquiteturas baseadas em Comportamento} \label{subsec:arch_comportamento}
         
-        \subsection{Arquiteturas baseadas em mercado} \label{subsec:arch_mercado}
+        \begin{itemize}
+            \item \textbf{ALLIANCE}: \cite{ref:parker1998alliance};
+            \item \textbf{ALLIANCE}: \cite{ref:parker1996lalliance};
+            
+        \end{itemize}
+        
+        \subsection{Arquiteturas baseadas em Mercado} \label{subsec:arch_mercado}
+
+        \begin{itemize}
+            \item \textbf{Murdoch}: \cite{ref:gerkey2002murdoch};
+            \item \textbf{M+}: \cite{ref:botelho1999m+};
+            
+        \end{itemize}
     
-    % 4a seção da 3a seção do capítulo 3
     \section{ALLIANCE} \label{sec:alliance}
     
         Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão à ser desempenhada por um grupo de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de um modo diferente.
         
-        Sejam $R=\{r_1, r_2, \cdots, r_n\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ sub-tarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C_i=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. Por fim, é possível saber qual tarefa em $A$ é executada por $r_i$ quando sua configuração de ativação $c_{ik}$ é ativa. Tal informação é obtida através da função $h_i(c_{ik})$, a qual pertence ao conjunto de $n$ funções $H_i=\{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$.
+        Sejam $R=\{r_1, r_2, \cdots, r_n\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ sub-tarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C_i=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. Por fim, é possível saber qual tarefa em $A$ é executada por $r_i$ quando sua configuração de ativação $c_{ik}$ é ativa. Tal informação é obtida através da função $h_i(c_{ik})$, a qual pertence ao conjunto de $n$ funções $H : C_i \to A$, $H = \{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$.
         
-        A ativação de uma dada configuração de comportamento $c_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(c_{ij})$ em um dado instante, é dada pela combinação de diversas funções. Cada um delas tem a responsabilidade de monitorar alguma informação relevante sobre o sistema. A seguir, será detalhado o papel de cada uma dessas funções.
+        A ativação de uma dada configuração de comportamento $c_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(c_{ij})$ em um dado instante, é dada pelo cálculo de motivação do seu comportamento motivacional. Por sua vez, cada comportamento motivacional possui um conjunto de módulos que têm a responsabilidade de monitorar alguma informação relevante sobre o sistema. A seguir, será detalhado o papel de cada uma desses módulos e suas contribuições para o cálculo de motivação.
         
-        A primeira função tem como responsabilidade identificar quando a configuração de comportamento $c_{ij}$ é aplicável, a qual é definida pela Equação \ref{eq:alliance_aplicavel}. Esta função lógica é implementada no módulo de \textit{feedback} sensorial, o qual verifica constantemente as condições do ambiente, através dos sensores do robô $r_i$, se \textbf{\color{red}\dots}
+        A primeira função, definida pela Equação \ref{eq:alliance_aplicavel}, tem como responsabilidade identificar quando a configuração de comportamento $c_{ij}$ é aplicável. Esta função lógica é implementada no módulo de \textit{feedback} sensorial, o qual observa constantemente as condições do ambiente por meio de sensores e, então, verifica se o sistema é favorecido se $c_{ij}$ estiver ativada.
         
         \begin{equation} \label{eq:alliance_aplicavel}
             aplic\acute{a}vel_{ij}(t) =
             \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $c_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
-                0 & \text{caso contrário.}
+                1, & \parbox[t]{.5\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $c_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
+                0, & \text{caso contrário.}
             \end{cases}
         \end{equation}
         
@@ -61,60 +73,64 @@
         \begin{equation} \label{eq:alliance_inibida}
             inibida_{ij}(t) =
             \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se outra configuração de comportamento $c_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
-                0 & \text{caso contrário.}
+                1, & \parbox[t]{.5\textwidth}{se outra configuração de comportamento $c_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
+                0, & \text{caso contrário.}
             \end{cases}
         \end{equation}
         
-        Cada configuração de comportamento $c_{ij}$ possui um módulo de comunicação que auxilia vários outros módulos de $c_{ij}$ por meio do monitoramento da comunicação entre os robôs do sistema. Este módulo mantém o histórico das atividades dos demais robôs do sistema no que diz respeito à execução da tarefa $h_i(c_{ij})$. Deste modo, os demais módulos de $c_{ij}$ podem consultar se os outros robôs estavam executando a tarefa $h_i(c_{ij})$ em um dado intervalo de tempo $[t_1; t_2]$, conforme mostra a Equação \ref{eq:alliance_recebida}.
+        Cada configuração de comportamento $c_{ij}$ possui um módulo de comunicação que auxilia vários outros módulos de $c_{ij}$ por meio do monitoramento da comunicação entre os robôs do sistema. Este módulo mantém o histórico das atividades dos demais robôs do sistema no que diz respeito à execução da tarefa $h_i(c_{ij})$. Deste modo, os demais módulos de $c_{ij}$ podem consultar se os outros robôs estavam executando a tarefa $h_i(c_{ij})$ em um dado intervalo de tempo $[t_1; t_2]$, conforme mostra a Equação \ref{eq:alliance_recebida}. Existem dois parâmetros no ALLIANCE que influenciam diretamente no módulo de comunicação de cada comportamento motivacional. O primeiro parâmetro, $\rho_i$, define a frequência com que $r_i$ atualiza suas configurações de comportamento e publica seu estado atual, no que diz respeito à arquitetura. O segundo parâmetro, $\tau_i$, indica a duração de tempo máxima que o robô $r_i$ permite ficar sem receber mensagens do estado de qualquer outro robô do sistema. Quando esta duração é excedida para um dado robô $r_k$, o robô $r_i$ passa considerar que $r_k$ cessou sua atividade. A utilização deste parâmetro visa prever falhas de comunicação e de mal funcionamento.
         
         \begin{equation} \label{eq:alliance_recebida}
             recebida_{ij}(k, t_1, t_2) =
             \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(c_{ij})$ dentro do intervalo de tempo $[t_1; t_2]$, em que $t_1 < t_2$;} \\
-                0 & \text{caso contrário.}
+                1, & \parbox[t]{.5\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(c_{ij})$ dentro do intervalo de tempo $[t_1; t_2]$, em que $t_1 < t_2$;} \\
+                0, & \text{caso contrário.}
             \end{cases}
         \end{equation}
         
         A próxima função tem a incumbência de reiniciar o cálculo para a ativação da configuração de comportamento $c_{ij}$. Essa função lógica é impulsionada apenas uma vez para cada robô que tenta executar a tarefa $h_i(c_{ij})$. Isto é, no instante em que acontece a primeira rampa de subida na Equação \ref{eq:alliance_recebida} para cada robô $r_k$, está função retorna um nível lógico alto. Essa condição evita que problemas de falhas persistentes não comprometam a completude da missão.
-         
+        %
         \begin{equation} \label{eq:alliance_reiniciada}
-            reiniciada_{ij}(t) =
-            \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se $\exists x, recebida_{ij}(x, t - dt, t) \,\land\, \lnot recebida_{ij}(x, 0, t - dt)$, onde $dt$ é o tempo desde a última verificação de comunicação;} \\
-                0 & \text{caso contrário.}
-            \end{cases}
+            reiniciada_{ij}(t) = \exists x, (recebida_{ij}(x, t - dt, t) \land \lnot recebida_{ij}(x, 0, t - dt))
         \end{equation}
+        %
+        onde $dt$ é o tempo decorrido desde a última verificação de comunicação.
         
-        A Equação \ref{eq:alliance_ativa} auxilia o módulo de aquiescência no cálculo de desistência para a desativação de $c_{ij}$.
+        A Equação \ref{eq:alliance_ativa_intervalo} auxilia o módulo de aquiescência no cálculo de desistência para a desativação de $c_{ij}$. Baseando-se no histórico de ativação de $c_{ij}$, o módulo de comportamento motivacional disponibiliza essa função lógica que verifica se $c_{ij}$ ficou mantida ativa por um dado período de tempo até o instante desejado.
         
-        \begin{equation} \label{eq:alliance_ativa}
+        \begin{equation} \label{eq:alliance_ativa_intervalo}
             ativa_{ij}(\Delta t, t) =
             \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se a configuração de comportamento $c_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
-                0 & \text{caso contrário.}
+                1, & \parbox[t]{.5\textwidth}{se a configuração de comportamento $c_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
+                0, & \text{caso contrário.}
             \end{cases}
         \end{equation}
         
-        O módulo de aquiescência monitora o tempo decorrido após a ativação da configuração de comportamento $c_{ij}$ do robô $r_i$. São duas as suas preocupações: (1) verificar se $c_{ij}$ permaneceu ativo por mais tempo do que o esperado e (2) verificar se o tempo decorrido após um outro robô $r_k$ ter iniciado a execução da tarefa $h_i(c_{ij})$ enquanto $c_{ij}$ tenha excedido o tempo configurado para $r_i$ passar sua vez para outro robô. A Equação \ref{eq:alliance_aquiescente} define as condições em que $r_i$ está aquiescente à ativação de $c_{ij}$.
-        
+        O módulo de aquiescência monitora o tempo decorrido após a ativação da configuração de comportamento $c_{ij}$ do robô $r_i$ com o auxílio da Equação \ref{eq:alliance_ativa_intervalo}. São duas as suas preocupações: (1) verificar se $c_{ij}$ permaneceu ativa por mais tempo que o esperado e (2) verificar se o tempo decorrido após um outro robô $r_k$ ter iniciado a execução da tarefa $h_i(c_{ij})$, enquanto $c_{ij}$ estava ativa, tenha excedido o tempo configurado para $r_i$ passar sua vez para esse outro robô. A Equação \ref{eq:alliance_aquiescente} define as condições em que $r_i$ está aquiescente à desativação de $c_{ij}$.
+        %
         \begin{equation} \label{eq:alliance_aquiescente}
-            aquiescente_{ij}(t) =
-            \begin{cases}
-                1 & \parbox[t]{.5\textwidth}{se $(ativa_{ij}(\psi_{ij}(t), t) \,\land\, \exists x, recebida_{ij}(x, t - \tau_i, t)) \,\lor\, ativa_{ij}(\lambda_{ij}(t), t)$;} \\
-                0 & \text{caso contrário.}
-            \end{cases}
+            \begin{aligned}
+                aquiescente_{ij}(t) = \
+                & (ativa_{ij}(\psi_{ij}(t), t) \land \exists x, recebida_{ij}(x, t - \tau_i, t)) \\
+                & \lor ativa_{ij}(\lambda_{ij}(t), t)
+            \end{aligned}
         \end{equation}
+        %
+        onde $\psi_{ij}(t)$ é a duração de tempo que $r_i$ deseja manter a configuração de comportamento $c_{ij}$ ativa antes de dar preferência para outro robô executar a tarefa $h_i(c_{ij})$; e $\lambda_{ij}(t)$ é a duração de tempo que $r_i$ deseja manter $c_{ij}$ ativa antes de desistir para possivelmente tentar outra configuração de comportamento.
         
+        A impaciência de $r_i$ para a ativação de $c_{ij}$ cresce linearmente mediante a taxa de impaciência instantânea. Assim, o módulo de impaciência de $c_{ij}$ é responsável por identificar falhas de execução da tarefa $h_i(c_{ij})$ por outros robôs do sistema e quantificar a insatisfação de $r_i$ concernente à essa tarefa, conforme visto na Equação \ref{eq:alliance_impaciencia}. Para isso, três parâmetros são utilizados: (1) $\phi_{ij}(k, t)$, o qual estabelece o tempo máximo que $r_i$ permite a um outro robô $r_k$ executar a tarefa $h_i(c_{ij})$ antes dele próprio iniciar sua tentativa; (2) $\delta_{slow_{ij}}(k, t)$, que determina a taxa de impaciência do robô $r_i$ com respeito à configuração de comportamento $c_{ij}$ enquanto o robô $r_k$ está executando a tarefa correspondente à $c_{ij}$; e (3) $\delta_{fast_{ij}}(t)$, que determina a taxa de impaciência de $r_i$ com relação à $c_{ij}$ quando nenhum outro robô está executando a tarefa $h_i(c_{ij})$.
+        %
         \begin{equation} \label{eq:alliance_impaciencia}
             impaci\hat{e}ncia_{ij}(t) =
             \begin{cases}
-                \min\limits_{x}\delta_{slow_{ij}}(x, t) & \parbox[t]{.5\textwidth}{se $recebida_{ij}(x, t - \tau_i, t) \,\land\, \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t)$;} \\
-                \delta_{fast_{ij}}(t) & \text{caso contrário.}
+                \min\limits_{x}\delta_{slow_{ij}}(x, t), & \parbox[t]{.5\textwidth}{se $recebida_{ij}(x, t - \tau_i, t) \land \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t)$;} \\
+                \delta_{fast_{ij}}(t), & \text{caso contrário.}
             \end{cases}
         \end{equation}
+        %
+        Note que o método usado incrementa a motivação à uma taxa que permita que o robô mais lento $r_k$ continue sua tentativa de execução de $h(c_{ij})$, desde que seja respeitada a duração máxima estipulada pelo parâmetro $\phi_{ij}(k, t)$.
         
-        A Equação \ref{eq:alliance_motivacao} mostra a função de motivação, a qual combina todas as funções mencionadas anteriormente para a ativação da configuração de comportamento $c_{ij}$. Seu valor inicial é nulo e aumenta mediante a taxa de impaciência instantânea de $r_i$ para ativar $c_{ij}$ quando satisfeitas as seguintes condições: (1) $c_{ij}$ seja aplicável, (2) mas não tenha sido inibida, (3) nem reiniciada; (4) e, ainda, $r_i$ não seja aquiescente em desistir de manter $c_{ij}$ ativa. Quando uma das condições citadas não é satisfeita, seu valor volta a ser nulo. Assim que a motivação de $r_i$ para ativar $c_{ij}$ ultrapassa o limite de ativação, essa configuração de comportamento é ativada.
+        A Equação \ref{eq:alliance_motivacao} mostra a função de motivação, a qual combina todas as funções mencionadas anteriormente para a ativação da configuração de comportamento $c_{ij}$. Seu valor inicial é nulo e aumenta mediante a taxa de impaciência instantânea de $r_i$ para ativar $c_{ij}$ quando satisfeitas as seguintes condições: (1) $c_{ij}$ seja aplicável, (2) mas não tenha sido inibida, (3) nem reiniciada; (4) e, ainda, $r_i$ não seja aquiescente em desistir de manter $c_{ij}$ ativa. Quando uma das condições citadas não é satisfeita, seu valor volta a ser nulo. 
         
         \begin{equation} \label{eq:alliance_motivacao}
             \begin{aligned}
@@ -125,23 +141,36 @@
             \end{aligned}
         \end{equation}
         
-        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot1-wander-motivation-new.csv}}\datatable
-        \begin{figure}[htb]
-            \centering
-            \input{Figuras/capitulo_3/grafico_motivacao}
-            \caption{Motivação da configuração de comportamento /robot1/wander.} \label{fig:motivacao1}
-        \end{figure}
+        Assim que a motivação de $r_i$ para ativar $c_{ij}$ ultrapassa o limite de ativação, essa configuração de comportamento é ativada, conforme a Equação \ref{eq:alliance_ativa}:
+        %
+        \begin{equation} \label{eq:alliance_ativa}
+            ativa_{ij}(t) = motiva\textit{ç}\tilde{a}o_{ij}(t) \geq \theta
+        \end{equation}
+        %
+        onde $\theta$ é o limite de ativação.
         
-        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-wander-motivation-new.csv}}\datatable
-        \begin{figure}[htb]
-            \centering
-            \input{Figuras/capitulo_3/grafico_motivacao}
-            \caption{Motivação da configuração de comportamento /robot2/wander.} \label{fig:motivacao2}
-        \end{figure}
+        Fazendo uma análise das equações acima, verifica-se que, enquanto sua motivação cresce, é possível estimar quanto tempo resta para que a configuração de comportamento $c_{ij}$ se torne ativa. 
+        %
+        \begin{equation} \label{eq:alliance_estimativa_ativacao}
+            \overline{\Delta t}_{ativa\textit{ç}\tilde{a}o_{ij}} = \frac{\theta - motiva\textit{ç}\tilde{a}o_{ij}(t)}{impaci\hat{e}ncia_{ij}(t) \rho_i}
+        \end{equation}
+        %
+        onde $\rho_i$ é a frequência aproximada, em [\si{\hertz}], com que $r_i$ atualiza as motivação das configurações de comportamento em $C_i$ e, ainda, publica seu estado comportamental. Como a taxa de impaciência não é constante, a Equação \ref{eq:alliance_estimativa_ativacao} é apenas uma estimativa, dada em [\si{\second}].
         
-        \pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-border-protection-motivation-new.csv}}\datatable
-        \begin{figure}[htb]
-            \centering
-            \input{Figuras/capitulo_3/grafico_motivacao}
-            \caption{Motivação da configuração de comportamento /robot2/border-protection.} \label{fig:motivacao3}
-        \end{figure}
+        Em conformidade com o que foi exposto, pode-se observar que é possível normalizar todas as funções de motivação, de modo que a imagem de cada uma delas pertença ao intervalo $[0; 1] \subset \mathbb{R}_+$. Para isso, é necessário: (1) parametrizar o módulo de impaciência de cada configuração de comportamento $c_{ij}$, de maneira que a imagem da sua função de taxa de impaciência instantânea pertença ao intervalo $(0; 1) \subset \mathbb{R}_+^*$; além disso, (2) atribuir o valor unitário ao limite de ativação; bem como, (3) saturar a função de motivação no limite de ativação. Como resultado, as Equações \ref{eq:alliance_ativa} e \ref{eq:alliance_estimativa_ativacao} podem ser rescritas como as Equações \ref{eq:alliance_ativa_nova} e \ref{eq:alliance_estimativa_ativacao_nova}, respectivamente.
+        
+        \begin{equation} \label{eq:alliance_ativa_nova}
+            ativa_{ij}(t) = motiva\textit{ç}\tilde{a}o_{ij}(t) == 1
+        \end{equation}
+        
+        \begin{equation} \label{eq:alliance_estimativa_ativacao_nova}
+            \overline{\Delta t}_{ativa\textit{ç}\tilde{a}o_{ij}} = \frac{1 - motiva\textit{ç}\tilde{a}o_{ij}(t)}{impaci\hat{e}ncia_{ij}(t) \rho_i}
+        \end{equation}
+        
+        \citeonline{ref:parker1996lalliance} desenvolveu também uma variação do ALLIANCE, chamada L-ALLIANCE, capaz de estimar alguns parâmetros do ALLIANCE durante a fase de aprendizado.
+        
+        \textbf{\color{red} Classificar essa arquitetura segundo as taxonomias revisadas}
+        
+        \textbf{\color{red} Comentar sobre o motivo de ter falado sobre essa arquitetura com tanto detalhe}
+        
+        \input{Figuras/capitulo_3/graphes}

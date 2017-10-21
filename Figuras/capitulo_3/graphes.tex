@@ -1,0 +1,20 @@
+\pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot1-wander-motivation-new.csv}}\datatable
+\begin{figure}[htb]
+    \centering
+    \input{Figuras/capitulo_3/grafico_motivacao}
+    \caption{Motivação da configuração de comportamento /robot1/wander.} \label{fig:motivacao1}
+\end{figure}
+
+\pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-wander-motivation-new.csv}}\datatable
+\begin{figure}[htb]
+    \centering
+    \input{Figuras/capitulo_3/grafico_motivacao}
+    \caption{Motivação da configuração de comportamento /robot2/wander.} \label{fig:motivacao2}
+\end{figure}
+
+\pgfplotstableread[col sep=comma]{\detokenize{Figuras/capitulo_3/robot2-border-protection-motivation-new.csv}}\datatable
+\begin{figure}[htb]
+    \centering
+    \input{Figuras/capitulo_3/grafico_motivacao}
+    \caption{Motivação da configuração de comportamento /robot2/border-protection.} \label{fig:motivacao3}
+\end{figure}

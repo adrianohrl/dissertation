@@ -1,6 +1,6 @@
 \chapter[ROS]{ROS} \label{cap:ros}
     
-    Acrônimo para \textit{Robot Operting System} \cite{ref:quigley2009ros}, o ROS é uma \textit{framework} que tem incentivado a comunidade de pesquisadores em robótica a trabalhar conjuntamente desde seu lançamento.
+    Acrônimo para \textit{Robot Operating System} \cite{ref:quigley2009ros}, o ROS é uma \textit{framework} para robótica que tem incentivado a comunidade de pesquisadores em robótica a trabalhar conjuntamente desde seu lançamento.
     
     Primeiramente, ROS é flexível. Um projeto atômico baseado em ROS, denominado pacote, pode ser desenvolvido em diversas linguagens de programação. Deste modo, seus desenvolvedores podem tirar proveito das vantagens que cada linguagem suportada tem, sejam elas eficiência em tempo de execução, confiabilidade, recursos, síntaxe, semântica ou documentação existente. Atualmente, as linguagens de programação suportadas são C++, Python e Lisp. As linguagens Java e Lua ainda estão em fase de desenvolvimento.
     
@@ -8,7 +8,7 @@
     
     Em adição, ROS disponibiliza diversas ferramentas para auxiliar no desenvolvimento de projetos e, também, verificar o funcionamento de aplicação. Suas ferramentas típicas são: \textit{get} e \textit{set} de parâmetros de configuração, vizualização da topologia de conexão \textit{peer-to-peer}, medição de utilização de banda, gráficos dos dados de mensagem e outras mais. É altamente recomendado o uso dessas ferramentas para garantir a estabilidade e confiança dos pacotes desenvolvidos, que normalmente têm alta complexidade.
     
-    Uma lacuna que antes existia na nova geração de aplicações robóticas foi preenchida com o lançamento do ROS. Como um fornecedor de serviços de \textit{middleware}, ele (1) simplifica o desenvolvimento de processos, (2) suporta comunicação e interoperabilidade, (3) oferece e facilita serviços frequentemente utilizados em robótica e, ainda, oferece (4) utilização eficiente dos seus recursos disponíveis, (5) abstrações heterogênicas e (6) descoberta e configuração automática de recursos \cite{ref:quigley2009ros}. No intuito de cobrir todas exigências de um \textit{middleware}, ROS 2.0 tenta dar suporte à componentes embarcados e dispositivos de baixo recurso.
+    Uma lacuna que antes existia na nova geração de aplicações robóticas foi preenchida com o lançamento do ROS. Como um fornecedor de serviços de \textit{middleware}, ele (1) simplifica o desenvolvimento de processos, (2) suporta comunicação e interoperabilidade, (3) oferece e facilita serviços frequentemente utilizados em robótica e, ainda, oferece (4) utilização eficiente dos seus recursos disponíveis, (5) abstrações heterogênicas e (6) descoberta e configuração automática de recursos \cite{ref:quigley2009ros}. No intuito de cobrir todas exigências de um \textit{middleware}, ROS 2.0 tenta dar suporte à sistemas embarcados e dispositivos de baixo recurso.
     
     Como resultado, 
     
@@ -24,4 +24,59 @@
     
     \section{Conceitos Básicos} \label{sec:ros_conceitos}
     
-    
+        Sua concepção foi baseada em conceitos divididos em três níveis: (1) Sistema de Arquivos do ROS, (2) Grafo de Computação do ROS e (3) Comunidade do ROS. A seguir será explicado cada um desses níveis, cada um com seu respectivo conjunto de conceitos. Além disso, também serão detalhados os dois tipos de nomes definidos no ROS: nomes de recursos de pacote e nomes de recursos de grafo.
+        
+        \subsection{Sistema de Arquivos do ROS}
+            
+            Os conceitos envolvidos no nível do \textit{Sistema de Arquivos do ROS} se referem aos arquivos armazenados em disco. São eles:
+            
+            \begin{itemize}
+                \item \textbf{Pacotes}: em inglês \textit{Packages}, é uma forma atômica de organização de criação e lançamento de \textit{software} no ROS. Um pacote contém definições de processos (nós), de dependência de bibliotecas, de tipos de mensagens, ações e serviços, de estruturas de dados e, por fim, de configuração. 
+                
+                \item \textbf{Meta-Pacotes}: em inglês \textit{Metapackages}, é um tipo especial de pacote que tem por objetivo agrupar pacotes relacionados.
+                
+                \item \textbf{Manifestos de Pacote}: em inglês \textit{Package Manifests}, arquivo nomeado \textit{package.xml} contido na raíz de cada pacote. Seu papel é fornecer meta-informações sobre seu pacote: nome, versão, descrição, informações de licença, dependências, entre outras. 
+                
+                \item \textbf{Tipos de Mensagem}: em inglês \textit{Message Types}, arquivos de extensão \textit{.msg}, localizados dentro da pasta \textit{msg} de um dado pacote. Seu conteúdo define a estrutura de dados de uma mensagem que poderá ser enviado pelo ROS.
+                
+                \item \textbf{Tipos de Serviço}: em inglês \textit{Service Types}, arquivos de extensão \textit{.srv}, localizados dentro da pasta \textit{srv} de um dado pacote. Seu conteúdo define a estrutura de dados das mensagens de requisito e resposta de um serviço, as quais poderão ser enviadas pelo ROS.
+            \end{itemize}
+            
+        \subsection{Grafo de Computação do ROS}
+        
+            O \textit{Grafo de Computação do ROS} é uma rede ponto-a-ponto de processos que processam dados conjuntamente. Os conceitos presentes neste nível são:
+            
+            \begin{itemize}
+                \item \textbf{Nós}: em inglês \textit{Nodes}, são processos que desempenham computação. 
+                
+                \item \textbf{Nó Mestre}: em inglês \textit{Master},
+                
+                \item \textbf{Servidor de Parâmetros}: em inglês \textit{Parameter Server},
+                
+                \item \textbf{Tópicos}: em inglês \textit{Topics},
+                
+                \item \textbf{Serviços}: em inglês \textit{Services},
+                
+                \item \textbf{Bolsas}: em inglês \textit{Bags},
+            \end{itemize}
+            
+        \subsection{Comunidade do ROS}
+        
+            De modo que comunidades separadas possam trocar código fonte e conhecimento, vários recursos foram criados na Comunidade do ROS. Tais como:
+            
+            \begin{itemize}
+                \item \textbf{Distribuições}: agrupa coleções de pacotes versionados para facilitar a instalação do ROS. Além disso, é mantido uma versão consistente de cada conjunto de pacotes relacionados.
+                \item \textbf{Repositórios}: uma rede federada de repositórios de código permite que instituições diferentes possam desenvolver e lançar componentes de \textit{software} para seus próprios robôs.
+                \item \textbf{ROS Wiki\footnote{\url{http://wiki.ros.org}}}: é o principal fórum para informações de documentação sobre o ROS. Qualquer pessoa pode solicitar uma conta para contribuir com sua própria documentação, ou ainda fornecer correções e atualizações, bem como, escrever tutoriais.
+                \item \textbf{Listas de endereços eletrônicos}: é o meio de comunicação primário entre os usuários de ROS para perguntar sobre questões de \textit{software} do ROS e para receber notificações de novas atualizações.
+                \item \textbf{ROS Answers\footnote{\url{https://answers.ros.org/questions/}}}: é uma página \textit{web} de perguntas e respostas diretamente relacionada ao ROS.
+                \item \textbf{Blog\footnote{\url{http://www.ros.org/news/}}}: providencia notícias regularmente com fotos e vídeos.
+            \end{itemize}
+        
+        \subsection{Nomes}
+            
+            \subsubsection{Nomes de Recursos de Grafo no ROS}
+        
+            \subsubsection{Nomes de Recursos de Pacote no ROS}
+
+    \textcolor{red}{Falar brevemente sobre \textit{tf}, sobre ações e tarefas do \textit{actionlib}, sobre a ontologia de mensagens, sobre \textit{plugins}, sobre filtros e modelos de robôs}

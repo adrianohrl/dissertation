@@ -7,5 +7,5 @@ Instruções gerais:
 2 - A estrutura do documento pode ser alterada editando o arquivo "principal.tex".
 
 Contato:
-Ricardo Emerson Julio
-email: ricardoej@gmail.com
+    Ricardo Emerson Julio (ricardoej@gmail.com)
+    Adriano Henrique Rossette Leite (adrianohrl@gmail.com)

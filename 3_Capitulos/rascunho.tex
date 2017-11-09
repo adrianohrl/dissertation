@@ -1,0 +1,186 @@
+
+
+    Uma nova geração de aplicações tem crescido no campo de robótica \cite{ref:mohamed2008middleware}: grupos de robôs heterogêneos interconectados por uma rede de comunicação agindo cooperativamente de modo à completar uma missão comum. \textcolor{red}{citar exemplos}
+    
+    Sempre que um grupo de robôs visa executar algum comportamento coletivo, aumenta-se em eficiência, confiabilidade, flexibilidade, escalabilidade e versatilidade para resolver tarefas complexas.
+    
+    \textcolor{red}{falar sobre o ROS}
+    
+    \textcolor{red}{falar sobre o gap existente no ROS para aplicações MRS por causa da dificuldade}
+
+    \section{Visão Geral}
+        Colocar texto aqui
+    
+    \section{Organização do trabalho}
+        Colocar texto aqui
+    
+    \section{Sistema Multi-Agente}
+    
+        \subsection{Agentes}
+        
+        %According to \cite{ref:russell1995aima}:
+        
+        an \textbf{agent} is anything that can be viewed as \textbf{perceiving} its environment through \textbf{sensors} and \textbf{acting} upon that environment through \textbf{effectors}.
+        
+        %Talking about \textbf{rational agent}:
+        
+        the \textbf{performance measure} determines how successful an agent is. The complete perceptual history is called \textbf{percept sequence}.
+        
+        So, it is desired to measure its performance over the long run.
+        a rational agent is not omniscient. 
+        
+        Saying that, we cannot blame an agent for failing to take into account something it could not perceive, or for failing to take an action that it is incapable of taking.
+        
+        In other words, what is rational at any given time depends on:
+        \begin{itemize}
+            \item The performance measure that defines degree of success;
+            \item Everything that the agent has perceived so far, that is, the percept sequence;
+            \item What the agent knowsabout the environment;
+            \item and, finally, the actions that the agent can perform.
+        \end{itemize}
+        
+        \cite{ref:russell1995aima} defines an \textbf{ideal rational agent} as: \textit{For each possible percept sequence, an ideal rational agent should do whatever action is expected to maximize its performance measure, an the basis of the evidence provided by the percept sequence and whatever built-in knowledge the agent has}.
+        
+        \textbf{ideal mapping}: Specifying which action an agent ought to take in response to any given percept sequence provides a design for an ideal agent.
+        
+        Talking about autonomy: If the agent's actions are based completely on built-in knownledge, such that it need pay no attention to its percepts, then we say that tthe agent lacks \textbf{autonomy}.
+        
+        The job of AI is to design the \textbf{agent program}: a function that implements the agent mapping from percepts to actions. We assume this program will run on sort of computing device: the \textbf{architecture}.
+        
+        There exists fours types of agent program:
+        \begin{itemize}
+            \item \textbf{Simple reflex agents}:
+            \item \textbf{Agents that keep track of the world}:
+            \item \textbf{Goal-based agents}:
+            \item \textbf{Utility-based agents}:
+        \end{itemize}
+        
+        This paper deals with utility-based agents!!!
+        
+        To sum up, ...
+        
+        
+        \subsection{Objetos}
+        
+        \subsection{Ambiente}
+        
+        \section{Sistema Multi-Robô}
+        
+        \section{Alocação de Tarefas Multi-Robô}
+        
+        \section{Arquiteturas de Alocação de Tarefas Multi-Robô}
+        
+        \subsection{Arquiteturas baseadas em Mercado}
+        
+        \begin{itemize}
+            \item \textbf{Murdoch}:
+            \item \textbf{M+}:
+        \end{itemize}
+        
+        \subsection{Arquiteturas baseadas em Comportamento}
+        
+        \begin{itemize}
+            \item \textbf{Alliance}:
+            
+        \end{itemize}
+        
+        
+        \textbf{Resource-constrained project scheduling problem}
+        The RCPSP problem is a generalization of the production-specific Job-Shop, Flow-Shop and Open-Shop scheduling problems. Given
+        
+            a set of q resources with given capacities,
+            a set of q resources with given capacities,
+            a network of precedence constraints between the activities, and
+            for each activity and each resource the amount of the resource required by the activity over its execution,
+        
+        the goal of the RCPSP problem is to find a schedule meeting all the constraints whose makespan (i.e., the time at which all activities are finished) is minimal.
+        
+        
+        \subsection{Comparing DAIs, MASs, and MRSs}
+        
+        Distributed Artificial Intelligence (DAI) has existed as a subfield of AI for less than two decades. DAI is concerned with systems that consist of multiple independent entities that interact in a domain. Traditionally, DAI has been divided into two sub-disciplines: Distributed Problem Solving (DPS) focuses on the information management aspects of systems with several components working together towards a common goal; Multiagent Systems (MAS) deals with behavior management in collections of several independent entities, or agents. This survey of MAS is intended to serve as an introduction to the field and as an organizational framework. A series of general multiagent scenarios are presented. For each scenario, the issues that arise are described along with a sampling of the techniques that exist to deal with them. The presented techniques are not exhaustive, but they highlight how multiagent systems can be and have been used to build complex systems. When options exist, the techniques presented are biased towards machine learning approaches. Additional opportunities for applying machine learning to MAS are highlighted and robotic soccer is presented as an appropriate test bed for MAS. This survey does not focus exclusively on robotic systems. However, we believe that much of the prior research in non-robotic MAS is relevant to robotic MAS, and we explicitly discuss several robotic MAS, including all of those presented in this issue \cite{ref:stone2000multiagent}.
+        
+        
+        
+\chapter[ROS]{ROS} \label{cap:ros}
+    
+    Acrônimo para \textit{Robot Operating System} \cite{ref:quigley2009ros}, o ROS é uma \textit{framework} para robótica que tem incentivado a comunidade de pesquisadores em robótica a trabalhar conjuntamente desde seu lançamento.
+    
+    Primeiramente, ROS é flexível. Um projeto atômico baseado em ROS, denominado pacote, pode ser desenvolvido em diversas linguagens de programação. Deste modo, seus desenvolvedores podem tirar proveito das vantagens que cada linguagem suportada tem, sejam elas eficiência em tempo de execução, confiabilidade, recursos, síntaxe, semântica ou documentação existente. Atualmente, as linguagens de programação suportadas são C++, Python e Lisp. As linguagens Java e Lua ainda estão em fase de desenvolvimento.
+    
+    Projetos de robótica possuem rotinas que poderia ser reutilizadas em outros projetos. Por esta razão, ROS é também modular, pois pacotes configuráveis existentes podem ser combinados para realizar uma aplicação especifica. Várias bibliotecas externas já foram adaptadas para ser usadas no ROS: aruco\footnote{\url{http://wiki.ros.org/ar_sys}}, gmapping\footnote{\url{http://wiki.ros.org/gmapping}}, interfaces de programação para aplicações de robôs\footnote{\url{http://wiki.ros.org/Robots}}, sensores\footnote{\url{http://wiki.ros.org/Sensors}} e simuladores\footnote{\url{http://wiki.ros.org/gazebo}}, planejadores\footnote{\url{http://kcl-planning.github.io/ROSPlan/}}, reconhecimento de voz\footnote{\url{http://wiki.ros.org/Sensors\#Audio_.2BAC8_Speech_Recognition}}, entre outros. Isso evidencia que os usuários de ROS podem focar no desenvolvimento de pesquisa de sua área e contribuir da melhor forma com essa comunidade.
+    
+    Em adição, ROS disponibiliza diversas ferramentas para auxiliar no desenvolvimento de projetos e, também, verificar o funcionamento de aplicação. Suas ferramentas típicas são: \textit{get} e \textit{set} de parâmetros de configuração, vizualização da topologia de conexão \textit{peer-to-peer}, medição de utilização de banda, gráficos dos dados de mensagem e outras mais. É altamente recomendado o uso dessas ferramentas para garantir a estabilidade e confiança dos pacotes desenvolvidos, que normalmente têm alta complexidade.
+    
+    Uma lacuna que antes existia na nova geração de aplicações robóticas foi preenchida com o lançamento do ROS. Como um fornecedor de serviços de \textit{middleware}, ele (1) simplifica o desenvolvimento de processos, (2) suporta comunicação e interoperabilidade, (3) oferece e facilita serviços frequentemente utilizados em robótica e, ainda, oferece (4) utilização eficiente dos seus recursos disponíveis, (5) abstrações heterogênicas e (6) descoberta e configuração automática de recursos \cite{ref:quigley2009ros}. No intuito de cobrir todas exigências de um \textit{middleware}, ROS 2.0 tenta dar suporte à sistemas embarcados e dispositivos de baixo recurso.
+    
+    Como resultado, 
+    
+    Over the years, it has been noticed that:
+	(1) the number of contributors (academic researchers and industry) and projects have increased;
+	(2) the applications have became more sophisticated;
+	(3) the degree of difficulty of solved problems has ??? in different areas of robotics field;
+	(4) the robotic industry has been more interested to contribute.
+	
+	\textcolor{red}{citar exemplo de middlewares para robótica}
+    
+    \textcolor{red}{falar sobre o conteúdo deste capítulo}
+    
+    \section{Conceitos Básicos} \label{sec:ros_conceitos}
+    
+        Sua concepção foi baseada em conceitos divididos em três níveis: (1) Sistema de Arquivos do ROS, (2) Grafo de Computação do ROS e (3) Comunidade do ROS. A seguir será explicado cada um desses níveis, cada um com seu respectivo conjunto de conceitos. Além disso, também serão detalhados os dois tipos de nomes definidos no ROS: nomes de recursos de pacote e nomes de recursos de grafo.
+        
+        \subsection{Sistema de Arquivos do ROS}
+            
+            Os conceitos envolvidos no nível do \textit{Sistema de Arquivos do ROS} se referem aos arquivos armazenados em disco. São eles:
+            
+            \begin{itemize}
+                \item \textbf{Pacotes}: em inglês \textit{Packages}, é uma forma atômica de organização de criação e lançamento de \textit{software} no ROS. Um pacote contém definições de processos (nós), de dependência de bibliotecas, de tipos de mensagens, ações e serviços, de estruturas de dados e, por fim, de configuração. 
+                
+                \item \textbf{Meta-Pacotes}: em inglês \textit{Metapackages}, é um tipo especial de pacote que tem por objetivo agrupar pacotes relacionados.
+                
+                \item \textbf{Manifestos de Pacote}: em inglês \textit{Package Manifests}, arquivo nomeado \textit{package.xml} contido na raíz de cada pacote. Seu papel é fornecer meta-informações sobre seu pacote: nome, versão, descrição, informações de licença, dependências, entre outras. 
+                
+                \item \textbf{Tipos de Mensagem}: em inglês \textit{Message Types}, arquivos de extensão \textit{.msg}, localizados dentro da pasta \textit{msg} de um dado pacote. Seu conteúdo define a estrutura de dados de uma mensagem que poderá ser enviado pelo ROS.
+                
+                \item \textbf{Tipos de Serviço}: em inglês \textit{Service Types}, arquivos de extensão \textit{.srv}, localizados dentro da pasta \textit{srv} de um dado pacote. Seu conteúdo define a estrutura de dados das mensagens de requisito e resposta de um serviço, as quais poderão ser enviadas pelo ROS.
+            \end{itemize}
+            
+        \subsection{Grafo de Computação do ROS}
+        
+            O \textit{Grafo de Computação do ROS} é uma rede ponto-a-ponto de processos que processam dados conjuntamente. Os conceitos presentes neste nível são:
+            
+            \begin{itemize}
+                \item \textbf{Nós}: em inglês \textit{Nodes}, são processos que desempenham computação. 
+                
+                \item \textbf{Nó Mestre}: em inglês \textit{Master},
+                
+                \item \textbf{Servidor de Parâmetros}: em inglês \textit{Parameter Server},
+                
+                \item \textbf{Tópicos}: em inglês \textit{Topics},
+                
+                \item \textbf{Serviços}: em inglês \textit{Services},
+                
+                \item \textbf{Bolsas}: em inglês \textit{Bags},
+            \end{itemize}
+            
+        \subsection{Comunidade do ROS}
+        
+            De modo que comunidades separadas possam trocar código fonte e conhecimento, vários recursos foram criados na Comunidade do ROS. Tais como:
+            
+            \begin{itemize}
+                \item \textbf{Distribuições}: agrupa coleções de pacotes versionados para facilitar a instalação do ROS. Além disso, é mantido uma versão consistente de cada conjunto de pacotes relacionados.
+                \item \textbf{Repositórios}: uma rede federada de repositórios de código permite que instituições diferentes possam desenvolver e lançar componentes de \textit{software} para seus próprios robôs.
+                \item \textbf{ROS Wiki\footnote{\url{http://wiki.ros.org}}}: é o principal fórum para informações de documentação sobre o ROS. Qualquer pessoa pode solicitar uma conta para contribuir com sua própria documentação, ou ainda fornecer correções e atualizações, bem como, escrever tutoriais.
+                \item \textbf{Listas de endereços eletrônicos}: é o meio de comunicação primário entre os usuários de ROS para perguntar sobre questões de \textit{software} do ROS e para receber notificações de novas atualizações.
+                \item \textbf{ROS Answers\footnote{\url{https://answers.ros.org/questions/}}}: é uma página \textit{web} de perguntas e respostas diretamente relacionada ao ROS.
+                \item \textbf{Blog\footnote{\url{http://www.ros.org/news/}}}: providencia notícias regularmente com fotos e vídeos.
+            \end{itemize}
+        
+        \subsection{Nomes}
+            
+            \subsubsection{Nomes de Recursos de Grafo no ROS}
+        
+            \subsubsection{Nomes de Recursos de Pacote no ROS}
+
+    \textcolor{red}{Falar brevemente sobre \textit{tf}, sobre ações e tarefas do \textit{actionlib}, sobre a ontologia de mensagens, sobre \textit{plugins}, sobre filtros e modelos de robôs}

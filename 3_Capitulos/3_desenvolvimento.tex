@@ -1,9 +1,28 @@
 \chapter[Desenvolvimento]{Desenvolvimento} \label{cap:desenvolvimento}
+    Com o advento do ROS, vários sistemas inteligentes puderam ser reutilizados em diversas aplicações de robótica, tais como: navegação robótica, gerenciamento de largura de banda, planejamento e escalonamento, algoritmos de inteligência artificial, entre outros. Sendo um \textit{middleware}, o tratamento da comunicação entre processos computacionais facilitou a modularidade e a interoperabilidade entre esses sistemas. Assim pesquisadores de robótica podem ater-se ao desenvolvimento de aplicações específicas. Robótica é um campo de pesquisa muito amplo, tanto em \textit{hardware} quanto em \textit{software}, pois abrange conceitos dos Materiais e da Mecânica para a especificação da estrutura mecânica envolvida; de Elétrica, Computação e Eletrônica para a especificação dos atuadores, dos sensores e dos controladores; da Ciência da Computação para o desenvolvimento de aplicações em todos os níveis de abstração; bem como, Biologia e Sociologia para o desenvolvimento de  conceitos de estrutura mecânica, eletrônica digital e analógica, 
     
+    O ROS tornou modulares
     
+    \section{\textit{rqt\_mrta}}
+        Esta interface gráfica tem por finalidade auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô. 
+    
+        Este \textit{plugin} foi desenvolvido a partir da \textit{framework} \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}}
+        \subsection{Arquivos de configuração}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
     \section{ALLIANCE} \label{sec:alliance}
-    
         Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão à ser desempenhada por um grupo de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de um modo diferente.
         
         Sejam $R=\{r_1, r_2, \cdots, r_n\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ sub-tarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C_i=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. Por fim, é possível saber qual tarefa em $A$ é executada por $r_i$ quando sua configuração de ativação $c_{ik}$ é ativa. Tal informação é obtida através da função $h_i(c_{ik})$, a qual pertence ao conjunto de $n$ funções $H : C_i \to A$, $H = \{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$.

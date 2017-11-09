@@ -1,9 +1,25 @@
 \chapter[Introdução]{Introdução}
 
     \section{Motivação}
+        Aplicações de robótica onde vários robôs interagem entre si e também com o ambiente em que estão inseridos são chamadas de sistemas multirrobô, do inglês \textit{Multi-robot systems} (MRS). Um sistema multirrobô possui diversas vantagens sobre sistemas com apenas um robô. Entre elas se encontram o ganho de flexibilidade, a simplificação de tarefas complexas e o aumento da eficiência no uso de recursos, de desempenho do sistema como um todo e da robustez através de redundâncias \cite{ref:cao1997cooperative, ref:dudek1996taxonomy, ref:zlot2002multi}. Entretanto, aplicações dessa natureza demandam arquiteturas complexas para o controle da coordenação dos robôs envolvidos e, intrinsecamente, possuem problema de escalabilidade nos processos computacionais e na rede de comunicação. 
+        
+        Um dos problemas mais desafiadores em aplicações de vários robôs é denominado como \textit{alocação de tarefa} (MRTA, acrônimo para \textit{Multi-Robot Task Allocation}), o qual consiste em atribuir um grupo de robôs sujeitos à limitações para executar um conjunto de tarefas de forma que o desempenho do sistema seja otimizado. Problemas de alocação de tarefa em sistemas multirrobô pode ser resolvido por arquiteturas que se baseiam em modelos de mercado, de negociação, de comércio e de comportamento. Cada uma com suas próprias premissas. Com o intuito de classificá-las, \citeonline{ref:gerkey2004taxonomy} sugeriu uma taxonomia independente do domínio para a classificação de problemas MRTA a partir da análise de várias arquiteturas \cite{ref:parker1998alliance, ref:gerkey2002murdoch, ref:botelho1999m+, ref:werger2000ble, ref:frank2005kuhn, ref:stentz1999fpo, ref:chaimowicz2002dra}. 
+        
+        Com o advento do ROS (acrônimo para \textit{Robot Operating System}) \cite{ref:quigley2009ros}, vários sistemas inteligentes puderam ser reutilizados em diversas aplicações de robótica, tais como: localização \cite{ref:li2017kld-samcl}, navegação robótica, gerenciamento de largura de banda \cite{ref:julio2015dynamic}, planejamento e escalonamento de ações e tarefas \cite{ref:fox2003pddl2, ref:manne1960job}, algoritmos de inteligência artificial \cite{ref:adrianohrl2015fuzzy, ref:watkins1992qlearning}, entre outros. Sendo um \textit{middleware} dedicado para aplicações robóticas, ele possibilitou a integração de trabalhos desenvolvidos por equipes distintas de pesquisa em robótica, pois ele simplifica o desenvolvimento de processos e dá suporte à comunicação e interoperabilidade deles. Desta forma, pesquisadores de robótica podem ater-se ao desenvolvimento de projetos dentro da sua especialização, necessitando apenas configurar os demais pacotes para a execução da aplicação. Problemas que anteriormente possuíam difícil solução em termos de \textit{software}, foram simplificados a partir da modularidade proporcionada pelo ROS. \textbf{\color{green}(devo citar a competição do RAS-SIGHT aki?)}
+        
+        Apesar da vasta existência de arquiteturas de alocação de tarefa para sistemas multirrobôs, houveram poucas tentativas de aproximação genérica delas em projetos baseados em ROS. Isto é, mediante a pesquisa realizada na literatura e no repositório do ROS, não foram encontrados projetos baseados em ROS que se aproximam de uma arquitetura MRTA configurável para qualquer problema MRTA que satisfaça suas premissas.
+        
+        \citeonline{ref:reis2015alliance} mostrou as facilidades que o ROS oferece na implementação da arquitetura ALLIANCE, proposta por \citeonline{ref:parker1998alliance}, entretanto sua aproximação atende apenas o problema aplicado em seu trabalho. E o grupo de pacotes ROS \textit{auction\_methods\_stack
+}\footnote{\url{https://github.com/joaoquintas/auction_methods_stack}}, apesar de não possuir nenhuma documentação, foi desenvolvido em uma versão antiga do ROS e nunca mais foi atualizado.
+        
+        Verifica-se, assim, a necessidade de ferramentas que facilitem a utilização de arquiteturas de alocação de tarefa em sistemas multirrobô e que incentive o desenvolvimento de aproximações genéricas dessas arquiteturas no ROS.
     
     \section{Objetivos}
-    
+        \textcolor{red}{Objetivo geral e objetivo especifico}
+        Esse trabalho propõe desenvolver uma aplicação gráfica, denominada \textit{rqt\_mrta} que facilite a utilização de arquiteturas de alocação de tarefa em sistemas multirrobô por usuários do ROS. Além disso, é também apresentado neste trabalho uma aproximação genérica da arquitetura Alliance, a qual foi desenvolvida em um pacote ROS chamado \textit{alliance}.
+        
+        %Esse trabalho propõe uma aplicação gráfica, cujas funções são: (1) registrar e (2) configurar pacotes desenvolvidos sob a \textit{framework} ROS que implementam uma arquitetura para alocação de tarefa em sistema multirobô; (3) criar o metapacote ROS que contém a configuração realizada durante a definição do problema de alocação de tarefa do sistema multirrobô de interesse; (4) supervisionar o sistema e a arquitetura em tempo de execução.
+        
     \section{Contribuições}
     
     \section{Estrutura do Trabalho}

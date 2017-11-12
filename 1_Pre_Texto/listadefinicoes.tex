@@ -1,0 +1,21 @@
+% ---
+% inserir lista de definições
+% ---
+\renewcommand{\listtheoremname}{Lista de definições}
+\pdfbookmark[0]{\listtheoremname}{lod}
+\begin{KeepFromToc}
+\listoftheorems[ignoreall,show=definicao]
+\end{KeepFromToc}
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de axiomas e teoremas
+% ---
+\renewcommand{\listtheoremname}{Lista de axiomas} % e teoremas
+\pdfbookmark[0]{\listtheoremname}{loat}
+\begin{KeepFromToc}
+\listoftheorems[ignoreall,show={axioma}] %{axioma,teorema}%
+\end{KeepFromToc}
+\cleardoublepage
+% ---

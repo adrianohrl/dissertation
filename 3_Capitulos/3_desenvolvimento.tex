@@ -1,13 +1,30 @@
 \chapter[Desenvolvimento]{Desenvolvimento} \label{cap:desenvolvimento}
-    Com o advento do ROS, vários sistemas inteligentes puderam ser reutilizados em diversas aplicações de robótica, tais como: navegação robótica, gerenciamento de largura de banda, planejamento e escalonamento, algoritmos de inteligência artificial, entre outros. Sendo um \textit{middleware}, o tratamento da comunicação entre processos computacionais facilitou a modularidade e a interoperabilidade entre esses sistemas. Assim pesquisadores de robótica podem ater-se ao desenvolvimento de aplicações específicas. Robótica é um campo de pesquisa muito amplo, tanto em \textit{hardware} quanto em \textit{software}, pois abrange conceitos dos Materiais e da Mecânica para a especificação da estrutura mecânica envolvida; de Elétrica, Computação e Eletrônica para a especificação dos atuadores, dos sensores e dos controladores; da Ciência da Computação para o desenvolvimento de aplicações em todos os níveis de abstração; bem como, Biologia e Sociologia para o desenvolvimento de  conceitos de estrutura mecânica, eletrônica digital e analógica, 
     
-    O ROS tornou modulares
     
     \section{\textit{rqt\_mrta}}
-        Esta interface gráfica tem por finalidade auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô. 
+        Esta interface gráfica tem por finalidade garantir que usuários de arquitetura MRTA configurem corretamente arquiteturas d
+        
+        Este pacote 
+        
+        Sabendo que \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} é um \textit{framework} que auxilia desenvolvedores de interface gráfica em Qt \cite{ref:yafei2012qt} para usuários (GUI) do ROS.
+        
+        Este pacote ROS fornece um \textit{plugin} de interface gráfica de usuário (GUI) escrito em C++ para o \textit{framework} \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} baseada em Qt\cite{ref:yafei2012qt}. escrito na linguagem de programação C++, desenvolvido a partir da \textit{framework} 
+        
+        Para isso, existem dois arquivos de configuração, um para a configuração da arquitetura e outro para a configuração do problema. Ambos arquivos possuem a extensão XML (Extensible Markup Language). Ao serem carregados pela aplicação, esta se adapta para tratar o problema MRTA definido, utilizando a arquitetura escolhida. 
+        
+        \subsection{Arquivo de configuração de arquitetura}
+        Seu propósito é:
+        
+        \begin{itemize}
+            \item classificar a arquitetura segundo a taxonomia sugerida por \citeonline{ref:gerkey2004taxonomy};
+            \item identificar os parâmetros necessários para sua configuração inicial;
+            \item identificar os nós que
+            \item associar os arquivos de parâmetro
+        \end{itemize}
+        
+        auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô. 
     
-        Este \textit{plugin} foi desenvolvido a partir da \textit{framework} \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}}
-        \subsection{Arquivos de configuração}
+        
         
         
         

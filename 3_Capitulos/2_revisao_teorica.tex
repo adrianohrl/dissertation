@@ -1,10 +1,16 @@
 \chapter[Revisão teórica]{Revisão teórica} \label{cap:revisao}
-    Colocar texto aqui 
     
     \section{Sistema Multirrobô} \label{sec:mrs}
-        Colocar texto aqui
-    
-        \subsection{Taxonomias} \label{subsec:taxonomias_mrs}
+        
+        \subsection{Sistema: cooperativo \textit{versus} competitivo}
+        
+        \subsection{Composição: homogêneo \textit{versus} heterogêneo}
+        
+        \subsection{Coordenação: deliberativa \textit{versus} reativa}
+        
+        \subsection{Comunicação: implícita \textit{versus} explícita}
+        
+        \subsection{Arquitetura: centralizada \textit{versus} distribuída}
     
     \section{Alocação de Tarefa em Sistema Multirrobô} \label{sec:mrta}
         Um dos problemas mais desafiadores em aplicações multirrobô leva o nome \textit{alocação de tarefa}, na língua inglesa, \textit{Multi-Robot Task Allocation}(MRTA). Problemas dessa natureza buscam como solução atribuir otimamente um conjunto de robôs para um conjunto de tarefas de maneira que o desempenho geral de um sistema sujeito a um conjunto de limitações seja otimizado.
@@ -13,18 +19,14 @@
         
         
         \subsection{Definição Formal} \label{subsec:mrta_formal}
-            \citeonline{ref:zlot2006auction} define o problema de alocação de tarefa em um sistema multirrobô conforme abaixo.
+            \citeonline{ref:zlot2006auction} define o problema de alocação de tarefa em um sistema multirrobô conforme o seguinte problema de atribuição ótima (OAP - \textit{Optimal Assignment Problem}) estático.
             
             \begin{definicao} \label{def:mrta}
                 (\textit{Alocação de Tarefa em um Sistema Multirrobô})
                 Sejam dados um conjunto $T$, um conjunto $R$ e uma função de custo para cada subconjunto de robots $r \in R$ que especifique o custo de performance para cada subconjunto de tarefas, $c_r : 2^T \to \mathbb{R}_+\cup\{\infty\}$: procure a alocação $A^* \in R^T$ que minimiza a função objetivo global $C : R^T \to \mathbb{R}_+\cup\{\infty\}$.
             \end{definicao}
         
-            Note que para que um algoritmo consiga encontrar uma solução ótima para este problema, é necessário levar em consideração todo o espaço de alocação $R^T$, cujo tamanho aumenta exponencialmente em função do número de tarefas e robôs no sistema. 
-            
-            %Muitas arquiteturas simplificam este problema possa ter uma solução viável em tempo real.
-            
-            
+            Note que para que um algoritmo consiga encontrar uma solução ótima para este problema, é necessário levar em consideração todo o espaço de alocação $R^T$, cujo tamanho aumenta exponencialmente em função do número de tarefas e robôs no sistema. No entanto, como um problema MRTA possui natureza dinâmica, que varia com o tempo mudanças do ambiente, a solução de um OAP estático pode ser mais aplicável.
     
         \subsection{Taxonomia} \label{subsec:taxonomia_mrta}
             \citeonline{ref:gerkey2004taxonomy} sugeriram uma taxonomia de três eixos independente do domínio para a classificação de problemas de alocação de tarefas em sistemas multirrobôs. 
@@ -33,7 +35,7 @@
             
             O segundo eixo da taxonomia determina o \textit{tipo das tarefas} que compõem o problema. Nesse caso, são possíveis os tipos: \textit{ST} (acrônimo para \textit{Single-Robot}) ou \textit{MR} (acrônimo para \textit{Multi-Robot}). Problemas cujo tipo das tarefas é \textit{SR}, diz-se que todas as tarefas envolvidas só podem ser executadas por um robô. Porém, quando o tipo das tarefas envolvidas é \textit{MR}, diz-se que existe tarefas que podem ser executadas por mais de um robô.
             
-            O terceiro eixo, por sua vez, determina o \textit{tipo da alocação} do problema, o qual pode assumir os valores: \textit{IA} (acrônimo para \textit{Instantaneous Assignment}) ou \textit{TA} (acrônimo para \textit{Time-extended Assignment}). O primeiro caso, \textit{IA}, diz repeito à problemas MRTA onde as alocações das tarefas para os robôs são realizadas instantaneamente, sem levar em consideração o estado futuro do sistema. Por outro lado, em problemas cujo tipo de alocação é \textit{TA}, além de conhecido o estado atual de cada rôbo e do ambiente, também é conhecido o conjunto de tarefas que precisarão ser alocadas no futuro. Neste último caso, diversas tarefas são alocadas para um robô, o qual deve executar cada alocação conforme seu agendamento. De acordo com \cite{ref:bastos2008utility}, quando o tipo de alocação do problema MRTA é \textit{IA}, o número de robôs é superior ao número de tarefas alocadas e quando \textit{TA}, o oposto acontece. Isso se deve ao fato de que, em problemas MRTA cujo tipo de alocação é \textit{IA}, o número de robôs no sistema é capaz de suprir a taxa de tarefas a serem atribuídas, de modo que é muito provável que haverão robôs ociosos no sistema; enquanto, naqueles cujo tipo de alocação é \textit{TA}, o número de robôs que compõem o sistema não é suficiente para atender a taxa de tarefas a serem alocadas no sistema.
+            O terceiro eixo, por sua vez, determina o \textit{tipo da alocação} do problema, o qual pode assumir os valores: \textit{IA} (acrônimo para \textit{Instantaneous Assignment}) ou \textit{TA} (acrônimo para \textit{Time-extended Assignment}). O primeiro caso, \textit{IA}, diz repeito à problemas MRTA onde as alocações das tarefas para os robôs são realizadas instantaneamente, sem levar em consideração o estado futuro do sistema. Por outro lado, em problemas cujo tipo de alocação é \textit{TA}, além de conhecido o estado atual de cada rôbo e do ambiente, também é conhecido o conjunto de tarefas que precisarão ser alocadas no futuro. Neste último caso, diversas tarefas são alocadas para um robô, o qual deve executar cada alocação conforme seu agendamento. De acordo com \citeonline{ref:bastos2008utility}, quando o tipo de alocação do problema MRTA é \textit{IA}, o número de robôs é superior ao número de tarefas alocadas e quando \textit{TA}, o oposto acontece. Isso se deve ao fato de que, em problemas MRTA cujo tipo de alocação é \textit{IA}, o número de robôs no sistema é capaz de suprir a taxa de tarefas a serem atribuídas, de modo que é muito provável que haverão robôs ociosos no sistema; enquanto, naqueles cujo tipo de alocação é \textit{TA}, o número de robôs que compõem o sistema não é suficiente para atender a taxa de tarefas a serem alocadas no sistema.
             
             \begin{figure}[htb]
                 \centering
@@ -41,28 +43,53 @@
                 \caption[Representação visual da taxonomia de três eixos]{Representação visual da taxonomia de três eixos sugerida por \citeonline{ref:gerkey2004taxonomy}.} \label{fig:taxomia_mrta}
             \end{figure}
             
-            É visto na Figura \ref{fig:taxomia_mrta} uma representação gráfica da taxonomia de \cite{ref:gerkey2004taxonomy} para a classificação de problemas MRTA (\textit{Multi-Robot Task Allocation}), onde pode-se notar que existem oito classes de problemas MRTA bem definidos.
+            É visto na Figura \ref{fig:taxomia_mrta} uma representação gráfica da taxonomia de \citeonline{ref:gerkey2004taxonomy} para a classificação de problemas MRTA (\textit{Multi-Robot Task Allocation}), onde pode-se notar que existem oito classes de problemas MRTA bem definidos.
             
         \subsubsection{Arquitetura MRTA} \label{subsec:arquiteturas_mrta}
             Possue a função de solucionar o problema de alocação de tarefas em um dado sistema multirrobô.
             
-            Basicamente existem duas formas de implementação de uma arquitetura iterativas e instantâneas. As aproximações iterativas apresentam uma dinâmica progressiva para que ocorra um alocação, enquanto as arquiteturas que esperam uma resposta instantânea dos robôs do sistema ...
+            Basicamente existem duas formas de implementação de uma arquitetura: iterativa e instantânea. As aproximações iterativas apresentam uma dinâmica progressiva para que ocorra um alocação, enquanto as arquiteturas que esperam uma resposta instantânea dos robôs do sistema ...
         
             \subsection{Arquiteturas baseadas em Comportamento} \label{subsec:arch_comportamento}
             
-            \begin{itemize}
-                \item \textbf{ALLIANCE}: \cite{ref:parker1998alliance};
-                \item \textbf{L-ALLIANCE}: \cite{ref:parker1996lalliance};
-                
-            \end{itemize}
+                \begin{itemize}
+                    \item \textbf{ALLIANCE}: \cite{ref:parker1998alliance};
+                    \item \textbf{L-ALLIANCE}: \cite{ref:parker1996lalliance};
+                    
+                \end{itemize}
             
-            \subsection{Arquiteturas baseadas em Mercado} \label{subsec:arch_mercado}
-    
-            \begin{itemize}
-                \item \textbf{Murdoch}: \cite{ref:gerkey2002murdoch};
-                \item \textbf{M+}: \cite{ref:botelho1999m+};
+            \subsection{Arquiteturas baseadas em Negociação} \label{subsec:arch_mercado}
+                Muitas arquiteturas baseadas em regras de negociação são variações do Protocolo de Rede de Contrato, do inglês \textit{Contract Net Protocol} (CNP), sugerido por \citeonline{ref:smith1980cnp}. Este mecanismo é utilizado para a atribuição de tarefas com controle distribuído por meio de um processo de negociação em sistemas multiagente. A Tabela \ref{tab:arquiteturas_cnp} mostra uma comparação realizada por \citeonline{ref:yan2013survey} de três abordagens clássicas do CNP. A primeira delas, abordagens baseada em regras de mercado, é composta por indivíduos competitivos cujo objetivo é se beneficiar maximizando o seu lucro e minimizando seus custos mesmo quando se trata de seus colegas de trabalho \cite{ref:zlot2006auction}.
+                Na sequência, abordagens baseadas em regras de leilão, uma excelente escolha para a alocação de recursos escassos \cite{ref:gerkey2002murdoch}. E, por fim, abordagens baseadas em regras de comércio, que são compostas por compradores e vendedores, cuja relação consiste em trocas: o comprador usa dinheiro para adquirir bens e serviços dos vendedores e os vendedores recebem o dinheiro para a entrega dos bens ou serviços \cite{ref:yan2011trade}.
                 
-            \end{itemize}
+                \begin{table}[hbt]
+                    \setlength\extrarowheight{4pt}
+                    \centering
+                    \caption[Comparação de três variações do CNP.]{Comparação de três variações do CNP \cite{ref:yan2013survey}.}
+                    \label{tab:arquiteturas_cnp}
+                    \begin{tabular}{>{\centering\bfseries}m{.25\textwidth} >{\centering}m{.2\textwidth} >{\centering}m{.2\textwidth} >{\centering\arraybackslash}m{.2\textwidth}}
+                        \toprule
+                         & \textbf{Abordagens baseadas em mercado} & \textbf{Abordagens baseadas em leilão} & \textbf{Abordagens baseadas em comércio} \\
+                        \midrule
+                        Modelo de comunicação na negociação & \textit{publish / subscribe} & \textit{publish / subscribe} & \textit{apply / allocate} \\
+                        Algoritmo de alocação de tarefa & algoritmo guloso & algoritmo guloso & algoritmo guloso \\
+                        Abilidade de alocação de tarefa por iteração & uma tarefa & uma tarefa & várias tarefas \\
+                        Determinação do papel dos robôs & voluntária & voluntária & negociação \\
+                        Consideração de utilidade & custo e benefício & custo & custo \\
+                        Reatribuição de tarefa & permitida & não permitida & permitida \\
+                        Complexidade de comunicação & $O(1)$/licitante, $O(n)$/leiloeiro & $O(1)$/licitante, $O(n)$/leiloeiro & $O(1)$/comprador, $O(n)$/vendedor \\
+                        Complexidade de computação & $O(n)$ & $O(n)$ & $O(n)$ \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+                
+                Segue abaixo, exemplos de arquiteturas de alocação de tarefa em sistema multirrobô baseadas em modelos de negociação.
+    
+                \begin{itemize}
+                    \item \textbf{M+}: foi a primeira variação do CNP para a alocação e realização de tarefas em sistemas multirrobô \cite{ref:botelho1999m+};
+                    \item \textbf{FMS}: do inglês \textit{The Free Market System}, é uma abordagem baseada em regras de mercado
+                    \item \textbf{Murdoch}: cada atribuição de tarefa é tratada como um processo de leilão, em que o robô vencedor é aquele que oferece o maior lance \cite{ref:gerkey2002murdoch};
+                \end{itemize}
                 
     \section{ROS - Robot Operating System} \label{sec:ros}
         Acrônimo para \textit{Robot Operating System} \cite{ref:quigley2009ros}, o ROS é um \textit{framework} para robótica que tem incentivado a comunidade de pesquisadores desta área do conhecimento a trabalhar conjuntamente desde seu lançamento. Ao observar o grande avanço desta ferramenta de comunicação, muitos fabricantes de manipuladores industriais iniciaram a investir em pesquisas para integrar seus robôs com o ROS. 
@@ -179,14 +206,18 @@
                 Nomes são resolvidos relativamente, então recursos não necessitam estar cientes de qual \textit{namespace} eles se encontram. Isso simplifica a programação como nós que trabalham em conjunto podem ser escritos como se eles estivessem todos no nível de \textit{namespace} mais alto.
                 
                 \begin{table}[hbt]
+                    \setlength\extrarowheight{4pt}
                     \centering
                     \caption{Exemplos de resolução de nomes no ROS}
                     \label{tab:ros_nomes}
-                    \begin{tabular}{llll}
+                    \begin{tabular}{c c c c}
+                        \toprule
                         \textbf{Nó} & \textbf{Relativa} &  \textbf{Global} & \textbf{Privada} \\
+                        \midrule
                         /no & img$\to$/no/img & /img$\to$/img & \textasciitilde img$\to$/no/img \\
                         /no & img/raw$\to$/no/img/raw & /img/raw$\to$/img/raw & \textasciitilde img/raw$\to$/no/img/raw \\
-                        /ns/no & img$\to$/ns/no/img & /img$\to$/img & \textasciitilde img$\to$/ns/no/img
+                        /ns/no & img$\to$/ns/no/img & /img$\to$/img & \textasciitilde img$\to$/ns/no/img \\
+                        \bottomrule
                     \end{tabular}
                 \end{table}
                 

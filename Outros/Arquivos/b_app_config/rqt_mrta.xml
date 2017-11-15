@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rqt_mrta format="application">
+    <application>
+        <name>Alliance Test</name>
+        <url></url>
+        <robots>
+          <robot_0>
+            <id>/robot1</id>
+          </robot_0>
+          <robot_1>
+            <id>/robot2</id>
+          </robot_1>
+          <robot_2>
+            <id>/robot3</id>
+          </robot_2>
+          <robot_3>
+            <id>/robot4</id>
+          </robot_3>
+          <robot_4>
+            <id>/robot5</id>
+          </robot_4>
+        </robots>
+    </application>
+</rqt_mrta>

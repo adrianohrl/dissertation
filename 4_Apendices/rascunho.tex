@@ -1,0 +1,137 @@
+\chapter{Funções Temporais} \label{app:funcoes}
+
+    \section{Funções Degraus} \label{sec:funcoes_degraus}
+    
+        A Figura \ref{fig:funcoes_degraus} mostra duas funções degraus: ascendente \ref{fig:funcao_degrau_ascendente} e descendente \ref{fig:funcao_degrau_descendente}.
+    
+        \begin{figure}[htb]
+            \centering
+            \subfloat[Função degrau ascendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/ascending_step_function}}
+                \label{fig:funcao_degrau_ascendente}
+            }
+            \subfloat[Função degrau descendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/decending_step_function}}
+                \label{fig:funcao_degrau_descendente}
+            }
+            \caption{Funções degraus.} \label{fig:funcoes_degraus}
+        \end{figure}
+        
+        \begin{equation} \label{eq:funcao_degrau_ascendente}
+            q(t) =
+            \begin{cases}
+                q_0 ,& t \leq t_0 \\
+                q_f ,& t > t_0
+            \end{cases}
+        \end{equation}
+        
+        \begin{equation} \label{eq:funcao_degrau_descendente}
+            q(t) =
+            \begin{cases}
+                q_f ,& t \leq t_0 \\
+                q_0 ,& t > t_0
+            \end{cases}
+        \end{equation}
+    
+    \section{Funções Pulsos} \label{sec:funcoes_pulsos}
+    
+        A Figura \ref{fig:funcoes_pulsos} mostra duas funções pulsos: ascendente \ref{fig:funcao_pulso_ascendente} e descendente \ref{fig:funcao_pulso_descendente}.
+    
+        \begin{figure}[htb]
+            \centering
+            \subfloat[Função pulso ascendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/ascending_pulse_function}}
+                \label{fig:funcao_pulso_ascendente}
+            }
+            \subfloat[Função degrau descendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/decending_pulse_function}}
+                \label{fig:funcao_pulso_descendente}
+            }
+            \caption{Funções pulsos.} \label{fig:funcoes_pulsos}
+        \end{figure}
+        
+        \begin{equation} \label{eq:funcao_pulso_ascendente}
+            q(t) =
+            \begin{cases}
+                q_0 ,& t \leq t_0 \\
+                q_f ,& t > t_0
+            \end{cases}
+        \end{equation}
+        
+        \begin{equation} \label{eq:funcao_pulso_descendente}
+            f(t) =
+            \begin{cases}
+                q_f ,& t \leq t_0 \\
+                q_0 ,& t > t_0
+            \end{cases}
+        \end{equation}
+    
+    \section{Funções Lineares} \label{sec:funcoes_lineares}
+    
+        A Figura \ref{fig:funcoes_lineares} mostra duas funções lineares: ascendente \ref{fig:funcao_linear_ascendente} e descendente \ref{fig:funcao_linear_descendente}.
+    
+        \begin{figure}[htb]
+            \centering
+            \subfloat[Função linear ascendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/ascending_linear_function}}
+                \label{fig:funcao_linear_ascendente}
+            }
+            \subfloat[Função linear descendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/decending_linear_function}}
+                \label{fig:funcao_linear_descendente}
+            }
+            \caption{Funções lineares.} \label{fig:funcoes_lineares}
+        \end{figure}
+        
+        \begin{equation} \label{eq:funcao_linear_ascendente}
+            q(t) =
+            \begin{cases}
+                q_0 ,& t \leq t_0 \\
+                (q_f - q_0)\dfrac{t - t_0}{t_f - t_0} + q_0 ,& t_0 < t \leq t_f \\
+                q_f ,& t > t_f
+            \end{cases}
+        \end{equation}
+        
+        \begin{equation} \label{eq:funcao_linear_descendente}
+            q(t) =
+            \begin{cases}
+                q_f & t \leq t_0 \\
+                (q_0 - q_f)\dfrac{t - t_0}{t_f - t_0} + q_f ,& t_0 < t \leq t_f \\
+                q_0 & t > t_f
+            \end{cases}
+        \end{equation}
+    
+    \section{Função Exponenciais} \label{sec:funcoes_exponenciais}
+    
+        A Figura \ref{fig:funcoes_exponenciais} mostra duas funções exponenciais: ascendente \ref{fig:funcao_exponencial_ascendente} e descendente \ref{fig:funcao_exponencial_descendente}.
+    
+        \begin{figure}[htb]
+            \centering
+            \subfloat[Função exponencial ascendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/ascending_exponential_function}}
+                \label{fig:funcao_exponencial_ascendente}
+            }
+            \subfloat[Função exponencial descendente.]{
+                \resizebox{0.45\textwidth}{!}{\input{Figuras/apendice_a/decending_exponential_function}}
+                \label{fig:funcao_exponencial_descendente}
+            }
+            \caption{Funções exponenciais.} \label{fig:funcoes_exponenciais}
+        \end{figure}
+        
+        \begin{equation} \label{eq:funcao_exponencial_ascendente}
+            q(t) =
+            \begin{cases}
+                q_0 & t \leq t_0 \\
+                q_f - (q_f - q_0) e^{-K\dfrac{t - t_0}{t_f - t_0}} ,& t_0 < t \leq t_f \\
+                q_f & t > t_f
+            \end{cases}
+        \end{equation}
+        
+        \begin{equation} \label{eq:funcao_exponencial_descendente}
+            q(t) =
+            \begin{cases}
+                q_f & t \leq t_0 \\
+                q_0 - (q_0 - q_f) e^{-K\dfrac{t - t_0}{t_f - t_0}} ,& t_0 < t \leq t_f \\
+                q_0 & t > t_f
+            \end{cases}
+        \end{equation}

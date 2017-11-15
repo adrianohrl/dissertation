@@ -1,5 +1,33 @@
 \chapter[Desenvolvimento]{Desenvolvimento} \label{cap:desenvolvimento}
     
+    \lstset{
+        language=XML,
+        breaklines=true,
+        frameround=ffff,
+        frame=single,
+        rulecolor=\color{black},
+        autogobble=true,
+        morekeywords={
+            xml, encoding,
+            package, format,
+            name,
+            version,
+            description,
+            maintainer, email,
+            author,
+            license,
+            url, type,
+            buildtool_depend,
+            build_depend,
+            run_depend,
+            export,
+                metapackage,
+                plugin,
+                rqt_gui,
+                alliance,
+                rqt_mrta, application, architecture
+        }
+    }
     
     \section{\textit{rqt\_mrta}}
         Esta interface gráfica tem por finalidade garantir que usuários de arquitetura MRTA configurem corretamente arquiteturas d
@@ -12,23 +40,86 @@
         
         Para isso, existem dois arquivos de configuração, um para a configuração da arquitetura e outro para a configuração do problema. Ambos arquivos possuem a extensão XML (Extensible Markup Language). Ao serem carregados pela aplicação, esta se adapta para tratar o problema MRTA definido, utilizando a arquitetura escolhida. 
         
-        \subsection{Arquivo de configuração de arquitetura}
-        Seu propósito é:
+        \subsection{Arquivo de configuração de arquitetura} \label{subset:arch_config}
+            Seu propósito é:
+            
+            \begin{itemize}
+                \item classificar a arquitetura segundo a taxonomia sugerida por \citeonline{ref:gerkey2004taxonomy};
+                \item identificar os parâmetros necessários para sua configuração inicial;
+                \item identificar os nós que
+                \item associar os arquivos de parâmetro
+            \end{itemize}
+            
+            auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô.
+            
+            No entanto, torna-se necessário um mecanismo de busca capaz de identificar pacotes ROS que contenham arquivos de configuração de arquitetura; pois, assim, será possível auxiliar o usuário final a escolher uma arquitetura que resolva o seu problema MRTA.
+            
+            A biblioteca \textit{rospack}\footnote{\url{http://wiki.ros.org/rospack}} possui diversas ferramentas de busca de informação de pacotes existentes no sistema de arquivos do ROS. Dentre elas, a ferramenta \textit{rospack plugin} examina os pacotes ROS procurando por aqueles que dependem diretamente do pacote dado, extraindo de cada um deles seu nome acompanhado pelo valor do atributo requisitado. Logo, é possível utilizar esse mecanismo em benefício deste projeto ao adicionar uma dependência do \textit{rqt\_mrta} ao pacote da arquitetura, assim como, exportar a localização relativa do seu arquivo de configuração. 
+            
+            Portanto, para que o \textit{rqt\_mrta} tenha visibilidade das arquiteturas configuradas, são necessárias algumas alterações no arquivo manifesto do pacote que implementa cada uma delas. Primeiramente, é necessário adicionar a dependência em tempo de execução do pacote \textit{rqt\_mrta}. Para isso, é necessário adicionar ao arquivo \textit{package.xml} do pacote desejado a seguinte linha:
+            
+            \begin{lstlisting}
+                <run_depend>rqt_mrta</run_depend>
+            \end{lstlisting}
+            
+            A segunda alteração necessária exportará a localização do arquivo de configuração dentro do pacote em questão. Para isso, deve-se adicionar a seguinte linha dentro do escopo da \textit{tag export} do arquivo \textit{package.xml}:
+            
+            \begin{lstlisting}
+                <rqt_mrta architecture="${prefix}/rqt_mrta.xml"/>
+            \end{lstlisting}
+            
+            Note que, neste caso, deve ser requisitado o atributo \textit{architecture}.
+            
+            Dessa forma, o arquivo manifesto do pacote (\textit{package.xml}) deve conter, obrigatoriamente, as linhas abaixo. Deve-se respeitar a hierarquia das \textit{tags}.
+            
+            \begin{lstlisting}
+                <package>
+                    ...
+                    <run_depend>rqt_mrta</run_depend>
+                    ...
+                    <export>
+                        ...
+                        <rqt_mrta architecture="${prefix}/plugin.xml"/>
+                        ...
+                    </export>
+                    ...
+                </package>
+            \end{lstlisting}
+            
+            O Apêndice \ref{app:arch_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser uma arquitetura MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{architecture}.
         
-        \begin{itemize}
-            \item classificar a arquitetura segundo a taxonomia sugerida por \citeonline{ref:gerkey2004taxonomy};
-            \item identificar os parâmetros necessários para sua configuração inicial;
-            \item identificar os nós que
-            \item associar os arquivos de parâmetro
-        \end{itemize}
+        \subsection{Arquivo de configuração de aplicação} \label{subset:app_config}
         
-        auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô. 
+            Da mesma forma, é desejável que o \textit{plugin rqt\_mrta} tenha visibilidade dos pacotes que contêm os dados e as configurações de um problema MRTA. Novamente, são necessárias algumas alterações no arquivo \textit{package.xml} do pacote desejado, semelhante àquelas realizadas para um pacote que implementa uma arquitetura MRTA. Entretanto, a única diferença está no nome do atributo da \textit{tag} de exportação do \textit{rqt\_mrta}, a qual passa a ser \textit{application} ao invés de \textit{architecture}, conforme visto abaixo.
+            
+            \begin{lstlisting}
+                <package>
+                    ...
+                    <run_depend>rqt_mrta</run_depend>
+                    ...
+                    <export>
+                        ...
+                        <rqt_mrta application="${prefix}/plugin.xml"/>
+                        ...
+                    </export>
+                    ...
+                </package>
+            \end{lstlisting}
+            
+            O Apêndice \ref{app:app_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser um problema MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{application}.
+            
         
-        \subsection{Arquivo de configuração de aplicação}
+        \subsection{Modelo}  \label{subset:model}
         
-        \subsection{Modelo}
-        
-        MVC (\textit{Model-View-Control}
+            MVC (\textit{Model-View-Control}
+            
+            É mostrado na Figura \ref{fig:rqt_mrta_uml} o diagrama UML (\textit{Unified Modeling Language}) que relaciona as classes do modelo utilizado na camada de controle do \textit{rqt\_mrta}.
+            
+            \begin{figure}[htb]
+                \centering
+                \includegraphics[width=\textwidth]{Figuras/3_desenvolvimento/rqt_mrta_uml.eps}
+                \caption{Diagrama de classes do modelo utilizado.} \label{fig:rqt_mrta_uml}
+            \end{figure}
     
         
         

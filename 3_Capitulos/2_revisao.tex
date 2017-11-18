@@ -1,22 +1,38 @@
 \chapter[Revisão teórica]{Revisão teórica} \label{cap:revisao}
+    Primeiramente, é apresentado neste capítulo a Seção \ref{sec:mrs} que mostra as vantagens e as características de um sistema multirrobô. Em segundo lugar, na Seção \ref{sec:mrta}, é definido o problema de alocação de tarefa em sistema multirrobô, revisando a taxonomia de três eixos independente do domínio e os tipos de arquiteturas que visam resolver este problema. Enfim, a Seção \ref{sec:ros} trata das contribuições do ROS para a comunidade de pesquisa em robótica, dos seus conceitos básicos e do desenvolvimento de interfaces gráficas integradas com o ROS.
     
     \section{Sistema Multirrobô} \label{sec:mrs}
+        \citeonline{ref:yan2013survey} apontam diversas vantagens que um sistema multirrobô (MRS, \textit{Multi-Robot System}) possui perante um sistema com apenas um robô:
         
-        \subsection{Sistema: cooperativo \textit{versus} competitivo}
+        \begin{itemize}
+            \item possui melhor distribuição espacial;
+            \item alcança um melhor desempenho geral do sistema;
+            \item adiciona robustez ao sistema através da fusão de dados e troca de informações entre os robôs;
+            \item pode ter custos menores: usando um número de robôs simples pode ser mais fácil para programar e mais barato para construir do que usando um único robô poderoso que é complexo e caro para realizar um tarefa;
+            \item além de exibir maior confiabilidade, flexibilidade, escalabilidade e versatilidade.
+        \end{itemize}
+        
+        A seguir, será mostrado as características que um sistema multirrobô apresenta.
         
         \subsection{Composição: homogêneo \textit{versus} heterogêneo}
+            Um sistema multirrobô pode ser formado por um conjunto de robôs homogêneos ou heterogêneos. As capacidades individuais dos robô em um sistema homogêneo sejam idênticas, mesmo que suas estruturas físicas não são iguais. Já em um time de robôs heterogêneos, as capacidades dos robôs são diferentes, caso em que os robôs podem se especializar na realização de algumas tarefas. %Geralmente, sistemas heterogêneos são mais complexos que os homogêneos pelo fato do planejamento de tarefas ser mais difícil.
+        
+        \subsection{Cooperação: cooperativo \textit{versus} competitivo}
+            Os robôs do sistema podem responder a estímulos externos cooperativamente ou competitivamente. Quando há cooperação entre os robôs, eles se interagem conjuntamente de modo à completar uma tarefa para o aumento da utilidade total do sistema. Por outro lado, em um sistema competitivo, cada robô visa aumentar a própria utilidade, não importando com os demais robôs do sistema.
         
         \subsection{Coordenação: deliberativa \textit{versus} reativa}
+            Um sistema de vários robôs necessita coordenação, a qual pode ser de dois tipos: (1) deliberativa, também conhecida como estática ou \textit{offline}; e (2) reativa, também conhecida como dinâmica ou \textit{online}. Na coordenação deliberativa, é adotado um conjunto de regras antes do início da execução da tarefa. No entanto, a coordenação reativa ocorre durante a execução de uma tarefa e é geralmente baseada em análise e síntese de informação. \textbf{\color{red}Este último tipo pode ser emergente ou intencional.}
         
         \subsection{Comunicação: implícita \textit{versus} explícita}
+            A troca de informação em um sistema multirrobô é extremamente importante, pois ela permite a cooperação e coordenação entre seus robôs. Quando a comunicação do sistema é explícita, os robôs trocam mensagens intencionalmente na forma um-para-um (\textit{unicast}) ou todos-para-todos (\textit{broadcast}). Porém, quando sua comunicação é do tipo implícita, os robôs do sistema obtêm informação do ambiente e dos demais robôs através dos seus sensores. \textbf{\color{red}Este último tipo de ser ativo ou passivo.}
         
-        \subsection{Arquitetura: centralizada \textit{versus} distribuída}
+        \subsection{Organização: centralizada \textit{versus} distribuída}
+            Sistemas organizados em uma forma centralizada possuem um líder que observa todo o sistema como um todo e, a partir dessa observação, delega tarefas para os demais robôs. Assim, enquanto o líder toma decisões, os demais robôs agem conforme o seu comando. Em sistemas distribuídos, cada robô é capaz de tomar sua própria decisão autonomamente com respeito aos outros robôs. 
     
     \section{Alocação de Tarefa em Sistema Multirrobô} \label{sec:mrta}
-        Um dos problemas mais desafiadores em aplicações multirrobô leva o nome \textit{alocação de tarefa}, na língua inglesa, \textit{Multi-Robot Task Allocation}(MRTA). Problemas dessa natureza buscam como solução atribuir otimamente um conjunto de robôs para um conjunto de tarefas de maneira que o desempenho geral de um sistema sujeito a um conjunto de limitações seja otimizado.
+        Um dos problemas mais desafiadores em aplicações multirrobô leva o nome \textit{alocação de tarefa}, na língua inglesa, \textit{Multi-Robot Task Allocation} (MRTA). Problemas dessa natureza buscam como solução atribuir otimamente um conjunto de robôs para um conjunto de tarefas de maneira que o desempenho geral de um sistema sujeito a um conjunto de limitações seja otimizado.
         
-        \textcolor{red}{falar sobre o conteúdo desta seção}
-        
+        A seguir, é dada uma revisão formal do problema de alocação de tarefa em sistema multirrobô. Na sequência, é mostrado uma taxonomia para a classificação de problemas MRTA. E, finalmente, é apresentado o papel de uma arquitetura MRTA e também as principais abordagens existentes.
         
         \subsection{Definição Formal} \label{subsec:mrta_formal}
             \citeonline{ref:zlot2006auction} define o problema de alocação de tarefa em um sistema multirrobô conforme o seguinte problema de atribuição ótima (OAP - \textit{Optimal Assignment Problem}) estático.
@@ -53,14 +69,16 @@
             \subsection{Arquiteturas baseadas em Comportamento} \label{subsec:arch_comportamento}
             
                 \begin{itemize}
-                    \item \textbf{ALLIANCE}: \cite{ref:parker1998alliance};
-                    \item \textbf{L-ALLIANCE}: \cite{ref:parker1996lalliance};
+                    \item \textbf{ALLIANCE}: é uma arquitetura distribuída que aloca tarefas mediante os requerimentos da missão, das atividades dos outros robôs, as atuais condições do ambiente e o próprio estado interno do robô\cite{ref:parker1998alliance};
                     
+                    \item \textbf{L-ALLIANCE}: é uma variação da arquitetura ALLIANCE capaz de estimar e atualizar os parâmetros de controle das configurações de comportamento a partir de um conhecimento adquirido \cite{ref:parker1996lalliance};
+                    
+                    \item \textbf{BLE}: procura, entre os robôs disponíveis e as tarefas a serem alocadas, o par robô-tarefa $(i, j)$ que possui maior utilidade e aloca a tarefa $j$ para o robô $i$ até que exista robôs disponíveis \cite{ref:werger2000ble}.
                 \end{itemize}
             
             \subsection{Arquiteturas baseadas em Negociação} \label{subsec:arch_mercado}
                 Muitas arquiteturas baseadas em regras de negociação são variações do Protocolo de Rede de Contrato, do inglês \textit{Contract Net Protocol} (CNP), sugerido por \citeonline{ref:smith1980cnp}. Este mecanismo é utilizado para a atribuição de tarefas com controle distribuído por meio de um processo de negociação em sistemas multiagente. A Tabela \ref{tab:arquiteturas_cnp} mostra uma comparação realizada por \citeonline{ref:yan2013survey} de três abordagens clássicas do CNP. A primeira delas, abordagens baseada em regras de mercado, é composta por indivíduos competitivos cujo objetivo é se beneficiar maximizando o seu lucro e minimizando seus custos mesmo quando se trata de seus colegas de trabalho \cite{ref:zlot2006auction}.
-                Na sequência, abordagens baseadas em regras de leilão, uma excelente escolha para a alocação de recursos escassos \cite{ref:gerkey2002murdoch}. E, por fim, abordagens baseadas em regras de comércio, que são compostas por compradores e vendedores, cuja relação consiste em trocas: o comprador usa dinheiro para adquirir bens e serviços dos vendedores e os vendedores recebem o dinheiro para a entrega dos bens ou serviços \cite{ref:yan2011trade}.
+                Na sequência, abordagens baseadas em regras de leilão, uma excelente escolha para a alocação de recursos escassos \cite{ref:gerkey2002murdoch}. E, por fim, abordagens baseadas em regras de comércio, que são compostas por compradores e vendedores, cuja relação consiste em trocas: o comprador usa dinheiro para adquirir bens e serviços dos vendedores, enquanto os vendedores recebem o dinheiro para a entrega dos bens ou serviços \cite{ref:yan2011trade}.
                 
                 \begin{table}[hbt]
                     \setlength\extrarowheight{4pt}
@@ -86,8 +104,10 @@
                 Segue abaixo, exemplos de arquiteturas de alocação de tarefa em sistema multirrobô baseadas em modelos de negociação.
     
                 \begin{itemize}
-                    \item \textbf{M+}: foi a primeira variação do CNP para a alocação e realização de tarefas em sistemas multirrobô \cite{ref:botelho1999m+};
+                    \item \textbf{M+}: foi a primeira variação do CNP para a alocação e realização de tarefas em sistemas multirrobô. É composta por várias camadas, cada uma contendo um planejador e um supervisor. O planejador é responsável por gerar uma sequência de ações com o intuito de atingir um objetivo, enquanto o supervisor é responsável por executar e interagir com a próxima camada \cite{ref:botelho1999m+};
+                    
                     \item \textbf{FMS}: do inglês \textit{The Free Market System}, é uma abordagem baseada em regras de mercado \cite{ref:dias2000fms};
+                    
                     \item \textbf{Murdoch}: cada atribuição de tarefa é tratada como um processo de leilão, em que o robô vencedor é aquele que oferece o maior lance \cite{ref:gerkey2002murdoch};
                 \end{itemize}
                 
@@ -221,11 +241,14 @@
                     \end{tabular}
                 \end{table}
                 
+                A tabela \ref{tab:ros_nomes} mostra três exemplos de resolução de nomes de recurso de grafo no ROS, cada um nas três variações: relativa, global e privada. À esquerda da seta, encontra-se o nome do recurso e, à sua direita, encontra-se a resolução do seu nome. 
+                
                 Esses conceitos possuem extrema importância em sistemas multirrobô, principalmente naqueles cuja frota de robôs é homogênea. Neste último caso, a partir de replicação das configurações de um robô, todo o sistema pode ser iniciado, variando apenas o \textit{namespace} de cada robô do sistema.
             
             \subsubsection{Nome de Recursos de Pacote} \label{subsubsec:ros_nomes_pacotes}
+                O outro tipo de recurso no ROS é encontrado no nível de arquivos do sistema. Seus nomes facilitam a referência de arquivos e tipos de dados em disco. Eles são nomeados com o nome do pacote em que eles estão localizados seguido do seu nome. Por exemplo, o nome \textit{alliance\_msgs/Motivation} se refere ao tipo de mensagem \textit{Motivation} do pacote \textit{alliance\_msgs}.
             
-        \subsection{Interface Gráfica de Usuário do ROS}
+        \subsection{Interface Gráfica de Usuário do ROS} \label{subsec:ros_gui}
             Além de ferramentas disponíveis em terminal via comando de linha, o ROS também disponibiliza ferramentas gráficas cujas funcionalidades são controladas por um \textit{plugin}. Estes são desenvolvidos através do \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} que disponibiliza uma interface de programação de aplicação (do inglês, \textit{Application Programming Interface} - API) em C++ e Python para a criação de interface gráfica de usuário (GUI, acrônimo para \textit{Graphical User Interface}) integrada com o ROS. Por sua vez, esta API utiliza o Qt (lê-se \textit{cute}) como seu \textit{kit} de desenvolvimento de \textit{software} (SDK - \textit{Software Development Kit}). A Figura \ref{fig:ros_gui} foi extraida da página do metapacote \textit{rqt} e mostra a aplicação de vários \textit{plugins} que foram acoplados em uma mesma janela através do \textit{rqt\_gui}\footnote{\url{http://wiki.ros.org/rqt_gui}}.
             
             \begin{figure}[htb]

@@ -30,24 +30,23 @@
     }
     
     \section{\textit{rqt\_mrta}}
-        Esta interface gráfica tem por finalidade garantir que usuários de arquitetura MRTA configurem corretamente arquiteturas d
+        O trabalho de muitos desenvolvedores de arquiteturas de alocação de tarefa para sistemas de vários robôs podem passar \textbf{\color{red}desapercebido ou ser ignorado devido à falta de documentação ou difícil utilização ...} além de facilitar sua configuração para seus usuários. Pois, muitas vezes, a configuração delas pode deixar seu usuário confuso devido a imensidão de parâmetros existentes.
         
-        Este pacote 
+        Para isso, foi desenvolvido o pacote \textit{rqt\_mrta} que implementa uma aplicação gráfica para o auxílio na utilização de arquiteturas MRTA do ROS. Esta interface interage com dois tipos de usuários: desenvolvedores de arquiteturas MRTA e usuários de arquiteturas MRTA. Desenvolvedores de arquiteturas MRTA pode utilizar este \textit{software} para o registro e definição da arquitetura desenvolvida. Ao fazê-los, sua arquitetura estará disponível para o uso de usuários de arquitetura MRTA através do \textit{rqt\_mrta}. Por sua vez, os usuários de arquitetura MRTA podem utilizar o \textit{rqt\_mrta} para a definição do seu problema MRTA, para escolher uma arquitetura disponível para uso e também para a configuração da arquitetura escolhida conforme a definição do seu problema. Ao final desse procedimento, a aplicação salva os arquivos necessários para o uso da arquitetura escolhida em um novo pacote ROS.
         
-        Sabendo que \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} é um \textit{framework} que auxilia desenvolvedores de interface gráfica em Qt \cite{ref:yafei2012qt} para usuários (GUI) do ROS.
-        
-        Este pacote ROS fornece um \textit{plugin} de interface gráfica de usuário (GUI) escrito em C++ para o \textit{framework} \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} baseada em Qt\cite{ref:yafei2012qt}. escrito na linguagem de programação C++, desenvolvido a partir da \textit{framework} 
+        Esta interface gráfica utiliza a API em C++ do \textit{framework rqt} e pode ser utilizada como uma aplicação \textit{standalone} ou, então, como um \textit{plugin} que pode ser acoplado com outras ferramentas gráficas (vide Seção \ref{subsec:ros_gui}) do ROS em uma janela do \textit{rqt\_gui}.
         
         Para isso, existem dois arquivos de configuração, um para a configuração da arquitetura e outro para a configuração do problema. Ambos arquivos possuem a extensão XML (Extensible Markup Language). Ao serem carregados pela aplicação, esta se adapta para tratar o problema MRTA definido, utilizando a arquitetura escolhida. 
         
-        \subsection{Arquivo de configuração de arquitetura} \label{subset:arch_config}
+        \subsection{Arquivo de configuração de arquitetura} \label{subsec:arch_config}
             Seu propósito é:
             
             \begin{itemize}
                 \item classificar a arquitetura segundo a taxonomia sugerida por \citeonline{ref:gerkey2004taxonomy};
                 \item identificar os parâmetros necessários para sua configuração inicial;
-                \item identificar os nós que
-                \item associar os arquivos de parâmetro
+                \item identificar os nós necessários para seu funcionamento;
+                \item associar os arquivos de parâmetros com os nós;
+                \item identificar as ferramentas gráficas para a análise do desempenho da arquitetura em tempo de execução.
             \end{itemize}
             
             auxiliar os usuários de arquitetura de alocação de tarefa em sistema multirrobô.
@@ -88,7 +87,7 @@
             
             O Apêndice \ref{app:arch_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser uma arquitetura MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{architecture}.
         
-        \subsection{Arquivo de configuração de aplicação} \label{subset:app_config}
+        \subsection{Arquivo de configuração de aplicação} \label{subsec:app_config}
         
             Da mesma forma, é desejável que o \textit{plugin rqt\_mrta} tenha visibilidade dos pacotes que contêm os dados e as configurações de um problema MRTA. Novamente, são necessárias algumas alterações no arquivo \textit{package.xml} do pacote desejado, semelhante àquelas realizadas para um pacote que implementa uma arquitetura MRTA. Entretanto, a única diferença está no nome do atributo da \textit{tag} de exportação do \textit{rqt\_mrta}, a qual passa a ser \textit{application} ao invés de \textit{architecture}, conforme visto abaixo.
             
@@ -111,16 +110,45 @@
         
         \subsection{Modelo}  \label{subset:model}
         
-            MVC (\textit{Model-View-Control}
+            MVC (\textit{Model-View-Control})
             
-            É mostrado na Figura \ref{fig:rqt_mrta_uml} o diagrama UML (\textit{Unified Modeling Language}) que relaciona as classes do modelo utilizado na camada de controle do \textit{rqt\_mrta}.
+            É mostrado na Figura \ref{fig:rqt_mrta_uml} o diagrama UML (\textit{Unified Modeling Language}) que relaciona as classes do modelo utilizado na camada de modelagem do \textit{rqt\_mrta}. A seguir, serão detalhadas cada classe contida neste diagrama.
             
             \begin{figure}[htb]
                 \centering
                 \includegraphics[width=\textwidth]{Figuras/3_desenvolvimento/rqt_mrta_uml.eps}
                 \caption{Diagrama de classes do modelo utilizado.} \label{fig:rqt_mrta_uml}
             \end{figure}
+            
+            A relação entre as classes \textit{System}, \textit{Problem}, \textit{Robot}, \textit{Task}, \textit{Allocation} e \textit{Architecture} se baseia na definição do problema MRTA. Como o sistema possui vários robôs e um problema de alocação de tarefa para ser resolvido, um objeto do tipo \textit{System} é composto por vários objetos do tipo \textit{Robot} e também de uma instância de objeto da classe \textit{Problem}. A classe \textit{Problem} tem como responsabilidade relacionar cada tarefa a ser executada com um robô (caso o tipo das tarefas do sistema seja SR) ou um grupo de robôs (caso o tipo das tarefas do sistema sejam MR) através de uma alocação. Logo, um objeto do tipo \textit{Problem} é composto por vários objetos do tipo \textit{Task}, vários do tipo \textit{Allocation} e uma instância de \textit{Architecture}. A classe \textit{Architecture} apenas armazena a classe de problema que pode ser resolvido pela arquitetura MRTA escolhida. 
+            
+            As classes \textit{Robot}, \textit{Task} e \textit{Allocation} são muito parecidas. Elas mantêm uma identificação única para cada robô, tarefa e alocação identificados no sistema, respectivamente. Contudo, objetos da classe \textit{Allocation} têm uma instância de \textit{Task} e pode ter um ou vários objetos \textit{Robot}, dependendo do tipo das tarefas que a arquitetura MRTA escolhida resolve. Prosseguindo, cada uma dessas três classes ainda possuem um objeto do tipo \textit{History} que armazena \textit{logs} das alterações de estado, o qual é monitorado pelo objeto \textit{StateMonitor} que elas possuem. Objetos \textit{StateMonitor}, por sua vez, são compostos por vários objetos \textit{SampleHolder}, um para cada estado sendo monitorado. Esta classe funciona como se fosse um demultiplexador, direcionando o evento na sua entrada para a saída apropriada. Isto é, se o objeto \textit{StateMonitor} de um dado robô recebe a informação que ele se encontra no estado \textit{Busy} (ocupado), esse encaminha esta informação para o objeto \textit{SampleHolder} que mantém o histórico de notificações desse estado. Portanto, a classe \textit{SampleHolder} é responsável por identificar as rampas de subida e de descida de um dado estado do objeto em monitoramento. Este objeto leva em consideração um parâmetro (\textit{timeout}) que especifica o tempo máximo considerado para manter o dado estado em nível lógico alto.
+            
+            Voltando a classe \textit{System}, objetos desse tipo ainda são compostos por vários objetos do tipo \textit{Monitor} que pode ser especificado para os tipos \textit{RobotMonitor}, \textit{TaskMonitor} e \textit{AllocationMonitor}. Cada um tem a função de monitorar um campo específico de uma dada mensagem provida de um tópico específico, conforme os parâmetros do arquivo de configuração da arquitetura MRTA escolhida.  Como objeto \textit{Monitor} analisa um estado específico de um conjunto de entidades da mesma natureza. Por exemplo, objetos \textit{RobotMonitor} analisam um dado estado dos robôs do sistema; objetos do tipo \textit{TaskMonitor} analisam um estado específico para as tarefas do sistema; e, por fim, um estado específico das alocações do sistema é analisado em objetos do tipo \textit{AllocationMonitor}. Assim, de forma semelhante à classe \textit{StateMonitor}, as classes do tipo \textit{Monitor} têm um papel similar a um demultiplexador, entregando a notificação recebida ao objeto \textit{StateMonitor} apropriado. \textcolor{red}{posso dar um exemplo aki depois}
+            
+            %É através da classe \textit{System} que todas as demais classes do modelo são carregadas com as informações importadas dos arquivos de configuração de arquitetura e de aplicação. 
+            
+            
+            %informação através do padrão de projeto cadeia de responsabilidade. Ou seja, a partir dos arquivos de configuração de arquitetura e de aplicação carregados através da camada de controle do padrão da arquitetura desse \textit{software}, são criadas novas instâncias de objetos do tipo \textit{Robot} e são encaminhadas para o objeto \textit{Problem}
+            
+            \subsection{Interfaces Gráficas de Usuário} \label{subsec:rqt_mrta_interfaces}
+            
+            As Figuras \ref{fig:opening_arch} e \ref{fig:opening_app} mostram, respectivamente, as janelas para a seleção de uma arquitetura e de uma aplicação para o carregamento do seu arquivo de configuração. Ao invés dos usuários navegarem pelos diretórios do sistema operacional procurando o arquivo desejado, são listados para ele os pacotes que foram devidamente configurados, conforme descrito nas Seções \ref{subsec:arch_config} e \ref{subsec:app_config}.
+            
+            \begin{figure}[htb]
+            \centering
+            \subfloat[de uma arquitetura.]{
+                \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/opening_arch.png}
+                \label{fig:opening_arch}
+            }
+            \subfloat[de uma aplicação.]{
+                \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/opening_app.png}
+                \label{fig:opening_app}
+            }
+            \caption{Carregando um arquivo de configuração} \label{fig:opening_config}
+        \end{figure}
     
+            
         
         
         

@@ -34,7 +34,7 @@
         
         A seguir, é dada uma revisão formal do problema de alocação de tarefa em sistema multirrobô. Na sequência, é mostrado uma taxonomia para a classificação de problemas MRTA. E, finalmente, é apresentado o papel de uma arquitetura MRTA e também as principais abordagens existentes.
         
-        \subsection{Definição Formal} \label{subsec:mrta_formal}
+        \subsection{Definição formal} \label{subsec:mrta_formal}
             \citeonline{ref:zlot2006auction} define o problema de alocação de tarefa em um sistema multirrobô conforme o seguinte problema de atribuição ótima (OAP - \textit{Optimal Assignment Problem}) estático.
             
             \begin{definicao} \label{def:mrta}
@@ -61,12 +61,12 @@
             
             É visto na Figura \ref{fig:taxomia_mrta} uma representação gráfica da taxonomia de \citeonline{ref:gerkey2004taxonomy} para a classificação de problemas MRTA (\textit{Multi-Robot Task Allocation}), onde pode-se notar que existem oito classes de problemas MRTA bem definidos.
             
-        \subsubsection{Arquitetura MRTA} \label{subsec:arquiteturas_mrta}
+        \subsection{Arquitetura MRTA} \label{subsec:arquiteturas_mrta}
             Possue a função de solucionar o problema de alocação de tarefas em um dado sistema multirrobô.
             
-            Basicamente existem duas formas de implementação de uma arquitetura: iterativa e instantânea. As aproximações iterativas apresentam uma dinâmica progressiva para que ocorra um alocação, enquanto as arquiteturas que esperam uma resposta instantânea dos robôs do sistema ...
+            Basicamente existem duas variantes para a atribuição de tarefas: iterativa e instantânea. As abordagens iterativas apresentam uma dinâmica progressiva mediante ao estado do sistema para que ocorra uma alocação. Nesse caso, as tarefas existentes são conhecidas \textit{a priori}. Por outro lado, a atribuição de tarefas instantânea acontece em sistemas em que o conjunto de tarefas não é revelado de uma só vez, mas as tarefas são introduzidas uma a uma \cite{ref:gerkey2004taxonomy}.
         
-            \subsection{Arquiteturas baseadas em Comportamento} \label{subsec:arch_comportamento}
+            \subsubsection{Arquiteturas baseadas em comportamento} \label{subsec:arch_comportamento}
             
                 \begin{itemize}
                     \item \textbf{ALLIANCE}: é uma arquitetura distribuída que aloca tarefas mediante os requerimentos da missão, das atividades dos outros robôs, as atuais condições do ambiente e o próprio estado interno do robô\cite{ref:parker1998alliance};
@@ -76,7 +76,7 @@
                     \item \textbf{BLE}: procura, entre os robôs disponíveis e as tarefas a serem alocadas, o par robô-tarefa $(i, j)$ que possui maior utilidade e aloca a tarefa $j$ para o robô $i$ até que exista robôs disponíveis \cite{ref:werger2000ble}.
                 \end{itemize}
             
-            \subsection{Arquiteturas baseadas em Negociação} \label{subsec:arch_mercado}
+            \subsubsection{Arquiteturas baseadas em negociação} \label{subsec:arch_mercado}
                 Muitas arquiteturas baseadas em regras de negociação são variações do Protocolo de Rede de Contrato, do inglês \textit{Contract Net Protocol} (CNP), sugerido por \citeonline{ref:smith1980cnp}. Este mecanismo é utilizado para a atribuição de tarefas com controle distribuído por meio de um processo de negociação em sistemas multiagente. A Tabela \ref{tab:arquiteturas_cnp} mostra uma comparação realizada por \citeonline{ref:yan2013survey} de três abordagens clássicas do CNP. A primeira delas, abordagens baseada em regras de mercado, é composta por indivíduos competitivos cujo objetivo é se beneficiar maximizando o seu lucro e minimizando seus custos mesmo quando se trata de seus colegas de trabalho \cite{ref:zlot2006auction}.
                 Na sequência, abordagens baseadas em regras de leilão, uma excelente escolha para a alocação de recursos escassos \cite{ref:gerkey2002murdoch}. E, por fim, abordagens baseadas em regras de comércio, que são compostas por compradores e vendedores, cuja relação consiste em trocas: o comprador usa dinheiro para adquirir bens e serviços dos vendedores, enquanto os vendedores recebem o dinheiro para a entrega dos bens ou serviços \cite{ref:yan2011trade}.
                 
@@ -124,11 +124,11 @@
         
         Esta seção apresenta conceitos básicos para entender o funcionamento desta \textit{framework}. Em seguida, são expostas as regras de nomenclatura dos recursos do ROS. E, então, é brevemente dado suporte sobre a construção de aplicações gráficas integradas com o ROS.
         
-        \subsection{Conceitos Básicos} \label{subsec:ros_conceitos}
-            Sua concepção foi fundada sobre conceitos divididos em três níveis: (1) Sistema de Arquivos do ROS, (2) Grafo de Computação do ROS e (3) Comunidade do ROS. A seguir será explicado cada um desses níveis, cada um com seu respectivo conjunto de conceitos. Além disso, também serão detalhados os dois tipos de nomes definidos no ROS: nomes de recursos de pacote e nomes de recursos de grafo.
+        \subsection{Conceitos básicos} \label{subsec:ros_conceitos}
+            Sua concepção foi fundada sobre conceitos divididos em três níveis: (1) sistema de arquivos do ROS, (2) grafo de computação do ROS e (3) comunidade do ROS. A seguir será explicado cada um desses níveis, cada um com seu respectivo conjunto de conceitos. Além disso, também serão detalhados os dois tipos de nomes definidos no ROS: nomes de recursos de pacote e nomes de recursos de grafo.
             
-            \subsubsection{Sistema de Arquivos do ROS} \label{subsubsec:ros_arquivos}
-                Os conceitos envolvidos no nível do \textit{Sistema de Arquivos do ROS} se referem aos arquivos armazenados em disco. São eles:
+            \subsubsection{Sistema de arquivos do ROS} \label{subsubsec:ros_arquivos}
+                Os conceitos envolvidos no nível do \textit{sistema de arquivos do ROS} se referem aos arquivos armazenados em disco. São eles:
                 
                 \begin{itemize}
                     \item \textbf{Pacotes}: em inglês \textit{Packages}, é uma forma atômica de organização de criação e lançamento de \textit{software} no ROS. Um pacote contém definições de processos (nós), de dependência de bibliotecas, de tipos de mensagens, ações e serviços, de estruturas de dados e, por fim, de configuração. 
@@ -142,8 +142,8 @@
                     \item \textbf{Tipos de Serviço}: em inglês \textit{Service Types}, arquivos de extensão \textit{.srv}, localizados dentro da pasta \textit{srv} de um dado pacote. Seu conteúdo define a estrutura de dados das mensagens de requisito e resposta de um serviço, as quais poderão ser enviadas pelo ROS.
                 \end{itemize}
             
-            \subsubsection{Grafo de Computação do ROS} \label{subsubsec:ros_grafo}
-                O \textit{Grafo de Computação do ROS} é uma rede ponto-a-ponto de processos que processam dados conjuntamente. Os conceitos presentes neste nível são:
+            \subsubsection{Grafo de computação do ROS} \label{subsubsec:ros_grafo}
+                O \textit{grafo de computação do ROS} é uma rede ponto-a-ponto de processos que processam dados conjuntamente. Os conceitos presentes neste nível são:
                 
                 \begin{itemize}
                     \item \textbf{Nós}: em inglês \textit{Nodes}, são processos computacionais que são executados para desempenhar o controle de atuadores, realizar leitura e filtragem de sinais sensoriais ou implementar algoritmos avançados de planejamento e tomada de decisão. É desejável que os nós sejam desenvolvidos da forma mais genérica possível, para sua reutilização em outros projetos. Cada linguagem de programação suportada encapsula as funcionalidades do ROS em uma biblioteca. Para a escrita de um nó na linguagem C++, é utilizada a biblioteca do pacote \textit{roscpp}\footnote{\url{http://wiki.ros.org/roscpp}} e, para escrever um nó em Python, é utilizada a biblioteca contida no pacote \textit{rospy}\footnote{\url{http://wiki.ros.org/rospy}};
@@ -177,7 +177,7 @@
                 Vale salientar que muitas mensagens e serviços já foram padronizadas em pacotes do ROS\footnote{\url{http://wiki.ros.org/common_msgs}}.
             
             \subsubsection{Comunidade do ROS} \label{subsubsec:ros_comunidade}
-                De modo que comunidades separadas possam trocar código fonte e conhecimento, vários recursos foram criados na \textit{Comunidade do ROS}. Tais como:
+                De modo que comunidades separadas possam trocar código fonte e conhecimento, vários recursos foram criados na \textit{comunidade do ROS}. Tais como:
                 
                 \begin{itemize}
                     \item \textbf{Distribuições}: agrupa coleções de pacotes versionados para facilitar a instalação do ROS. Além disso, é mantido uma versão consistente de cada conjunto de pacotes relacionados.
@@ -193,7 +193,7 @@
                     \item \textbf{Blog\footnote{\url{http://www.ros.org/news/}}}: providencia notícias regularmente com fotos e vídeos.
                 \end{itemize}
             
-            \subsubsection{Nome de Recurso de Grafo} \label{subsubsec:ros_nomes_grafo}
+            \subsubsection{Nome de recurso de grafo} \label{subsubsec:ros_nomes_grafo}
             
                 Os recursos de grafo presentes no ROS são: nós, parâmetros, tópicos e serviços. Com o uso adequado da sintaxe de nomes, é possível obter encapsulamento desses recursos através do mecanismo que os nomeia, pois ele gera uma estrutura hierárquica de nomes. Em outras palavras, cada recurso no ROS possui um \textit{namespace} que pode ser compartilhado com vários outros recursos. Normalmente, recursos podem criar outros recursos dentro do seu próprio \textit{namespace} e acessar recursos que estão dentro ou acima dele. Contudo, recursos em camadas inferiores podem ser acessados através da integração de código em \textit{namespaces} superiores. Abaixo, seguem exemplos de nomes de recurso no ROS.
                 
@@ -245,10 +245,10 @@
                 
                 Esses conceitos possuem extrema importância em sistemas multirrobô, principalmente naqueles cuja frota de robôs é homogênea. Neste último caso, a partir de replicação das configurações de um robô, todo o sistema pode ser iniciado, variando apenas o \textit{namespace} de cada robô do sistema.
             
-            \subsubsection{Nome de Recursos de Pacote} \label{subsubsec:ros_nomes_pacotes}
+            \subsubsection{Nome de recurso de pacote} \label{subsubsec:ros_nomes_pacotes}
                 O outro tipo de recurso no ROS é encontrado no nível de arquivos do sistema. Seus nomes facilitam a referência de arquivos e tipos de dados em disco. Eles são nomeados com o nome do pacote em que eles estão localizados seguido do seu nome. Por exemplo, o nome \textit{alliance\_msgs/Motivation} se refere ao tipo de mensagem \textit{Motivation} do pacote \textit{alliance\_msgs}.
             
-        \subsection{Interface Gráfica de Usuário do ROS} \label{subsec:ros_gui}
+        \subsection{Interface gráfica de usuário do ROS} \label{subsec:ros_gui}
             Além de ferramentas disponíveis em terminal via comando de linha, o ROS também disponibiliza ferramentas gráficas cujas funcionalidades são controladas por um \textit{plugin}. Estes são desenvolvidos através do \textit{rqt}\footnote{\url{http://wiki.ros.org/rqt}} que disponibiliza uma interface de programação de aplicação (do inglês, \textit{Application Programming Interface} - API) em C++ e Python para a criação de interface gráfica de usuário (GUI, acrônimo para \textit{Graphical User Interface}) integrada com o ROS. Por sua vez, esta API utiliza o Qt (lê-se \textit{cute}) como seu \textit{kit} de desenvolvimento de \textit{software} (SDK - \textit{Software Development Kit}). A Figura \ref{fig:ros_gui} foi extraida da página do metapacote \textit{rqt} e mostra a aplicação de vários \textit{plugins} que foram acoplados em uma mesma janela através do \textit{rqt\_gui}\footnote{\url{http://wiki.ros.org/rqt_gui}}.
             
             \begin{figure}[htb]
@@ -278,3 +278,5 @@
         
     \section{Trabalhos Relacionados} \label{sec:trabalhos_relacionados}
         \citeonline{ref:reis2015alliance} elaborou uma aproximação da arquitetura Alliance dedicada para uma aplicação de patrulhamento
+        
+        A fim de enfrentar os dois grandes desafios na criação de \textit{software} para sistema multirrobô: cooperação distribuída entre robôs e reusabilidade de aplicações em robótica, \citeonline{ref:li2016alliance} desenvolveram uma arquitetura tolerante à falhas para a cooperação em sistema multirrobô: ALLIANCE-ROS \footnote{\url{http://wiki.ros.org/micros_mars_task_alloc}}. Foram encapsulados os mecanismos do ROS e bibliotecas em Python para a criação das funções básicas da arquitetura ALLIANCE \cite{ref:parker1998alliance}. Deste modo, foram combinadas as vantagens da arquitetura ALLIANCE e do \textit{framework} ROS, pois forneceram os seguintes benefícios para os seus usuários: \textit{templates} para a descrição de comportamento e coordenação, métodos tolerantes à falhas para a alocação de tarefas em sistema multirrobô, vários módulos para o ROS e uma interface para programação em Python.

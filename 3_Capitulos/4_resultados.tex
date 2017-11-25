@@ -1,1 +1,54 @@
 \chapter[Experimentos e Resultados]{Experimentos e Resultados} \label{cap:resultados}
+
+    \section{\textit{alliance}} \label{sec:alliance}
+    
+    
+        \begin{figure}[htb]
+            \centering
+            \resizebox{0.95\textwidth}{!}{\input{Figuras/4_resultados/rosgraph_3robots}}
+            \caption{Grafo do ALLIANCE no ROS para três robôs.} \label{fig:rosgraph_alliance}
+        \end{figure}
+        
+        \begin{figure}[htb]
+                \centering
+                \subfloat[Dados gerais da aplicação.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_app.png}
+                    \label{fig:patrulha_def_app}
+                }
+                \subfloat[Escolha da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_arch.png}
+                    \label{fig:patrulha_def_arch}
+                }
+                \subfloat[Definição dos robôs do sistema.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_robots.png}
+                    \label{fig:patrulha_def_robots}
+                }
+                
+                \subfloat[Parametrização da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_params.png}
+                    \label{fig:patrulha_def_params}
+                }
+                \subfloat[Sumário.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_summary.png}
+                    \label{fig:patrulha_summary}
+                }
+                \caption{\textit{Wizard} para a criação de uma aplicação \textit{patrulha}.} \label{fig:patrulha_new_app}
+            \end{figure}
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Pacote.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg.png}
+                    \label{fig:patrulha_pkg}
+                }
+                \subfloat[Arquivos de parâmetro.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_config.png}
+                    \label{fig:patrulha_pkg_config}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_launch.png}
+                    \label{fig:patrulha_pkg_launch}
+                }
+                \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha}
+            \end{figure}

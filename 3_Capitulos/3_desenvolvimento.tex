@@ -35,15 +35,15 @@
     }
     
     \section{\textit{rqt\_mrta}}
-        Esta interface interage com dois tipos de usuários: desenvolvedores de arquiteturas MRTA e usuários de arquiteturas MRTA. Desenvolvedores de arquiteturas MRTA podem utilizar este \textit{software} para o registro e definição da arquitetura desenvolvida. Ao fazê-los, sua arquitetura estará disponível para o uso de usuários de arquitetura MRTA através do \textit{rqt\_mrta}. Por sua vez, os usuários de arquitetura MRTA podem utilizar o \textit{rqt\_mrta} para a definição do seu problema MRTA, para escolher uma arquitetura disponível para uso e também para a configuração da arquitetura escolhida conforme a definição do seu problema. Ao final desse procedimento, a aplicação salva os arquivos necessários para o uso da arquitetura escolhida em um novo pacote ROS.
+        O pacote desenvolvido atende dois tipos de usuários: desenvolvedores de arquiteturas MRTA e usuários de arquiteturas MRTA. Desenvolvedores de arquiteturas MRTA podem utilizar este \textit{software} para o registro e definição da arquitetura desenvolvida. Ao fazê-los, sua arquitetura estará disponível para o uso de usuários de arquitetura MRTA através do \textit{rqt\_mrta}. Por sua vez, os usuários de arquitetura MRTA podem utilizar o \textit{rqt\_mrta} para a definição do seu problema MRTA, para escolher uma arquitetura disponível para uso e também para a configuração da arquitetura escolhida conforme a definição do seu problema. Ao final desse procedimento, a aplicação salva os arquivos necessários para o uso da arquitetura escolhida em um novo pacote ROS.
         
         Para isso, existem dois arquivos de configuração, um para a configuração da arquitetura e outro para a configuração do problema. Ambos arquivos possuem a extensão XML (Extensible Markup Language). Ao serem carregados pela aplicação, esta se adapta para tratar o problema MRTA definido, utilizando a arquitetura escolhida. 
         
-        Esta interface gráfica utiliza a API em C++ do \textit{framework rqt} e pode ser utilizada como uma aplicação \textit{standalone} ou, então, como um \textit{plugin} que pode ser acoplado em uma janela do \textit{rqt\_gui} juntamente com outras ferramentas gráficas (vide Seção \ref{subsec:ros_gui}) do ROS.
+        Esse pacote está em conformidade com a convenção\footnote{\url{http://wiki.ros.org/ROS/Patterns/Conventions}} de nomes de pacote do ROS. O nome de pacotes que proveem ferramentas GUI baseada em Qt para o ROS deve ter o prefixo ``\textit{rqt\_}''. Esta interface gráfica utiliza a API em C++ do \textit{framework rqt} e pode ser utilizada como uma aplicação \textit{standalone}\footnote{Tipo de programa que não precisa de \textit{software} auxiliar para a sua execução.} ou, então, como um \textit{plugin} que pode ser acoplado em uma janela do \textit{rqt\_gui}\footnote{\url{http://wiki.ros.org/rqt_gui}} juntamente com outras ferramentas gráficas (vide Seção \ref{subsec:ros_gui}) do ROS.
         
-        Este projeto foi concebido utilizando o padrão arquitetural MVC (\textit{Model-View-Controller}), sendo assim dividido em três camadas: apresentação (\textit{view}), regra de negócio (\textit{controller}) e dados (\textit{model}).
+        Este projeto foi concebido utilizando o padrão arquitetural MVC (\textit{Model-View-Controller}), sendo assim dividido em três camadas: dados (\textit{model}), apresentação (\textit{view}) e regra de negócio (\textit{controller}).
         
-        A seguir serão detalhados os arquivos de configuração de arquitetura e aplicação, bem como, as camadas do modelo, de controle e de visualização.
+        A seguir serão detalhados os arquivos de configuração de arquitetura e aplicação, bem como, as camadas do modelo, de visualização e controle.
         
         \subsection{Arquivo de configuração de arquitetura} \label{subsec:arch_config}
             Seu propósito é:
@@ -58,7 +58,7 @@
             
             Esse arquivo de extensão XML conta com quatro \textit{tags} principais: \textit{architecture}, \textit{configs}, \textit{launches} e \textit{widgets}. 
             
-            A \textit{tag architecure} agrupa informações relevantes sobre a arquitetura, como seu nome e dados dos robôs, tarefas e alocações. Sua \textit{tag robots} agrupa informações sobre o tipo dos robôs do problema MRTA que ela resolve e detalha os tópicos, mensagens e campos que devem ser monitorados para a verificação da alteração de estado dos robôs. A \textit{tag tasks}, por sua vez, traz dados sobre o tipo de tarefa que a arquitetura considera, bem como, informações sobre tópico, mensagem e campo que deve ser monitorado para a identificação de novas tarefas que surgem no sistema. A \textit{tag allocations} classifica o tipo de alocação tratada pela arquitetura, assim como, informa o tópico, a mensagem e o campo que deve ser analisado para a verificação de alteração de estado da alocação. Essas informações são úteis para ajudar o usuário a escolher uma arquitetura válida para o seu problema MRTA. Além disso, elas permitirão a identificação dos estados dos robôs, tarefas e alocações em tempo de execução.
+            A \textit{tag architecure} agrupa informações relevantes sobre a arquitetura, como seu nome e dados dos robôs, tarefas e alocações. A \textit{tag robots} agrupa informações sobre o tipo dos robôs do problema MRTA que ela resolve e detalha os tópicos, mensagens e campos que devem ser monitorados para a verificação da alteração de estado dos robôs. A \textit{tag tasks}, por sua vez, traz dados sobre o tipo de tarefa que a arquitetura considera, bem como, informações sobre tópico, mensagem e campo que deve ser monitorado para a identificação de novas tarefas que surgem no sistema. A \textit{tag allocations} classifica o tipo de alocação tratada pela arquitetura, assim como, informa o tópico, a mensagem e o campo que deve ser analisado para a verificação de alteração de estado da alocação. Essas informações são úteis para ajudar o usuário a escolher uma arquitetura válida para o seu problema MRTA. Além disso, elas permitirão a identificação dos estados dos robôs, tarefas e alocações em tempo de execução.
             
             A \textit{tag configs} reúne um grupo de \textit{templates} para a geração de arquivos de parâmetros que serão utilizados na inicialização dos nós da arquitetura. Esses arquivos de parâmetros possuem extensão YAML (\textit{YAML Ain't Markup Language}). Cada \textit{template} é definida dentro de uma \textit{tag config}, a qual possui um identificador que pode ser associado a um robô. Nessa situação, será pedido ao usuário durante a criação de um novo problema o preenchimento dos parâmetros para cada robô do sistema. Aqueles que não são associados aos robôs necessitam ser preenchidos apenas uma vez. Para criar um \textit{template} de um arquivo de parâmetros basicamente se faz uso de três \textit{tags}: \textit{params}, \textit{array} e \textit{param}. As duas primeiras são coleções de parâmetros, a única diferença entre elas é que \textit{array} define uma coleção de parâmetros que se repete num dado número de vezes. A \textit{tag param} define o nome, o valor, o tipo, a instrução e o valor padrão de um parâmetro.
             
@@ -84,7 +84,7 @@
                 <rqt_mrta architecture="${prefix}/rqt_mrta.xml"/>
             \end{lstlisting}
             
-            Note que, neste caso, deve ser requisitado o atributo \textit{architecture}.
+            Note que, neste caso, deve ser requisitado o atributo \textit{architecture}. Será visto adiante que este atributo tem outro nome quando se trata de arquivos de configuração de aplicação.
             
             Dessa forma, o arquivo manifesto do pacote (\textit{package.xml}) deve conter, obrigatoriamente, as linhas abaixo. Deve-se respeitar a hierarquia das \textit{tags}.
             
@@ -105,9 +105,9 @@
             O Apêndice \ref{app:arch_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser uma arquitetura MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{architecture}.
         
         \subsection{Arquivo de configuração de aplicação} \label{subsec:app_config}
-            Esses arquivos contêm dados sobre as escolhas realizadas durante a definição do problema MRTA. A \textit{tag application} agrupa metadados sobre o problema, como o nome da aplicação e o nome do pacote que implementa a arquitetura MRTA escolhida. Além disso, a \textit{tag robots} identifica a identificação dos robôs do sistema. Este arquivo também armazena os parâmetros adotados durante a criação do problema MRTA. Isso permite que os seus valores possam ser atualizados.
+            Esses arquivos contêm dados sobre as escolhas realizadas durante a definição do problema MRTA. A \textit{tag application} agrupa metadados sobre o problema, como o nome da aplicação e o nome do pacote que implementa a arquitetura MRTA escolhida. Além disso, a \textit{tag robots} identifica os robôs do sistema. Este arquivo também armazena os parâmetros adotados durante a criação do problema MRTA. Isso permite que os seus valores possam ser atualizados. Por fim, este arquivo também guarda a estrutura dos arquivos de inicialização do ROS que foram gerados após sua criação. As mesmas \textit{tags configs} e \textit{launches} descritas em \ref{subsec:arch_config} estão presentes neste tipo de arquivo também.
         
-            Da mesma forma, é desejável que o \textit{plugin rqt\_mrta} tenha visibilidade dos pacotes que contêm os dados e as configurações de um problema MRTA. Novamente, são necessárias algumas alterações no arquivo \textit{package.xml} do pacote desejado, semelhante àquelas realizadas para um pacote que implementa uma arquitetura MRTA. Entretanto, a única diferença está no nome do atributo da \textit{tag} de exportação do \textit{rqt\_mrta}, a qual passa a ser \textit{application} ao invés de \textit{architecture}, conforme visto abaixo.
+            Semelhante às configurações de arquitetura, é desejável que o \textit{plugin rqt\_mrta} tenha visibilidade dos pacotes que contêm os dados e as configurações de um problema MRTA. Novamente, são necessárias algumas alterações no arquivo \textit{package.xml} do pacote desejado, semelhante àquelas realizadas para um pacote que implementa uma arquitetura MRTA. Entretanto, a única diferença está no nome do atributo da \textit{tag} de exportação do \textit{rqt\_mrta}, a qual passa a ser \textit{application} ao invés de \textit{architecture}, conforme visto abaixo.
             
             \begin{lstlisting}
                 <package>
@@ -125,14 +125,8 @@
             
             O Apêndice \ref{app:app_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser um problema MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{application}.
         
-        \subsection{Camada do modelo}  \label{subset:rqt_mrta_model}
-            
-            
-            O Qt \cite{ref:yafei2012qt} possui uma ferramenta chamada \textit{Qt Designer} que permitiu o desenvolvimento da camada de apresentação (\textit{view}) deste projeto. Esta ferramenta permite uma representação gráfica da disposição dos componentes Qt ao desenvolvedor para a customização de janelas (\textit{widgets}, \textit{dialogs} e \textit{wizards}). A partir dessas representações foram gerados arquivos de extensão UI (\textit{User Interface}) que armazenam a árvore de relação entre os componentes Qt no formato XML. Finalmente, em tempo de compilação, os arquivos UI são convertidos para classes codificadas em C++.
-            
-            A camada de dados armazena as configurações contidas nos arquivos de configuração de arquitetura e aplicação. Assim como, a estrutura destes arquivos é representada na forma de uma árvore, a camada do modelo possui duas árvores que relacionam as classes
-            
-            , conforme visto na Figura \ref{fig:rqt_mrta_model_uml}.
+        \subsection{Camada do modelo} \label{subset:rqt_mrta_model}
+            A camada de modelo facilita a importação e exportação dos dados dos arquivos de configuração detalhados em \ref{subsec:arch_config} e \ref{subsec:app_config}. Conforme mostra a Figura \ref{fig:rqt_mrta_model_uml}, a relação entre as classes do modelo se apresenta como um grafo, semelhantemente à estrutura dos arquivos de configuração de arquitetura e aplicação. Ao utilizar o padrão de projeto de \textit{software} cadeia de responsabilidade \cite{ref:gamma1993design} neste organização de classes, simplificou-se a geração dos arquivos de inicialização, de parâmetros, configuração de arquitetura e aplicação, assim como, a leitura desses dois últimos tipos de arquivo.
             
             \begin{figure}[p]
                 \centering
@@ -140,8 +134,79 @@
                 \caption{Diagrama de classes da camada do modelo.} \label{fig:rqt_mrta_model_uml}
             \end{figure}
             
-            %O \textit{modelo} define a regra de negócio do projeto e o visual A model is a set of data, and a view is a GUI component that can present a visual representation of the model to the user. If the model (data) cannot be changed by the user, having a model and a view is sufficient; but if the model can be modified, then we also need a controller, which is a means by which the user can modify the data shown in a view, and have their changes reflected back into the source data. 
             
+            
+        \subsection{Camada de visualização} \label{subsec:rqt_mrta_view}
+            O Qt \cite{ref:yafei2012qt} possui uma ferramenta chamada \textit{Qt Designer} que permitiu o desenvolvimento da camada de apresentação (\textit{view}) deste projeto, pois ela representa graficamente a disposição dos componentes Qt para a customização de janelas (\textit{widgets}, \textit{dialogs} e \textit{wizards}). A partir dessas representações foram gerados arquivos de extensão UI (\textit{User Interface}) que armazenam a árvore de relação entre os componentes Qt e formata os dados em XML. Finalmente, em tempo de compilação, os arquivos UI foram convertidos para classes codificadas em C++.
+            
+            A Figura \ref{fig:example_new_app} mostra as telas do \textit{wizard} para a criação de uma nova aplicação, onde são definidos os dados gerais da aplicação, é selecionado uma das arquiteturas registradas, são definidos os robôs do sistema, bem como, as tarefas que cada um é capaz de realizar. Em seguida, cada arquivo necessário para parametrizar a arquitetura escolhida é preenchido e, finalmente, é mostrado quais arquivos e pastas serão criados a partir das informações dadas.
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Dados gerais da aplicação.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/3_desenvolvimento/example_def_app.png}
+                    \label{fig:example_def_app}
+                }
+                \subfloat[Escolha da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/3_desenvolvimento/example_def_arch.png}
+                    \label{fig:example_def_arch}
+                }
+                \subfloat[Definição dos robôs do sistema.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/3_desenvolvimento/example_def_robots.png}
+                    \label{fig:example_def_robots}
+                }
+                
+                \subfloat[Parametrização da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/3_desenvolvimento/example_def_params.png}
+                    \label{fig:example_def_params}
+                }
+                \subfloat[Sumário.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/3_desenvolvimento/example_summary.png}
+                    \label{fig:example_summary}
+                }
+                \caption{\textit{Wizard} para a criação de uma nova aplicação.} \label{fig:example_new_app}
+            \end{figure}
+            
+            A primeira tela do \textit{wizard} de novas aplicações, mostrado na Figura \ref{fig:example_def_app}, coleta os dados gerais da aplicação. A partir desses dados, será criado um novo pacote ROS contendo os arquivos necessários para iniciar a arquitetura devidamente configurada para a aplicação. Caso o \textit{workspace} dado não seja um \textit{workspace} do ROS, o usuário é alertado de que será criado um novo \textit{workspace} no diretório especificado. Após o preenchimento de todos os dados obrigatórios, o usuário pode prosseguir para a próxima tela.
+            
+            Em seguida, pede-se para o usuário escolher uma arquitetura, conforme Figura \ref{fig:example_def_arch}. A escolha pode ser realizada com o auxílio de três filtros: pelo tipo dos robôs (ST \textit{versus} MT), pelo tipo das tarefas (SR \textit{versus} MR) e pelo tipo das alocações (IA \textit{versus} TA), conforme a taxonomia revisada na Seção \ref{subsec:taxonomia_mrta}.
+            
+            Após a seleção da arquitetura, pede-se para identificar os robôs do sistema. A interface para a entrada desses dados é mostrada na Figura \ref{fig:example_def_robots}. A partir dos robôs e da arquitetura selecionada, pede-se para o usuário preencher os arquivos de parâmetros para cada robô, conforme mostra a Figura \ref{fig:example_def_params}.
+            
+            Os campos que aparecem o símbolo asterisco (*), identificam para o usuário quais entradas devem ser preenchidas obrigatoriamente. O usuário fica impossibilitado de avançar para a próxima tela enquanto ele não tenha preenchido todas entradas obrigatórias. Isso garante que ao final do procedimento, a arquitetura estará devidamente configurada e será possível gerar o pacote da aplicação com sucesso.
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Pacote.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/example_pkg.png}
+                    \label{fig:example_pkg}
+                }
+                \subfloat[Arquivos de parâmetro.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/example_pkg_config.png}
+                    \label{fig:example_pkg_config}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/example_pkg_launch.png}
+                    \label{fig:example_pkg_launch}
+                }
+                \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:example}
+            \end{figure}
+            
+            As Figuras \ref{fig:opening_arch} e \ref{fig:opening_app} mostram, respectivamente, as janelas para a seleção de uma arquitetura e de uma aplicação para o carregamento do seu arquivo de configuração. Ao invés dos usuários navegarem pelos diretórios do sistema operacional procurando o arquivo desejado, são listados para ele os pacotes que foram devidamente configurados, conforme descrito nas Seções \ref{subsec:arch_config} e \ref{subsec:app_config}.
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[de uma arquitetura.]{
+                    \includegraphics[height=.1\textheight]{Figuras/3_desenvolvimento/opening_arch.png}
+                    \label{fig:opening_arch}
+                }
+                \subfloat[de uma aplicação.]{
+                    \includegraphics[height=.1\textheight]{Figuras/3_desenvolvimento/opening_app.png}
+                    \label{fig:opening_app}
+                }
+                \caption{Carregando um arquivo de configuração} \label{fig:opening_config}
+            \end{figure}
             
         \subsection{Camada de controle} \label{subset:rqt_mrta_controller}
             
@@ -158,192 +223,4 @@
             As classes \textit{Robot}, \textit{Task} e \textit{Allocation} são muito parecidas. Elas mantêm uma identificação única para cada robô, tarefa e alocação identificados no sistema, respectivamente. Contudo, objetos da classe \textit{Allocation} têm uma instância de \textit{Task} e pode ter um ou vários objetos \textit{Robot}, dependendo do tipo das tarefas que a arquitetura MRTA escolhida resolve. Prosseguindo, cada uma dessas três classes ainda possuem um objeto do tipo \textit{History} que armazena \textit{logs} das alterações de estado, o qual é monitorado pelo objeto \textit{StateMonitor} que elas possuem. Objetos \textit{StateMonitor}, por sua vez, são compostos por vários objetos \textit{SampleHolder}, um para cada estado sendo monitorado. Esta classe funciona como se fosse um demultiplexador, direcionando o evento na sua entrada para a saída apropriada. Isto é, se o objeto \textit{StateMonitor} de um dado robô recebe a informação que ele se encontra no estado \textit{Busy} (ocupado), esse encaminha esta informação para o objeto \textit{SampleHolder} que mantém o histórico de notificações desse estado. Portanto, a classe \textit{SampleHolder} é responsável por identificar as rampas de subida e de descida de um dado estado do objeto em monitoramento. Este objeto leva em consideração um parâmetro (\textit{timeout}) que especifica o tempo máximo considerado para manter o dado estado em nível lógico alto.
             
             Voltando a classe \textit{System}, objetos desse tipo ainda são compostos por vários objetos do tipo \textit{Monitor} que pode ser especificado para os tipos \textit{RobotMonitor}, \textit{TaskMonitor} e \textit{AllocationMonitor}. Cada um tem a função de monitorar um campo específico de uma dada mensagem provida de um tópico específico, conforme os parâmetros do arquivo de configuração da arquitetura MRTA escolhida.  Como objeto \textit{Monitor} analisa um estado específico de um conjunto de entidades da mesma natureza. Por exemplo, objetos \textit{RobotMonitor} analisam um dado estado dos robôs do sistema; objetos do tipo \textit{TaskMonitor} analisam um estado específico para as tarefas do sistema; e, por fim, um estado específico das alocações do sistema é analisado em objetos do tipo \textit{AllocationMonitor}. Assim, de forma semelhante à classe \textit{StateMonitor}, as classes do tipo \textit{Monitor} têm um papel similar a um demultiplexador, entregando a notificação recebida ao objeto \textit{StateMonitor} apropriado. Exemplificando, seja um objeto \textit{RobotMonitor} que observa o tópico \textit{/busy\_robots} onde os robôs do sistema publicam quais atividades eles estão desempenhando. Ao ser notificado da chegada de uma mensagem cujo o remetente é o robô \textit{robot1}, este monitor encaminhará uma notificação para o objeto \textit{StateMonitor} do \textit{robot1} dizendo que ele se encontra no estado \textit{Busy}. Por sua vez, o objeto \textit{StateMonitor} de \textit{robot1} direciona está notificação para o \textit{SampleHolder} que mantém o histórico do estado \textit{Busy} de \textit{robot1}. Finalmente, a cada rampa de subida ou descida de um dos seus estados, \textit{robot1} atualiza seu estado atual.
-            
-        \subsection{Camada de visualização} \label{subsec:rqt_mrta_view}
-            A Figura \ref{fig:new_app} mostra as telas do \textit{wizard} para a criação de uma nova aplicação, onde são definidos os dados gerais da aplicação, é selecionado uma das arquiteturas registradas, são definidos os robôs do sistema, bem como, as tarefas que cada um é capaz de realizar. Em seguida, cada arquivo necessário para parametrizar a arquitetura escolhida é preenchido e, finalmente, é mostrado quais arquivos e pastas serão criados a partir das informações dadas.
-            
-            \begin{figure}[htb]
-                \centering
-                \subfloat[Dados gerais da aplicação.]{
-                    \includegraphics[width=.3\textwidth]{Figuras/3_desenvolvimento/def_app.png}
-                    \label{fig:def_app}
-                }
-                \subfloat[Escolha da arquitetura.]{
-                    \includegraphics[width=.3\textwidth]{Figuras/3_desenvolvimento/def_arch.png}
-                    \label{fig:def_arch}
-                }
-                \subfloat[Definição dos robôs do sistema.]{
-                    \includegraphics[width=.3\textwidth]{Figuras/3_desenvolvimento/def_robots.png}
-                    \label{fig:def_robots}
-                }
-                \caption{\textit{Wizard} para a criação de uma nova aplicação.} \label{fig:new_app}
-            \end{figure}
-            
-            A primeira tela do \textit{wizard} de novas aplicações, mostrado na Figura \ref{fig:def_app}, coleta os dados gerais da aplicação. A partir desses dados, será criado um novo pacote ROS contendo os arquivos necessários para iniciar a arquitetura devidamente configurada para a aplicação. Caso o \textit{workspace} dado não seja um \textit{workspace} do ROS, o usuário é alertado de que será criado um novo \textit{workspace} no diretório especificado. Após o preenchimento de todos os dados obrigatórios, o usuário pode prosseguir para a próxima tela.
-            
-            Em seguida, pede-se para o usuário escolher uma arquitetura, conforme Figura \ref{fig:def_arch}. A escolha pode ser realizada com o auxílio de três filtros: pelo tipo dos robôs (ST \textit{versus} MT), pelo tipo das tarefas (SR \textit{versus} MR) e pelo tipo das alocações (IA \textit{versus} TA), conforme a taxonomia revisada na Seção \ref{subsec:taxonomia_mrta}.
-            
-            Após a seleção da arquitetura, pede-se para identificar os robôs do sistema. A interface para a entrada desses dados é mostrada na Figura \ref{fig:def_robots}. A partir dos robôs e da arquitetura selecionada, pede-se para o usuário preencher os arquivos de parâmetros para cada robô, conforme mostra a Figura \ref{fig:def_params}.
-            
-            As Figuras \ref{fig:opening_arch} e \ref{fig:opening_app} mostram, respectivamente, as janelas para a seleção de uma arquitetura e de uma aplicação para o carregamento do seu arquivo de configuração. Ao invés dos usuários navegarem pelos diretórios do sistema operacional procurando o arquivo desejado, são listados para ele os pacotes que foram devidamente configurados, conforme descrito nas Seções \ref{subsec:arch_config} e \ref{subsec:app_config}.
-            
-            \begin{figure}[htb]
-                \centering
-                \subfloat[de uma arquitetura.]{
-                    \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/opening_arch.png}
-                    \label{fig:opening_arch}
-                }
-                \subfloat[de uma aplicação.]{
-                    \includegraphics[width=.4\textwidth]{Figuras/3_desenvolvimento/opening_app.png}
-                    \label{fig:opening_app}
-                }
-                \caption{Carregando um arquivo de configuração} \label{fig:opening_config}
-            \end{figure}
         
-            
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    \section{\textit{alliance}} \label{sec:alliance}
-        
-        \subsection{ALLIANCE} \label{subsec:alliance}
-            Esta é uma arquitetura totalmente distribuída, tolerante à falhas, que visa atingir controle cooperativo e atender os requisitos de uma missão à ser desempenhada por um grupo de robôs heterogêneos \cite{ref:parker1998alliance}. Cada robô é modelado usando uma aproximação baseada em comportamentos. A partir do estado do ambiente e dos outros robôs cooperadores, uma configuração de comportamento é selecionada conforme sua respectiva função de realização de tarefa na camada de alto nível de abstração. Cada configuração de comportamento permite controlar os atuadores do robô em questão de um modo diferente.
-            
-            Sejam $R=\{r_1, r_2, \cdots, r_n\}$, o conjunto de $n$ robôs heterogêneos, e $A=\{a_1,a_2, \cdots,\allowbreak a_m\}$, o conjunto de $m$ sub-tarefas independentes que compõem uma dada missão. Na arquitetura ALLIANCE, cada robô $r_i$ possui um conjunto de $p$ configurações de comportamento, dado por $C_i=\{c_{i1}, c_{i2},\cdots, c_{ip}\}$. Cada configuração de comportamento fornece ao seu robô uma função de realização de tarefa em alto nível, conforme definido em \cite{ref:brooks1986robust}. Por fim, é possível saber qual tarefa em $A$ é executada por $r_i$ quando sua configuração de ativação $c_{ik}$ é ativa. Tal informação é obtida através da função $h_i(c_{ik})$, a qual pertence ao conjunto de $n$ funções $H : C_i \to A$, $H = \{h_1(c_{1k}),\allowbreak h_2(c_{2k}), \cdots, h_n(c_{nk})\}$.
-            
-            A ativação de uma dada configuração de comportamento $c_{ij}$ do robô $r_i$ para a execução da tarefa $h_i(c_{ij})$ em um dado instante, é dada pelo cálculo de motivação do seu comportamento motivacional. Por sua vez, cada comportamento motivacional possui um conjunto de módulos que têm a responsabilidade de monitorar alguma informação relevante sobre o sistema. A seguir, será detalhado o papel de cada uma desses módulos e suas contribuições para o cálculo de motivação.
-            
-            A primeira função, definida pela Equação \ref{eq:alliance_aplicavel}, tem como responsabilidade identificar quando a configuração de comportamento $c_{ij}$ é aplicável. Esta função lógica é implementada no módulo de \textit{feedback} sensorial, o qual observa constantemente as condições do ambiente por meio de sensores e, então, verifica se o sistema é favorecido se $c_{ij}$ estiver ativada.
-            
-            \begin{equation} \label{eq:alliance_aplicavel}
-                aplic\acute{a}vel_{ij}(t) =
-                \begin{cases}
-                    1, & \parbox[t]{.5\textwidth}{se o módulo de \textit{feedback} sensorial da configuração de comportamento $c_{ij}$ do robô $r_i$ indicar que esta configuração é aplicável mediante ao estado atual do ambiente no instante $t$;} \\
-                    0, & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            A Equação \ref{eq:alliance_inibida} mostra uma das funções lógicas que também compõe o cálculo para ativação de $c_{ij}$. Seu papel, neste cálculo, é garantir que o robô $r_i$ só tenha uma configuração de comportamento ativa por vez. Essa função é implementada pelo módulo de supressão, o qual observa a ativação das demais configurações de comportamento de $r_i$. 
-            
-            \begin{equation} \label{eq:alliance_inibida}
-                inibida_{ij}(t) =
-                \begin{cases}
-                    1, & \parbox[t]{.5\textwidth}{se outra configuração de comportamento $c_{ik}$ (com $k \neq j$) está ativa no robô $r_i$ no instante $t$;} \\
-                    0, & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            Cada configuração de comportamento $c_{ij}$ possui um módulo de comunicação que auxilia vários outros módulos de $c_{ij}$ por meio do monitoramento da comunicação entre os robôs do sistema. Este módulo mantém o histórico das atividades dos demais robôs do sistema no que diz respeito à execução da tarefa $h_i(c_{ij})$. Deste modo, os demais módulos de $c_{ij}$ podem consultar se os outros robôs estavam executando a tarefa $h_i(c_{ij})$ em um dado intervalo de tempo $[t_1; t_2]$, conforme mostra a Equação \ref{eq:alliance_recebida}. Existem dois parâmetros no ALLIANCE que influenciam diretamente no módulo de comunicação de cada comportamento motivacional. O primeiro parâmetro, $\rho_i$, define a frequência com que $r_i$ atualiza suas configurações de comportamento e publica seu estado atual, no que diz respeito à arquitetura. O segundo parâmetro, $\tau_i$, indica a duração de tempo máxima que o robô $r_i$ permite ficar sem receber mensagens do estado de qualquer outro robô do sistema. Quando esta duração é excedida para um dado robô $r_k$, o robô $r_i$ passa considerar que $r_k$ cessou sua atividade. A utilização deste parâmetro visa prever falhas de comunicação e de mal funcionamento.
-            
-            \begin{equation} \label{eq:alliance_recebida}
-                recebida_{ij}(k, t_1, t_2) =
-                \begin{cases}
-                    1, & \parbox[t]{.5\textwidth}{se o robô $r_i$ recebeu mensagem do robô $r_k$ referente à tarefa $h_i(c_{ij})$ dentro do intervalo de tempo $[t_1; t_2]$, em que $t_1 < t_2$;} \\
-                    0, & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            A próxima função tem a incumbência de reiniciar o cálculo para a ativação da configuração de comportamento $c_{ij}$. Essa função lógica é impulsionada apenas uma vez para cada robô que tenta executar a tarefa $h_i(c_{ij})$. Isto é, no instante em que acontece a primeira rampa de subida na Equação \ref{eq:alliance_recebida} para cada robô $r_k$, está função retorna um nível lógico alto. Essa condição evita que problemas de falhas persistentes não comprometam a completude da missão.
-            %
-            \begin{equation} \label{eq:alliance_reiniciada}
-                reiniciada_{ij}(t) = \exists x, (recebida_{ij}(x, t - dt, t) \land \lnot recebida_{ij}(x, 0, t - dt))
-            \end{equation}
-            %
-            onde $dt$ é o tempo decorrido desde a última verificação de comunicação.
-            
-            A Equação \ref{eq:alliance_ativa_intervalo} auxilia o módulo de aquiescência no cálculo de desistência para a desativação de $c_{ij}$. Baseando-se no histórico de ativação de $c_{ij}$, o módulo de comportamento motivacional disponibiliza essa função lógica que verifica se $c_{ij}$ ficou mantida ativa por um dado período de tempo até o instante desejado.
-            
-            \begin{equation} \label{eq:alliance_ativa_intervalo}
-                ativa_{ij}(\Delta t, t) =
-                \begin{cases}
-                    1, & \parbox[t]{.5\textwidth}{se a configuração de comportamento $c_{ij}$ do robô $r_i$ estiver ativa por mais de $\Delta t$ unidades de tempo no instante $t$;} \\
-                    0, & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            
-            O módulo de aquiescência monitora o tempo decorrido após a ativação da configuração de comportamento $c_{ij}$ do robô $r_i$ com o auxílio da Equação \ref{eq:alliance_ativa_intervalo}. São duas as suas preocupações: (1) verificar se $c_{ij}$ permaneceu ativa por mais tempo que o esperado e (2) verificar se o tempo decorrido após um outro robô $r_k$ ter iniciado a execução da tarefa $h_i(c_{ij})$, enquanto $c_{ij}$ estava ativa, tenha excedido o tempo configurado para $r_i$ passar sua vez para esse outro robô. A Equação \ref{eq:alliance_aquiescente} define as condições em que $r_i$ está aquiescente à desativação de $c_{ij}$.
-            %
-            \begin{equation} \label{eq:alliance_aquiescente}
-                \begin{aligned}
-                    aquiescente_{ij}(t) = \
-                    & (ativa_{ij}(\psi_{ij}(t), t) \land \exists x, recebida_{ij}(x, t - \tau_i, t)) \\
-                    & \lor ativa_{ij}(\lambda_{ij}(t), t)
-                \end{aligned}
-            \end{equation}
-            %
-            onde $\psi_{ij}(t)$ é a duração de tempo que $r_i$ deseja manter a configuração de comportamento $c_{ij}$ ativa antes de dar preferência para outro robô executar a tarefa $h_i(c_{ij})$; e $\lambda_{ij}(t)$ é a duração de tempo que $r_i$ deseja manter $c_{ij}$ ativa antes de desistir para possivelmente tentar outra configuração de comportamento.
-            
-            A impaciência de $r_i$ para a ativação de $c_{ij}$ cresce linearmente mediante a taxa de impaciência instantânea. Assim, o módulo de impaciência de $c_{ij}$ é responsável por identificar falhas de execução da tarefa $h_i(c_{ij})$ por outros robôs do sistema e quantificar a insatisfação de $r_i$ concernente à essa tarefa, conforme visto na Equação \ref{eq:alliance_impaciencia}. Para isso, três parâmetros são utilizados: (1) $\phi_{ij}(k, t)$, o qual estabelece o tempo máximo que $r_i$ permite a um outro robô $r_k$ executar a tarefa $h_i(c_{ij})$ antes dele próprio iniciar sua tentativa; (2) $\delta_{slow_{ij}}(k, t)$, que determina a taxa de impaciência do robô $r_i$ com respeito à configuração de comportamento $c_{ij}$ enquanto o robô $r_k$ está executando a tarefa correspondente à $c_{ij}$; e (3) $\delta_{fast_{ij}}(t)$, que determina a taxa de impaciência de $r_i$ com relação à $c_{ij}$ quando nenhum outro robô está executando a tarefa $h_i(c_{ij})$.
-            %
-            \begin{equation} \label{eq:alliance_impaciencia}
-                impaci\hat{e}ncia_{ij}(t) =
-                \begin{cases}
-                    \min\limits_{x}\delta_{slow_{ij}}(x, t), & \parbox[t]{.5\textwidth}{se $recebida_{ij}(x, t - \tau_i, t) \land \lnot recebida_{ij}(x, 0, t - \phi_{ij}(x, t)$;} \\
-                    \delta_{fast_{ij}}(t), & \text{caso contrário.}
-                \end{cases}
-            \end{equation}
-            %
-            Note que o método usado incrementa a motivação à uma taxa que permita que o robô mais lento $r_k$ continue sua tentativa de execução de $h(c_{ij})$, desde que seja respeitada a duração máxima estipulada pelo parâmetro $\phi_{ij}(k, t)$.
-            
-            A Equação \ref{eq:alliance_motivacao} mostra a função de motivação, a qual combina todas as funções mencionadas anteriormente para a ativação da configuração de comportamento $c_{ij}$. Seu valor inicial é nulo e aumenta mediante a taxa de impaciência instantânea de $r_i$ para ativar $c_{ij}$ quando satisfeitas as seguintes condições: (1) $c_{ij}$ seja aplicável, (2) mas não tenha sido inibida, (3) nem reiniciada; (4) e, ainda, $r_i$ não seja aquiescente em desistir de manter $c_{ij}$ ativa. Quando uma das condições citadas não é satisfeita, seu valor volta a ser nulo. 
-            
-            \begin{equation} \label{eq:alliance_motivacao}
-                \begin{aligned}
-                    motiva\textit{ç}\tilde{a}o_{ij}(0) = \ & 0 \\
-                    motiva\textit{ç}\tilde{a}o_{ij}(t) = \ & (motiva\textit{ç}\tilde{a}o_{ij}(t - dt) + impaci\hat{e}ncia_{ij}(t)) \\
-                    & \times aplic\acute{a}vel_{ij}(t) \times inibida_{ij}(t) \\
-                    & \times reiniciada_{ij}(t) \times aquiescente_{ij}(t).
-                \end{aligned}
-            \end{equation}
-            
-            Assim que a motivação de $r_i$ para ativar $c_{ij}$ ultrapassa o limite de ativação, essa configuração de comportamento é ativada, conforme a Equação \ref{eq:alliance_ativa}:
-            %
-            \begin{equation} \label{eq:alliance_ativa}
-                ativa_{ij}(t) = motiva\textit{ç}\tilde{a}o_{ij}(t) \geq \theta
-            \end{equation}
-            %
-            onde $\theta$ é o limite de ativação.
-            
-            Fazendo uma análise das equações acima, verifica-se que, enquanto sua motivação cresce, é possível estimar quanto tempo resta para que a configuração de comportamento $c_{ij}$ se torne ativa. 
-            %
-            \begin{equation} \label{eq:alliance_estimativa_ativacao}
-                \overline{\Delta t}_{ativa\textit{ç}\tilde{a}o_{ij}} = \frac{\theta - motiva\textit{ç}\tilde{a}o_{ij}(t)}{impaci\hat{e}ncia_{ij}(t) \rho_i}
-            \end{equation}
-            %
-            onde $\rho_i$ é a frequência aproximada, em [\si{\hertz}], com que $r_i$ atualiza as motivação das configurações de comportamento em $C_i$ e, ainda, publica seu estado comportamental. Como a taxa de impaciência não é constante, a Equação \ref{eq:alliance_estimativa_ativacao} é apenas uma estimativa, dada em [\si{\second}].
-            
-            Em conformidade com o que foi exposto, pode-se observar que é possível normalizar todas as funções de motivação, de modo que a imagem de cada uma delas pertença ao intervalo $[0; 1] \subset \mathbb{R}_+$. Para isso, é necessário: (1) parametrizar o módulo de impaciência de cada configuração de comportamento $c_{ij}$, de maneira que a imagem da sua função de taxa de impaciência instantânea pertença ao intervalo $(0; 1) \subset \mathbb{R}_+^*$; além disso, (2) atribuir o valor unitário ao limite de ativação; bem como, (3) saturar a função de motivação no limite de ativação. Como resultado, as Equações \ref{eq:alliance_ativa} e \ref{eq:alliance_estimativa_ativacao} podem ser rescritas como as Equações \ref{eq:alliance_ativa_nova} e \ref{eq:alliance_estimativa_ativacao_nova}, respectivamente.
-            
-            \begin{equation} \label{eq:alliance_ativa_nova}
-                ativa_{ij}(t) = motiva\textit{ç}\tilde{a}o_{ij}(t) == 1
-            \end{equation}
-            
-            \begin{equation} \label{eq:alliance_estimativa_ativacao_nova}
-                \overline{\Delta t}_{ativa\textit{ç}\tilde{a}o_{ij}} = \frac{1 - motiva\textit{ç}\tilde{a}o_{ij}(t)}{impaci\hat{e}ncia_{ij}(t) \rho_i}
-            \end{equation}
-            
-            \citeonline{ref:parker1996lalliance} desenvolveu também uma variação do ALLIANCE, chamada L-ALLIANCE, capaz de estimar alguns parâmetros do ALLIANCE durante a fase de aprendizado.
-            
-            \textbf{\color{red} Classificar essa arquitetura segundo as taxonomias revisadas}
-            
-            \textbf{\color{red} Comentar sobre o motivo de ter falado sobre essa arquitetura com tanto detalhe}
-            
-            \input{Figuras/capitulo_3/graphes}
-            
-            \begin{figure}[htb]
-                \centering
-                \resizebox{0.95\textwidth}{!}{\input{Figuras/capitulo_3/rosgraph_3robots}}
-                \caption{Grafo do ALLIANCE no ROS para três robôs.} \label{fig:rosgraph_alliance}
-            \end{figure}

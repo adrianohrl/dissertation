@@ -232,15 +232,15 @@
             </arg_0>
             <arg_1>
               <name>robot_params</name>
-              <value>$(find @package@)/launch/@robot_id@_alliance_params.yaml</value>
+              <value>$(find @package@)/config/@robot_id@_alliance_params.yaml</value>
             </arg_1>
             <arg_2>
               <name>tasks_params</name>
-              <value>$(find @package@)/launch/tasks_alliance_params.yaml</value>
+              <value>$(find @package@)/config/tasks_alliance_params.yaml</value>
             </arg_2>
             <arg_3>
               <name>layers_params</name>
-              <value>$(find @package@)/launch/layers_alliance_params.yaml</value>
+              <value>$(find @package@)/config/layers_alliance_params.yaml</value>
             </arg_3>
           </args>
         </include_0>

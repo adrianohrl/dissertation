@@ -5,6 +5,13 @@
     
     \lstset{
         language=XML,
+        basicstyle=\ttfamily,
+        keywordstyle=\color{black}\bfseries,
+        ndkeywords={},
+        ndkeywordstyle=\color{black}\bfseries,
+        identifierstyle=\color{black},
+        stringstyle=\color{red}\ttfamily,
+        commentstyle=\color{green}\ttfamily,
         breaklines=true,
         frameround=ffff,
         frame=single,
@@ -248,7 +255,7 @@
                         </arg_0>
                         <arg_1>
                           <name>robot_params</name>
-                          <value>$(find @package@)/launch/@robot_id@_alliance_params.yaml</value>
+                          <value>$(find @package@)/config/@robot_id@_alliance_params.yaml</value>
                         </arg_1>
                         ...
                       </args>
@@ -347,7 +354,7 @@
             As seguintes \textit{tags} estão agrupadas na \textit{tag application}
             A \textit{tag application} agrupa metadados sobre o problema, como o nome da aplicação e o nome do pacote que implementa a arquitetura MRTA escolhida. Além disso, a \textit{tag robots} identifica os robôs do sistema. Este arquivo também armazena os parâmetros adotados durante a criação do problema MRTA. Isso permite que os seus valores possam ser atualizados. Por fim, este arquivo também guarda a estrutura dos arquivos de inicialização do ROS que foram gerados após sua criação. 
         
-            As \textit{tags configs} e \textit{launches} permitem a reconfiguração da arquitetura e da aplicação após sua geração. Elas possuem a mesma estrutura descrita em \ref{subsec:arch_config}. Porém, este arquivo não possui \textit{tags} do tipo \textit{array}, pois cada uma delas foi substituída por uma coleção de \textit{tags} do tipo \textit{params}, conforme o exemplo extraído do Apêndice \ref{app:app_config} que se seute.
+            As \textit{tags configs} e \textit{launches} permitem a reconfiguração da arquitetura e da aplicação após sua geração. Elas possuem a mesma estrutura descrita em \ref{sec:arch_config}. Porém, este arquivo não possui \textit{tags} do tipo \textit{array}, pois cada uma delas foi substituída por uma coleção de \textit{tags} do tipo \textit{params}, conforme o exemplo extraído do Apêndice \ref{app:app_config} que se seute.
             
             \begin{lstlisting}
               <configs>
@@ -407,7 +414,7 @@
             O Apêndice \ref{app:app_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser um problema MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{application}.
     
     \section{Camada do modelo} \label{subset:rqt_mrta_model}
-        A camada de modelo facilita a importação e exportação dos dados dos arquivos de configuração detalhados em \ref{subsec:arch_config} e \ref{subsec:app_config}. Conforme mostra a Figura \ref{fig:rqt_mrta_model_uml}, a relação entre as classes do modelo se apresenta como um grafo, semelhantemente à estrutura dos arquivos de configuração de arquitetura e aplicação. Ao utilizar o padrão de projeto de \textit{software} cadeia de responsabilidade \cite{ref:gamma1993design} nesta organização de classes, simplificou-se a geração dos arquivos de inicialização, de parâmetros, configuração de arquitetura e aplicação, assim como, a leitura desses dois últimos tipos de arquivo.
+        A camada de modelo facilita a importação e exportação dos dados dos arquivos de configuração detalhados em \ref{sec:arch_config} e \ref{sec:app_config}. Conforme mostra a Figura \ref{fig:rqt_mrta_model_uml}, a relação entre as classes do modelo se apresenta como um grafo, semelhantemente à estrutura dos arquivos de configuração de arquitetura e aplicação. Ao utilizar o padrão de projeto de \textit{software} cadeia de responsabilidade \cite{ref:gamma1993design} nesta organização de classes, simplificou-se a geração dos arquivos de inicialização, de parâmetros, configuração de arquitetura e aplicação, assim como, a leitura desses dois últimos tipos de arquivo.
         
         \begin{figure}[p]
             \centering
@@ -460,7 +467,7 @@
             \caption{\textit{Wizard} para a criação de uma nova aplicação.} \label{fig:example_new_app}
         \end{figure}
         
-        A primeira tela do \textit{wizard} de novas aplicações, mostrado na Figura \ref{fig:example_def_app}, coleta os dados gerais da aplicação. Estes dados serão utilizados na geração do arquivo manifesto do pacote. Caso o \textit{workspace} dado não seja um \textit{workspace} do ROS, o usuário é alertado de que será criado um novo \textit{workspace} no diretório especificado. Após o preenchimento de todos os dados obrigatórios, o usuário pode prosseguir para a próxima tela.
+        A primeira tela do \textit{wizard} de novas aplicações, mostrado na Figura \ref{fig:example_def_app}, coleta os dados gerais da aplicação. Estes dados serão utilizados na geração do arquivo manifesto do pacote. Caso o \textit{workspace} dado não seja um \textit{workspace} do ROS, o usuário é alertado de que será criado um novo \textit{workspace} no diretório especificado. Deve-se atentar para o preenchimento correto do endereço eletrônico do mantenedor do pacote. Caso contrário, o pacote não poderá ser compilado. Após o preenchimento de todos os dados obrigatórios, o usuário pode prosseguir para a próxima tela.
         
         Em seguida, pede-se para o usuário escolher uma arquitetura, conforme Figura \ref{fig:example_def_arch}. A escolha pode ser realizada com o auxílio de três filtros: pelo tipo dos robôs (ST \textit{versus} MT), pelo tipo das tarefas (SR \textit{versus} MR) e pelo tipo das alocações (IA \textit{versus} TA), conforme a taxonomia revisada na Seção \ref{subsec:taxonomia_mrta}. Assim que o usuário passa para a próxima tela, o \textit{rqt\_mrta} carrega o arquivo de configuração da arquitetura selecionada. Logo, os \textit{templates} dos arquivos de parâmetro e de inicialização estarão disponíveis na memória.
         
@@ -488,7 +495,7 @@
             \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:example}
         \end{figure}
         
-        As Figuras \ref{fig:opening_arch} e \ref{fig:opening_app} mostram, respectivamente, as janelas para a seleção de uma arquitetura e de uma aplicação para o carregamento do seu arquivo de configuração. Ao invés dos usuários navegarem pelos diretórios do sistema operacional procurando o arquivo desejado, são listados para ele os pacotes que foram devidamente configurados, conforme descrito nas Seções \ref{subsec:arch_config} e \ref{subsec:app_config}.
+        As Figuras \ref{fig:opening_arch} e \ref{fig:opening_app} mostram, respectivamente, as janelas para a seleção de uma arquitetura e de uma aplicação para o carregamento do seu arquivo de configuração. Ao invés dos usuários navegarem pelos diretórios do sistema operacional procurando o arquivo desejado, são listados para ele os pacotes que foram devidamente configurados, conforme descrito nas Seções \ref{sec:arch_config} e \ref{sec:app_config}.
         
         \begin{figure}[htb]
             \centering

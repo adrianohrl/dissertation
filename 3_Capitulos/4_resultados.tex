@@ -1,7 +1,7 @@
 \chapter[Experimentos e Resultados]{Experimentos e Resultados} \label{cap:resultados}
     Para testar o pacote \textit{rqt\_mrta}, será necessário uma arquitetura desenvolvida sobre o \textit{framework} ROS. Primeiramente, será necessário compreendê-la e entender como parametrizá-la. A partir disso, será possível estruturar os \textit{templates} de arquivos de configuração e de inicialização, isto é, criar seu arquivo de configuração, conforme descrito em \ref{subsec:arch_config_fmt}. Tendo este arquivo em mãos, é preciso alterar o arquivo manifesto do seu pacote para que a configuração possa ser vista pelo \textit{rqt\_mrta}. Este processo foi descrito em \ref{subsec:arch_config_rgst}. Finalmente, a arquitetura estará cadastrada e pronta para ser configurada por usuários na criação de aplicações.
     
-    Além de uma arquitetura, será necessário a elaboração de uma aplicação que utilize a arquitetura cadastrada. Pois, assim, será validado o processo de criação da aplicação. Isto é, deverá ser verificado se o pacote da nova aplicação foi gerado com sucesso. Para isso, deve se verificar se ele é visível pelas ferramentas de busca do ROS e se a formatação dos arquivos de parâmetro, de inicialização e de configuração de aplicação está correta. Se tudo estiver em conformidade, então aplicação estará pronta para a execução. É preciso, agora, executar a aplicação utilizando os arquivos de inicialização gerados pelo \textit{rqt\_mrta}. Para isso, será utilizada a ferramenta \textit{roslaunch} para a inicialização dos nós da aplicação. 
+    Além de uma arquitetura, será necessário a elaboração de uma aplicação que utilize a arquitetura cadastrada. Pois, assim, será validado o processo de criação da aplicação. Isto é, deverá ser verificado se o pacote da nova aplicação foi gerado com sucesso. Para isso, deve se verificar se ele é visível pelas ferramentas de busca do ROS e se a formatação dos arquivos de parâmetro, de inicialização e de configuração de aplicação está correta. Se tudo estiver em conformidade, então a aplicação estará pronta para a execução. É preciso, agora, executar a aplicação utilizando os arquivos de inicialização gerados pelo \textit{rqt\_mrta}. Para isso, será utilizada a ferramenta \textit{roslaunch} para a inicialização dos nós da aplicação. 
     
     Finalmente, será verificado o sistema supervisório do \textit{rqt\_mrta}. Para isso, a aplicação deverá ser carregada pelo \textit{rqt\_mrta}, o qual ficará aguardando a aplicação ser executada. Nesta etapa será verificada a alteração do estado dos robôs no sistema e, se fornecido, a inicialização do \textit{plugin} para o monitoramento da arquitetura.
     
@@ -9,12 +9,51 @@
     
     Será criado, através do \textit{rqt\_mrta}, uma aplicação que utilize a arquitetura desenvolvida no pacote \textit{alliance} para a atribuição de tarefa no sistema. Será simulado a patrulha realizada por múltiplos robôs.
     
-    A seguir será descrito o desenvolvimento da arquitetura ALLIANCE no pacote \textit{alliance}. Em seguida, está arquitetura será cadastrada para sua utilização por aplicações no \textit{rqt\_mrta}. Depois, a aplicação será explicada e criada através do \textit{rqt\_mrta}. Por fim, os arquivos de inicialização da arquitetura serão executados em conjunto com o simulador e os demais nós para a execução da aplicação.
+    A seguir, será descrito o desenvolvimento da arquitetura ALLIANCE no pacote \textit{alliance}. Em seguida, está arquitetura será cadastrada para sua utilização por aplicações no \textit{rqt\_mrta}. Depois, a aplicação será explicada e criada através do \textit{rqt\_mrta}. Por fim, os arquivos de inicialização da arquitetura serão executados em conjunto com o simulador e os demais nós para a execução da aplicação.
 
     \section{\textit{alliance}} \label{sec:alliance}
-        O \textit{alliance} é um projeto baseado em ROS que contém nós que fazem o controle distribuído da alocação de tarefa em um sistema com múltiplos robôs segundo o modelo sugerido por \citeonline{ref:parker1998alliance}, a arquitetura ALLIANCE. 
+        O \textit{alliance} é um projeto baseado em ROS que contém nós que fazem o controle distribuído da alocação de tarefa em um sistema com múltiplos robôs segundo o modelo sugerido por \citeonline{ref:parker1998alliance}, a arquitetura ALLIANCE. Esta arquitetura resolve problema do tipo \textit{ST-SR-IA}, ou seja, cada robô do sistema só pode executar uma tarefa por vez, as tarefas requisitadas só podem ser executadas por um único robô e atribuição das tarefas ocorre instantaneamente, não sendo considerado o estado do sistema no futuro.
+        
+        Esta abordagem é baseada em comportamento. Cada robô do sistema possui diversos comportamentos. A ativação de um dado comportamento faz com que o robô passe a executar uma tarefa específica. Assim, uma nova alocação acontece sempre que um robô muda de comportamento. 
+        
+        Cada configuração de comportamento nos robôs possui um mecanismo para o cálculo de motivação que cresce em função de várias variáveis. Quando o nível de motivação de um dado comportamento atinge seu limite, este é ativado. As duas variáveis principais são impaciência e aquiescência. A impaciência do robô aumenta o nível de motivação em função das atividades dos demais robôs do sistema. Porém, a aquiescência leva o nível de motivação para zero, quando o robô verifica que ele deve desistir da tentativa de executar a tarefa especificada pelo comportamento. O Apêndice \ref{app:alliance} dá mais detalhes sobre o funcionamento da arquitetura ALLIANCE.
+        
+        Este pacote possui dois nós: \textit{high\_level} e \textit{low\_level}. Cada robô do sistema deve rodar esses dois nós para o bom funcionamento da arquitetura. Não são necessários nós adicionais, no que diz respeito à alocação de tarefa. O nó \textit{high\_level}, possui um nível de abstração maior, pois ele controla a ativação do comportamento a partir da análise do estado do sistema. Este nó possui diversos parâmetros, os quais afetam diretamente no desempenho do sistema. Pois estes parâmetros ditam a dinâmica da motivação de comportamento de um dado robô do sistema. Enquanto isso, o nó \textit{low\_level}, possui uma abstração mais baixa, pois este interage diretamente com o nível de controle de execução de tarefa. Este nó desempenha o papel de cuidar da análise sensorial dos comportamentos do robô e, ainda, direcionar para o nível de controle da execução da tarefa qual tarefa deve ser executada.
+        
+        O nó \textit{low\_level} demanda maior detalhamento, pois ele é altamente dependente de implementações realizadas pelos usuários do pacote \textit{alliance}. Para que fosse possível uma aproximação genérica do ALLIANCE, isto é, que pudesse ser utilizada em qualquer aplicação que atende as premissas desta arquitetura, utilizou-se o pacote \textit{pluginlib}\footnote{\url{http://wiki.ros.org/pluginlib}}. Este pacote contém uma biblioteca C++ para carregar e descarregar \textit{plugins} de pacotes do ROS. \textit{Plugins} são classes dinamicamente carregáveis que são carregadas de uma biblioteca externa em tempo de execução. Desta forma, o usuário pode fazer a análise sensorial e desenvolver a camada de controle de execução de tarefa de forma a atender a sua aplicação. Para isso foram criadas as seguintes classes base: \textit{alliane::Sensor}, \textit{alliance::SensoryEvaluator} e \textit{alliance::Layer}. Será explicado, a seguir, sobre o desenvolvimento de \textit{plugins} de sensor, avaliação e camada, mostrando o cabeçalho em C++ da classe base de cada tipo de \textit{plugin}.
+        
+        \lstset{language=C++,
+                numbers=left,
+                stepnumber=1,
+                basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+        }
+        
+        \subsection{\textit{Plugin} de sensor} \label{subsec:alliance_sensor}
+            A classe \textit{alliance::Sensor} permite que o usuário do \textit{alliance} desenvolva \textit{plugins} de sensores reais ou virtuais. O usuário tem a flexibilidade de se inscrever em qualquer tópico do ROS para fazer leitura dos sensores cujos sinais são publicados por outros nós. Ou ainda pode ser utilizadas técnicas de fusão sensorial, filtragem e conversões para melhorar a análise sensorial. Mas, também, é possível criar sensores virtuais que utilizam temporizadores ou avaliam o estado abstrato das entidades do sistema. Os \textit{plugins} dos sensores são estipulados na inicialização do nó \textit{low\_level} por meio de parâmetros do ROS. Se o \textit{plugin} desenvolvido pelo usuário estiver devidamente cadastrado (conforme descrito na página do pacote \textit{pluginlib}), o nó \textit{low\_level} não haverá problemas para carregá-lo. Por fim, é importante salientar que o usuário pode especificar diversos \textit{plugins} de sensor.
             
-        O Apêndice \ref{app:alliance} dá mais detalhes sobre o funcionamento da arquitetura ALLIANCE.
+            \lstinputlisting{Outros/Arquivos/4_resultados/sensor.h}
+            
+            O \textit{plugin} deve sobre-escrever o método \textit{initialize} para que ele possa ser inicializado corretamente. Será disponibilizado à ele o \textit{namespace} do nó \textit{low\_level}, o nome e o \textit{id} do sensor. Porém, o \textit{plugin} pode ser configurado através da leitura de parâmetros do ROS. Para uma melhor organização, é aconselhável sobre-escrever o método \textit{readParameters} para fazer isso. Pois, a classe \textit{alliance::Sensor} já chama este método logo após a inicialização do \textit{plugin}. Enfim, o \textit{plugin} pode sobre-escrever o método \textit{isUpToDate} para informar se os dados providos do sensor real estão sendo recebidos. 
+            
+            Foi criada uma classe utilitária genérica, denominada \textit{nodes::ROSSensorMessage}, para simplificar o trabalho do usuário do \textit{alliance}. Está classe herda os métodos da classe \textit{alliance::Sensor} e, assim, também pode ser usada como classe base para criação de \textit{plugins} de sensor. Diferentemente da classe \textit{alliance::Sensor}, a classe \textit{nodes::ROSSensorMessage} se inscreve no tópico que transporta mensagens contendo o sinal do sensor desejado. Neste caso, o \textit{id} do sensor é considerado como o nome deste tópico. Esta classe sobre-escreve o método \textit{readParameters} para coletar parâmetros que são utilizados no método \textit{isUpToDate}, o qual é sobre-escrito para identificar se a última mensagem foi recebida dentro do tempo máximo especifidado. Assim, os \textit{plugins} que se baseiam nesta classe terão a última mensagem recebida disponível para a sobre-escrita do método \textit{isApplicable}.
+        
+        \subsection{\textit{Plugin} de avaliação sensorial} \label{subsec:alliance_evaluator}
+            A classe base \textit{alliance::SensoryEvaluator} tem como responsabilidade analisar os sensores estipulados em uma dada configuração de comportamento. Através dessa análise este avaliador enviará uma mensagem ao nó \textit{high\_level} dizendo se ativação deste comportamento específico é aplicável ou não. Como esta análise sensorial varia de uma aplicação para outra, essa classe foi projetada para a criação de \textit{plugins} de avaliação. Através do recurso de herança do C++, o método \textit{isApplicable} deve ser implementado pelo \textit{plugin}, onde deverá ser realizada a análise sensorial. Para isso, este objeto terá disponível a coleção de \textit{plugins} de sensor devidamente carregados para a análise. O \textit{plugin} é inicializado através da sobre-escrita do método \textit{initialize}, onde são dados: (1) um objeto \textit{ros::NodeHandlePtr} para a interação com o ROS, (2) o objeto robô que contém a instância de todos os sensores, (3) a tarefa sobre o qual é feita a análise e, também, (4) uma lista com os \textit{ids} dos sensores que devem ser considerados durante a análise.
+            
+            \lstinputlisting{Outros/Arquivos/4_resultados/sensory_evaluator.h}
+        
+        \subsection{\textit{Plugin} de camada} \label{subsec:alliance_layer}
+            Os \textit{plugins} criados a partir da classe base \textit{alliance::Layer} têm como responsabilidade controlar a execução da tarefa pelo robô. O usuário deve criar um \textit{plugin} de camada para cada tarefa. Entretanto, se houver robôs que executam uma mesma tarefa de modos diferentes, cada modo terá seu próprio \textit{plugin}. Como o nome da classe base sugere, o usuário tem a flexibilidade de implementar esses \textit{plugins} em camadas, conforme sugerido por \cite{ref:parker1998alliance}.
+            
+            \lstinputlisting{Outros/Arquivos/4_resultados/layer.h}
+            
+            O \textit{plugin} de camada é inicializado através da chamada do método \textit{initialize}. Logo, este método deve ser sobre-escrito na classe do \textit{plugin}, onde será disponibilizado o \textit{namespace} do seu nó, bem como, o nome da camada. Porém, o \textit{plugin} pode ser configurado a partir da leitura de parâmetros do ROS. Para uma melhor organização, é recomendado que esta leitura seja realizada dentro da sobre-escrita do método \textit{readParameters}, pois a classe \textit{alliance::Layer} faz sua chamada logo após a inicialização do \textit{plugin}. Finalmente, o controle da execução da tarefa é realizado periodicamente através da sobre-escrita do método \textit{process}. Este método deve ser utilizado para atualizar os sinais de comando dos atuadores do robô.
+            
+            Verifica-se que o desenvolvimento desta aproximação do ALLIANCE é genérica e possui uma API simplificada. Deste modo, o usuário pode focar no desempenho dos robôs na execução das tarefas.
         
         \subsection{\textit{alliance\_msgs}}
             O pacote \textit{alliance\_msgs} foi criado em conjunto com o pacote \textit{alliance} para separar as definições dos tipos de mensagens utilizadas por ele. Essas mensagens são utilizadas na comunicação entre os nós do pacote \textit{alliance}.
@@ -23,12 +62,23 @@
             
             \begin{itemize}
                 \item \textit{alliance\_msgs/InterRobotCommunication}: armazena informação sobre a atividade de um robô específico em um dado instante. Possui o cabeçalho padrão do ROS que identifica o robô que enviou a mensagem e instante que ela foi enviada. Além disso, ela possui um campo que identifica a tarefa que o robô está executando;
-                \item \textit{alliance\_msgs/Motivation}: utilizada para o monitoramento da arquitetura. Esta mensagem possui i cabeçalho padrão do ROS que identifica o robô que enviou a mensagem e também o instante que ela foi enviada. Além disso, ela possui um campo que identifica a tarefa que o cálculo de motivação se referencia e, ainda, o valor das variáveis que influenciam no cálculo da motivação;
-                \item \textit{alliance\_msgs/SensoryFeedback}: utilizada na comunicação entre os nós de baixo e alto nível de abstração de um mesmo robô. Esta mensagem informa se um dado comportamento é aplicável em um dado instante segundo uma análise sensorial realizada no nível de baixa abstração do \textit{alliance}. Assim está mensagem possui o cabeçalho padrão do ROS que identifica o robô que enviou a mensagem e instante que ela foi enviada. Além disso, ela possui um campo que identifica a tarefa que a análise está referenciada e, ainda, um campo informando se a ativação do comportamento que leva esse robô a executar essa tarefa é aplicável.
+                \item \textit{alliance\_msgs/Motivation}: utilizada para o monitoramento da arquitetura. Esta mensagem possui o cabeçalho padrão do ROS para identificar o robô que a enviou e também o instante em que ela foi enviada. Além disso, ela possui um campo que identifica a tarefa que o cálculo de motivação se referencia e, ainda, o valor das variáveis que influenciam no cálculo da motivação;
+                \item \textit{alliance\_msgs/SensoryFeedback}: utilizada na comunicação entre os nós de baixo e alto nível de abstração de um mesmo robô. Esta mensagem informa se um dado comportamento é aplicável em um dado instante segundo uma análise sensorial realizada no nível de baixa abstração do \textit{alliance}. Logo, esta mensagem possui o cabeçalho padrão do ROS que identifica o robô que a enviou e o instante em que ela foi enviada. Além disso, ela possui um campo que identifica a tarefa sobre a qual a análise é referenciada e, ainda, um campo informando se a ativação do comportamento que leva esse robô à execução dessa tarefa é aplicável.
             \end{itemize}
         
         \subsection{\textit{rqt\_alliance}}
-            O pacote \textit{rqt\_alliance} foi desenvolvido para auxiliar no monitoramento da arquitetura implementada no pacote \textit{alliance}. Ele fornece uma ferramenta gráfica que mostra o nível de motivação de cada robô em tempo de execução. Esta interface também fornece gráficos que detalham as variáveis que influenciam no cálculo de motivação de uma configuração de comportamento de um robô específico.
+            O pacote \textit{rqt\_alliance} foi desenvolvido para auxiliar no monitoramento da arquitetura implementada no pacote \textit{alliance}. Ele fornece uma ferramenta gráfica que detalha as variáveis que influenciam no cálculo de motivação de uma dada configurações de comportamento de um robô específico. Este \textit{plugin} também fornece gráficos que mostram o nível de motivação para a ativação de cada comportamento de um dado robô.
+            
+            A Figura \ref{fig:rqt_alliance_detailed_motivation} detalha graficamente o cálculo da motivação da configuração de comportamento que leva o robô \textit{/robot2} executar a tarefa \textit{wander}. De cima para baixo estão os seguintes gráficos: (1) nível de motivação, (2) taxa de impaciência, (3) aquiescente, (4) suprimido, (5) reiniciada, (6) aplicável e (7) ativa. Perceba que o comportamento se mantém ativo (gráfico mais abaixo) enquanto o nível de motivação (linha contínua azul do gráfico mais acima) é igual ou superior ao \textit{threshold} (linha tracejada vermelha do gráfico mais acima). Note que no instante em que o robô se tornou aquiescente (impulso visto no terceiro gráfico de cima para baixo), o nível da sua motivação para ativar o comportamento \textit{wander} é zerado. O nível de motivação é zerado também, ao final, quando esse comportamento se torna inaplicável. As demais variáveis permanecem constante durante todo o intervalo.
+            
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{Figuras/4_resultados/rqt_alliance6.png}
+                \caption{Detalhamento da motivação \textit{/robot2/alliance/wander} ao longo do tempo.}
+                \label{fig:rqt_alliance_detailed_motivation}
+            \end{figure}
+            
+            A Figura \ref{fig:rqt_alliance_motivations}, por exemplo, mostra que o robô \textit{/robot3} possui três configurações de comportamento: (1) \textit{wander}, (2) \textit{border\_protection} e (3) \textit{report}. Nesta figura, é mostrado o nível de motivação do robô \textit{/robot3} para cada um dos comportamentos ao longo do tempo. Uma dada configuração de comportamento é ativada quando sua motivação (linha contínua azul) atinge o \textit{threshold} (linha tracejada vermelha). Note que, enquanto o comportamento \textit{report} do robô \textit{/robot3} não está ativo, há um aumento na motivação de todos os seus comportamentos. Porém, em ambos casos, a motivação de \textit{report} atinge o \textit{threshold} antes das outras. Isso se deve pelo fato dessa motivação de comportamento apresentar uma dinâmica mais rápida que as demais. Isso não significa que o robô \textit{/robot3} executará somente a tarefa \textit{report}. Dependendo do estado do sistema, outro robô pode passar a realizá-la em seu lugar.
             
             \begin{figure}
                 \centering
@@ -37,65 +87,241 @@
                 \label{fig:rqt_alliance_motivations}
             \end{figure}
             
-            \begin{figure}
+        \subsection{Arquivos de parâmetro do \textit{alliance}} \label{subsec:alliance_config}
+            Os nós \textit{high\_level} e \textit{low\_level} do pacote \textit{alliance} são configurados a partir da leitura de parâmetros do ROS durante a inicialização. 
+            
+            Existem três tipos de arquivos de parâmetro no \textit{alliance}: de camada, de tarefa e de robô. O arquivo de parâmetro de camada traz configurações pertinentes para a execução das tarefas. Por este fato, este arquivo não é definido pelo pacote \textit{alliance}. O arquivo de parâmetros de tarefa especifica quais são as tarefas existentes no sistema. Um exemplo deste arquivo é exibido a seguir.
+            
+            \lstset{language=Python,
+                keywords={true,false,null,y,n},
+                keywordstyle=\color{black}\bfseries,
+                ndkeywords={},
+                ndkeywordstyle=\color{black}\bfseries,
+                identifierstyle=\color{black},
+                sensitive=false,
+            }
+            
+            \begin{lstlisting}
+                tasks:
+                  size: 3
+                  task0:
+                    id: wander
+                    name: Wander
+                    layers:
+                      size: 1
+                      layer0:
+                        plugin_name: alliance_test/wander
+                  task1:
+                    id: border_protection
+                    name: Border Protection
+                    layers:
+                      size: 1
+                      layer0:
+                        plugin_name: alliance_test/border_protection
+                  task2:
+                    id: report
+                    name: Report
+                    layers:
+                      size: 1
+                      layer0:
+                        plugin_name: alliance_test/report
+            \end{lstlisting}
+            
+            Cada robô deve informar quais sensores e configurações de comportamento ele possui. Cada configuração é parametrizada de acordo com a dinâmica de ativação desejada.
+            
+            \begin{lstlisting}
+                name: Robot 1
+                spin_rate: 2.0           # in Hertz
+                broadcast_rate: 0.5      # in Hertz
+                timeout_duration: 10.0    # in seconds
+                buffer_horizon: 10.0      # in seconds
+                sensors:
+                  size: 1
+                  sensor0:
+                    plugin_name: alliance_test/point_cloud
+                    topic_name: sonar
+                    timeout_duration: 5.0
+                    buffer_horizon: 5.0
+                behaviour_sets:
+                  size: 1
+                  behaviour_set0:
+                    task_id: wander
+                    task_expected_duration: 100.0 # in seconds
+                    motivational_behaviour:
+                      threshold: 150.0
+                      acquiescence:
+                        yielding_delay: 75.0    # in seconds
+                        giving_up_delay: 110.0  # in seconds
+                      impatience:
+                        fast_rate: 5.0
+                      sensory_feedback:
+                        plugin_name: alliance_test/updated_sensory
+                        sensors:
+                          size: 1
+                          sensor0:
+                            topic_name: sonar
+            \end{lstlisting}
+            
+        \subsection{Arquivo de inicialização do \textit{alliance}} \label{subsec:alliance_launch}
+            O pacote \textit{alliance} possui apenas um arquivo de inicialização. Este arquivo carrega os arquivos de parâmetros de tarefa e de robô para o nó \textit{high\_level} e os de tarefa, de robô e de camada para o nó \textit{low\_level}. Este arquivo deve ser utilizado para cada robô do sistema, cada um especificando os seus arquivos de parâmetros. Ele é mostrado a seguir.
+            
+            \lstset{
+                language=XML,
+                breaklines=true,
+                frameround=ffff,
+                frame=single,
+                rulecolor=\color{black},
+                autogobble=true,
+                morekeywords={
+                    xml, version,
+                    launch,
+                        arg, name, value, default,
+                        group, ns,
+                        node, name, pkg, type, output,
+                        param, name, type, value,
+                        rosparam, file, command
+                }
+            }
+            
+            \begin{lstlisting}
+                <?xml version="1.0"?>
+                <launch>
+                  <arg name="robot_id" />
+                  <arg name="robot_params" />
+                  <arg name="tasks_params" />
+                  <arg name="layers_params" />
+                  <group ns="$(arg robot_id)">
+                    <group ns="alliance">
+                      <node name="high_level" pkg="alliance" type="high_level" output="screen">
+                        <param name="id" type="string" value="$(arg robot_id)" />
+                        <rosparam file="$(arg robot_params)" command="load" />
+                        <rosparam file="$(arg tasks_params)" command="load" />
+                      </node>
+                      <node name="low_level" pkg="alliance" type="low_level" output="screen">
+                        <param name="id" type="string" value="$(arg robot_id)" />
+                        <rosparam file="$(arg robot_params)" command="load" />
+                        <rosparam file="$(arg tasks_params)" command="load" />
+                        <rosparam file="$(arg layers_params)" command="load" />
+                      </node>
+                    </group>
+                  </group>
+                </launch>
+            \end{lstlisting}
+            
+        \subsection{Cadastro da arquitetura do pacote \textit{alliance}}
+            \textbf{\color{red}Primeiramente, é preciso criar o arquivo de configuração de arquitetura do pacote \textit{alliance}.}
+            
+            O arquivo criado é mostrado no Apêndice \ref{app:arch_config}.
+            
+            Para finalizar o cadastro da arquitetura do pacote \textit{alliance} é necessário realizar algumas inserções no seu arquivo \textit{package.xml}, as quais são: 
+            
+            \begin{itemize}
+                \item adicionar a dependência em tempo de execução do pacote \textit{rqt\_mrta};
+                \item e adicionar uma \textit{tag} de exportação para o pacote \textit{rqt\_mrta} com o atributo \textit{architecture}, informando a localização do arquivo de configuração da arquitetura.
+            \end{itemize}
+            
+            O arquivo \textit{package.xml} do pacote \textit{alliance} é mostrado no Apêndice \ref{app:arch_manifest}.
+            
+            A fim de verificar se o cadastro foi realizado com sucesso, foi utilizada a ferramenta \textit{rospack plugin}. Um comando de linha que irá procurar dentre os pacotes do ROS aqueles que possuem dependência em tempo de execução do pacote \textit{rqt\_mrta} e que, ainda, exportam para ele o atributo \textit{architecture}. Esta mesma ferramenta é utilizada pelo \textit{rqt\_mrta} para procurar as aplicações e arquiteturas no sistema de arquivos do ROS. O resultado deste comando pode ser visualizado na Figura \ref{fig:rospack_alliance}.
+            
+            \begin{figure}[htb]
                 \centering
-                \includegraphics[width=\textwidth]{Figuras/4_resultados/rqt_alliance6.png}
-                \caption{Detalhamento da motivação \textit{/robot2/alliance/wander} ao longo do tempo.}
-                \label{fig:rqt_alliance_detailed_motivation}
+                \includegraphics[width=.95\textwidth]{Figuras/4_resultados/rqt_mrta_alliance.png}
+                \caption{Ferramenta \textit{rospack} encontra a arquitetura \textit{alliance}.} \label{fig:rospack_alliance}
+            \end{figure}
+            
+            Portanto, verifica-se que o pacote \textit{alliance} está devidamente cadastrado como uma arquitetura disponível para o uso em aplicações através do \textit{plugin rqt\_mrta}.
+        
+    \section{\textit{patrulha}} \label{sec:patrulha}
+    
+        \subsection{Criação da aplicação através do \textit{plugin rqt\_mrta}} \label{subsec:criacao_patrulha}
+            Para a criação da aplicação \textit{patrulha}, foi utilizado o \textit{wizard} de criação de aplicações do \textit{plugin rqt\_mrta} descrito em \ref{subsec:rqt_mrta_view}. A Figura \ref{fig:patrulha_new_app} exibe as telas do \textit{wizard} de criação de aplicação do \textit{rqt\_mrta} devidamente preenchidas.
+        
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Dados gerais da aplicação.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_app.png}
+                    \label{fig:patrulha_def_app}
+                }
+                \subfloat[Escolha da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_arch.png}
+                    \label{fig:patrulha_def_arch}
+                }
+                \subfloat[Definição dos robôs do sistema.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_robots.png}
+                    \label{fig:patrulha_def_robots}
+                }
+                
+                \subfloat[Parametrização da arquitetura.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_params.png}
+                    \label{fig:patrulha_def_params}
+                }
+                \subfloat[Sumário.]{
+                    \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_summary.png}
+                    \label{fig:patrulha_summary}
+                }
+                \caption{Criação da aplicação \textit{patrulha}.} \label{fig:patrulha_new_app}
+            \end{figure}
+            
+            Primeiramente, foram preenchidos os dados referentes a criação do pacote da aplicação (vide Figura \ref{fig:patrulha_def_app}). Nesta etapa, foram inseridos: (1) o nome da aplicação, (2) o nome do pacote da aplicação, (3) o diretório do \textit{workspace} em que o pacote foi criado, (4) a versão do pacote, (5) a descrição da aplicação, (6) o nome do mantenedor do pacote da aplicação e (7) seu \textit{e-mail}, (8) o tipo de licença do pacote e (9) a dependência em tempo de execução do pacote \textit{alliance\_test}, que implementa os \textit{plugins} necessários para o controle da execução das tarefas da aplicação \textit{patrulha}. Como o diretório do \textit{workspace} fornecido não era um \textit{workspace} do ROS, um alerta foi gerado, informando que este diretório seria transformado em um \textit{workspace} do ROS.
+            
+            Em seguida, foi selecionada a arquitetura \textit{alliance} (vide Figura \ref{fig:patrulha_def_arch}). Lembrando que, se o usuário não souber qual arquitetura ele irá usar, este pode utilizar os filtros de acordo com a classificação da taxonomia de \cite{ref:gerkey2004taxonomy} para o seu problema MRTA. 
+            
+            Na sequência, foi solicitado o preenchimento dos robôs do sistema (vide Figura \ref{fig:patrulha_def_robots}). Os três robôs foram inseridos: (1) \textit{/robot1}, (2) \textit{/robot2} e (3) \textit{/robot3}. Como este é um sistema homogêneo, todos os robôs podem executar as três tarefas do problema: (1) \textit{wander}, (2) \textit{border\_protection} e (3) \textit{report}.
+            
+            Foram preenchidas, na próxima tela (vide Figura \ref{fig:patrulha_def_params}), os parâmetros para cinco arquivos de parâmetros: um para cada robô, uma para as tarefas e um para as camadas. Assim que todos parâmetros obrigatórios foram preenchidos, o botão \textit{Next} se tornou habilitado. 
+            
+            Na última tela do \textit{wizard} (vide Figura \ref{fig:patrulha_summary}), foi exibida uma mensagem resumindo o que aconteceria ao pressionar o botão \textit{Finish}. Foi dito que: 
+            
+            \begin{itemize}
+                \item seria iniciado um \textit{workspace} do ROS no diretório dado;
+                \item seria criado um pacote ROS no diretório \textit{src} do \textit{workspace};
+                \item seriam gerados os arquivos \textit{CMakeLists.txt}, \textit{package.xml} e \textit{rqt\_mrta.xml} na raiz do pacote;
+                \item seriam gerados os cinco arquivos de parâmetros (de extensão \textit{.yaml}) dentro da pasta \textit{config} do pacote;
+                \item e seriam gerados os três arquivos de inicialização (de extensão \textit{.launch}) dentro da pasta \textit{launch} do pacote.
+            \end{itemize}
+            
+        \subsection{Análise da aplicação gerada} \label{subsec:analise_patrulha}
+            Ao pressionar o botão \textit{Finish} do \textit{wizard} de criação de aplicação, todos as pastas e arquivos citados acima foram criadas e gerados, respectivamente. A Figura \ref{fig:patrulha} mostra a estrutura do pacote \textit{patrulha} criado.
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Pacote.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg.png}
+                    \label{fig:patrulha_pkg}
+                }
+                \subfloat[Arquivos de parâmetro.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_config.png}
+                    \label{fig:patrulha_pkg_config}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_launch.png}
+                    \label{fig:patrulha_pkg_launch}
+                }
+                \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha}
             \end{figure}
         
-    \section{\textit{patrulha}}
+            Observa-se que o pacote está devidamente organizado, agrupando os arquivos de parâmetros na pasta \textit{config} e os arquivos de inicialização na pasta \textit{launch}. Além disso, verificou-se que os arquivos gerados, possuem a formatação esperada. Os Apêndices \ref{app:app_config} e \ref{app:app_manifest} mostram os arquivos de configuração de aplicação e de manifesto do pacote \textit{patrulha} gerados.
         
-        \begin{figure}[htb]
-            \centering
-            \subfloat[Dados gerais da aplicação.]{
-                \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_app.png}
-                \label{fig:patrulha_def_app}
-            }
-            \subfloat[Escolha da arquitetura.]{
-                \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_arch.png}
-                \label{fig:patrulha_def_arch}
-            }
-            \subfloat[Definição dos robôs do sistema.]{
-                \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_robots.png}
-                \label{fig:patrulha_def_robots}
-            }
+            Para verificar se o pacote \textit{patrulha} foi configurado como uma aplicação do ponto de vista do \textit{plugin rqt\_mrta}, foi usada a ferramenta \textit{rospack plugin}, só que desta vez, passando como atributo \textit{application}. Como foi dito anteriormente, esta mesma ferramenta é utilizada pelo \textit{rqt\_mrta} para procurar as aplicações e arquiteturas no sistema de arquivos do ROS. O resultado deste comando pode ser visualizado na Figura \ref{fig:rospack_patrulha}.
+        
+            \begin{figure}[htb]
+                \centering
+                \includegraphics[width=.95\textwidth]{Figuras/4_resultados/rqt_mrta_patrulha.png}
+                \caption{Ferramenta \textit{rospack} encontra a aplicação \textit{patrulha}.} \label{fig:rospack_patrulha}
+            \end{figure}
             
-            \subfloat[Parametrização da arquitetura.]{
-                \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_def_params.png}
-                \label{fig:patrulha_def_params}
-            }
-            \subfloat[Sumário.]{
-                \includegraphics[width=.31\textwidth]{Figuras/4_resultados/patrulha_summary.png}
-                \label{fig:patrulha_summary}
-            }
-            \caption{Criação da aplicação \textit{patrulha}.} \label{fig:patrulha_new_app}
-        \end{figure}
-        
-        \begin{figure}[htb]
-            \centering
-            \subfloat[Pacote.]{
-                \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg.png}
-                \label{fig:patrulha_pkg}
-            }
-            \subfloat[Arquivos de parâmetro.]{
-                \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_config.png}
-                \label{fig:patrulha_pkg_config}
-            }
+            Portanto, verifica-se que o pacote \textit{patrulha} está devidamente cadastrado como uma aplicação no ponto de vista do \textit{plugin rqt\_mrta}.
             
-            \subfloat[Arquivos de inicialização.]{
-                \includegraphics[width=.4\textwidth]{Figuras/4_resultados/patrulha_pkg_launch.png}
-                \label{fig:patrulha_pkg_launch}
-            }
-            \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha}
-        \end{figure}
+        \subsection{Simulação a partir dos arquivos gerados} \label{subsec:sim_patrulha}
+            Cabe agora a validação dos arquivos gerados através da execução 
         
-        
-        \begin{figure}[p]
-            \centering
-            \includegraphics[width=.97\textheight,angle=90]{Figuras/4_resultados/rosgraph_3robots.eps}
-            \caption{Grafo do ALLIANCE no ROS para três robôs.} \label{fig:ros_graph_alliance}
-        \end{figure}
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.97\textheight,angle=90]{Figuras/4_resultados/rosgraph_3robots.eps}
+                \caption{Grafo do ALLIANCE no ROS para três robôs.} \label{fig:ros_graph_alliance}
+            \end{figure}
         
         
     

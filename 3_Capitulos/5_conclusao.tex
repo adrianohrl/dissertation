@@ -1,8 +1,37 @@
 \chapter[Conclusão e Trabalhos Futuros]{Conclusão e Trabalhos Futuros} \label{cap:conclusao}
 
     \section{Conclusão}
-    
-    \section{Trabalhos Futuros}
-        Uma melhoria significativa desta aplicação seria possibilitar a inscrição de novas arquiteturas devidamente configuradas no repositório deste projeto. De modo que, sempre que uma nova inscrição ocorresse no \textit{rqt\_mrta}, seria solicitada uma nova atualização a todos usuários do pacote \textit{rqt\_mrta} para baixar e instalar a nova arquitetura inscrita. Isso eliminaria a necessidade de procurar novas abordagens na comunidade ROS.
+        Este trabalho apresentou o desenvolvimento de uma interface gráfica de usuário integrada com o \textit{framework} ROS com o intuito de facilitar a parametrização de arquiteturas de alocação de tarefa em aplicações com múltiplos robôs. A interface desenvolvida fornece serviços de criação e supervisão de aplicações multirrobô no ROS. Durante o processo de criação de aplicação é solicitado o preenchimento correto dos parâmetros da arquitetura selecionada. 
         
-        Adição de mais recursos gráficos para a supervisão e monitoramento do sistema e da arquitetura em tempo de execução. Como alarmes identificando a falha na comunicação de algum robô, gráficos temporais de agenda ...
+        Primeiramente, este trabalho apresentou um estudo sobre sistemas multirrobô, identificando suas vantagens perante um sistema de um único robô, bem como, suas características. Em seguida, foi revisado o problema de alocação de tarefa nesses sistemas e como eles podem ser classificados. Verificou-se a existência de várias arquiteturas que visam resolver estes problemas. Uma análise do ROS foi feita apresentando os seus conceitos básicos e o desenvolvimento de interfaces gráficas de usuário integrada com o \textit{framework}. Por fim, pesquisas relacionadas ao desenvolvimento de arquiteturas MRTA mostraram que existem poucas aproximações genéricas implementadas no ROS e que normalmente elas não possuem boa documentação.
+        
+        O capítulo de desenvolvimento mostrou como são estruturados os arquivos de configuração de arquitetura e de  aplicação. Em cada caso, foi apresentado o processo de cadastro de arquiteturas e aplicações de modo que o pacote \textit{rqt\_mrta} identificá-las. Posteriormente, foram explicadas as camadas de modelo, visualização e controle do projeto \textit{rqt\_mrta}. 
+    
+        Uma implementação genérica da arquitetura ALLIANCE foi desenvolvida no pacote \textit{alliance} para o teste do pacote \textit{rqt\_mrta}. Para que esta arquitetura pudesse ser utilizada por aplicações multirrobô, foi criado o arquivo de configuração da arquitetura do \textit{alliance}, exportando a localização deste arquivo através do seu manifesto. Em seguida, verificou-se que o cadastro desta arquitetura foi realizado com sucesso.
+        
+        Uma aplicação com vários robôs em um sistema de patrulhamento foi criada e simulada em conjunto com o pacote \textit{alliance} para validar as funcionalidades do \textit{plugin rqt\_mrta}. Durante a sua criação (via \textit{wizard}) foram inseridos os dados gerais da aplicação, selecionada a arquitetura do pacote \textit{alliance}, indicados os robôs do sistema e, por fim, preenchidos os parâmetros obrigatórios da arquitetura selecionada. Ao final deste procedimento, foi iniciado um novo \textit{workspace} do ROS onde foi criado um novo pacote ROS contendo os arquivos gerados a partir do preenchimento dos dados da aplicação. Na sequência, os arquivos gerados foram examinados e utilizados na inicialização dos nós necessários para a execução da arquitetura selecionada. Foi averiguado que a comunicação entre os nós da arquitetura estava correta.
+        
+        Com o auxilio de um simulador, a aplicação foi executada juntamente com os nós da arquitetura do pacote \textit{alliance}. Durante sua execução, os recursos de supervisão gráfica do \textit{plugin rqt\_mrta} foi analisado.
+        
+        Concluindo, o processo de criação de aplicação multirrobô através do \textit{rqt\_mrta} mostrou que, após a configuração e cadastro da arquitetura, sua parametrização para o uso em aplicações torna-se mais intuitiva devido a existência de uma documentação mínima. %Além disso, o \textit{plugin} facilita a criação dos arquivos exigidos pela arquitetura.
+        
+    \section{Trabalhos Futuros}
+        Uma melhoria significativa desta aplicação seria possibilitar a inscrição de novas arquiteturas devidamente configuradas no repositório deste projeto. De modo que, sempre que uma nova inscrição ocorresse no \textit{rqt\_mrta}, seria solicitada uma nova atualização a todos usuários do pacote \textit{rqt\_mrta} para baixar e instalar a nova arquitetura inscrita. Isso eliminaria a necessidade de procurar novas abordagens de arquitetura por seus usuários e ajudaria o desenvolvedor de arquiteturas a impulsionar seu projeto na comunidade ROS.
+        
+        Enfim, a adição de mais alguns recurso no \textit{plugin} resultaria em um maior envolvimento do desenvolvedores e usuários de arquiteturas, como:
+        
+        \begin{itemize}
+            \item a comparação do uso de arquiteturas diferentes em uma mesma aplicação para a análise de desempenho;
+            
+            \item geração de relatórios gráficos e numéricos durante a execução da aplicação;
+            
+            \item inicialização e parada da aplicação através do \textit{plugin};
+            
+            \item serviços de agendamento;
+            
+            \item simulação de tarefas para validação da arquitetura em desenvolvimento;
+            
+            \item entre outros.
+        \end{itemize}
+        
+        

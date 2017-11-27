@@ -603,19 +603,86 @@
             
             Outra forma de visualizar a execução correta dos nós da arquitetura do pacote \textit{alliance} para a aplicação \textit{patrulha} pode ser vista com mais detalhes na Figura \ref{fig:patrulha_rosgraph}. Esta figura foi extraída da ferramenta \textit{rqt\_graph}\footnote{\url{http://wiki.ros.org/rqt_graph}} disponível no ROS, onde nós são representados por elipses e tópicos são representados por retângulos.
         
-            \begin{figure}[p]
+            \begin{figure}[htb]
                 \centering
-                \includegraphics[width=.95\textheight,angle=90]{Figuras/4_resultados/alliance_rosgraph.png}
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/alliance_rosgraph.png}
                 \caption{Grafo da arquitetura \textit{alliance} no ROS para três robôs.} \label{fig:alliance_rosgraph}
             \end{figure}
         
             Entretanto, até o presente momento, apenas a arquitetura está sendo executada juntamente com o camada de controle de execução das tarefas. Torna-se, ainda, necessário adicionar os robôs ao sistema. Pois os sinais providos dos seus sensores são inexistentes. Além disso, não existem atuadores para serem comandados.
+            
+            Conforme é exibido na Figura \ref{fig:patrulha_rosgraph}, ao executar todos os nós necessários para a aplicação \textit{patrulha}, verifica-se que o nó \textit{alliance/low\_level} interage diretamente com o nó \textit{RosAria} dentro do \textit{namespace} de cada robô (\textit{/robot1}, \textit{robot2} e \textit{/robot3}). Observa-se que, para cada \textit{namespace}, o nó \textit{alliance/low\_level} publica no tópico \textit{cmd\_vel} e está inscrito nos tópicos \textit{odom} e \textit{sonar}; enquanto que o nó \textit{RosAria} subscreve o tópico \textit{cmd\_vel} e publica nos tópicos \textit{odom} e \textit{sonar}. Isso acontecido devido à subscrições e publicações realizadas pelos \textit{plugins} carregados nos nós \textit{alliance/low\_level} de cada \textit{namespace}. Para cada \textit{namespace}, os tópicos:
+            
+            \begin{itemize}
+                \item \textit{odom} disponibiliza a informação de odometria do robô;
+                
+                \item \textit{sonar} disponibiliza os sinais dos sensores ultrassônicos do robô;
+                
+                \item e, por fim, \textit{cmd\_vel} disponibiliza o comando de velocidade do robô.
+            \end{itemize}
         
             \begin{figure}[p]
                 \centering
-                \includegraphics[width=.97\textheight,angle=90]{Figuras/4_resultados/patrulha_rosgraph.png}
+                \includegraphics[width=.95\textheight,angle=90]{Figuras/4_resultados/patrulha_rosgraph.png}
                 \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:patrulha_rosgraph}
+            \end{figure}
+            
+        \subsection{Supervisão}
+            O \textit{plugin rqt\_mrta} também fornece elementos gráficos para a supervisão da aplicação em tempo de execução. E, caso a arquitetura escolhida fornece ferramentas para a sua análise, o \textit{plugin} as 
+        
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta1.png}
+                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta1}
+            \end{figure}
+        
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta2.png}
+                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta2}
+            \end{figure}
+        
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta3.png}
+                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta3}
+            \end{figure}
+        
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta4.png}
+                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta4}
+            \end{figure}
+        
+            \begin{figure}[p]
+                \centering
+                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta5.png}
+                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta5}
+            \end{figure}
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Arquivos de parâmetro.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta6.png}
+                    \label{fig:rqt_mrta6}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta7.png}
+                    \label{fig:rqt_mrta7}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta8.png}
+                    \label{fig:rqt_mrta8}
+                }
+                
+                \subfloat[Arquivos de inicialização.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta9.png}
+                    \label{fig:rqt_mrta9}
+                }
+                \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha_rqt_mrta}
             \end{figure}
         
     
-        \input{Figuras/capitulo_3/graphes}
+        %\input{Figuras/capitulo_3/graphes}

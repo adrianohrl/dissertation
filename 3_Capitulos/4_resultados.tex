@@ -1,26 +1,26 @@
 \chapter[Experimentos e Resultados]{Experimentos e Resultados} \label{cap:resultados}
-    Para testar o pacote \textit{rqt\_mrta}, será necessário uma arquitetura desenvolvida sobre o \textit{framework} ROS. Primeiramente, será necessário compreendê-la e entender como parametrizá-la. A partir disso, será possível estruturar os \textit{templates} de arquivos de configuração e de inicialização, isto é, criar seu arquivo de configuração, conforme descrito em \ref{subsec:arch_config_fmt}. Tendo este arquivo em mãos, é preciso alterar o arquivo manifesto do seu pacote para que a configuração possa ser vista pelo \textit{rqt\_mrta}. Este processo foi descrito em \ref{subsec:arch_config_rgst}. Finalmente, a arquitetura estará cadastrada e pronta para ser configurada por usuários na criação de aplicações.
+    Para testar o pacote \textit{rqt\_mrta}, foi necessário uma arquitetura desenvolvida sobre o \textit{framework} ROS. Primeiramente, foi necessário compreendê-la e entender como parametrizá-la. A partir disso, foi possível estruturar os \textit{templates} de arquivos de configuração e de inicialização, isto é, criar seu arquivo de configuração, conforme descrito em \ref{subsec:arch_config_fmt}. Tendo este arquivo em mãos, é preciso alterar o arquivo manifesto do seu pacote para que a configuração possa ser vista pelo \textit{rqt\_mrta}. Este processo foi descrito em \ref{subsec:arch_config_rgst}. Finalmente, a arquitetura fica cadastrada e pronta para ser configurada por usuários na criação de aplicações.
     
-    Além de uma arquitetura, será necessário a elaboração de uma aplicação que utilize a arquitetura cadastrada. Pois, assim, será validado o processo de criação da aplicação. Isto é, deverá ser verificado se o pacote da nova aplicação foi gerado com sucesso. Para isso, deve se verificar se ele é visível pelas ferramentas de busca do ROS e se a formatação dos arquivos de parâmetro, de inicialização e de configuração de aplicação está correta. Se tudo estiver em conformidade, então a aplicação estará pronta para a execução. É preciso, agora, executar a aplicação utilizando os arquivos de inicialização gerados pelo \textit{rqt\_mrta}. Para isso, será utilizada a ferramenta \textit{roslaunch} para a inicialização dos nós da aplicação. 
+    Além de uma arquitetura, foi necessário a elaboração de uma aplicação que utilize a arquitetura cadastrada. Pois, assim, foi validado o processo de criação da aplicação. Isto é, deverá ser verificado se o pacote da nova aplicação foi gerado com sucesso. Para isso, deve se verificar se ele é visível pelas ferramentas de busca do ROS e se a formatação dos arquivos de parâmetro, de inicialização e de configuração de aplicação está correta. Se tudo estiver em conformidade, então a aplicação estará pronta para a execução. É preciso, agora, executar a aplicação utilizando os arquivos de inicialização gerados pelo \textit{rqt\_mrta}. Para isso, será utilizada a ferramenta \textit{roslaunch} para a inicialização dos nós da aplicação. 
     
     Finalmente, será verificado o sistema supervisório do \textit{rqt\_mrta}. Para isso, a aplicação deverá ser carregada pelo \textit{rqt\_mrta}, o qual ficará aguardando a aplicação ser executada. Nesta etapa será verificada a alteração do estado dos robôs no sistema e, se fornecido, a inicialização do \textit{plugin} para o monitoramento da arquitetura.
     
     Pelo fato de haver poucas aproximações genéricas de arquitetura MRTA para aplicações baseadas em ROS, foi desenvolvido o pacote \textit{alliance}. Esse pacote faz uma aproximação independente do domínio da arquitetura tolerante a falhas ALLIANCE \cite{ref:parker1998alliance} para atribuição de tarefa em sistema multirrobô. Esta arquitetura será utilizada para testar o funcionamento do pacote \textit{rqt\_mrta}. 
     
-    Será criado, através do \textit{rqt\_mrta}, uma aplicação que utilize a arquitetura desenvolvida no pacote \textit{alliance} para a atribuição de tarefa no sistema. Será simulado a patrulha realizada por múltiplos robôs.
+    Foi criado, através do \textit{rqt\_mrta}, uma aplicação que utilize a arquitetura desenvolvida no pacote \textit{alliance} para a atribuição de tarefa no sistema. Essa aplicação consiste na simulação de uma patrulha realizada por múltiplos robôs.
     
-    Será descrito a seguir o desenvolvimento da arquitetura ALLIANCE no pacote \textit{alliance}. Em seguida, está arquitetura será cadastrada para sua utilização por aplicações no \textit{rqt\_mrta}. Depois, a aplicação será explicada e criada através do \textit{rqt\_mrta}. Por fim, os arquivos de inicialização da arquitetura serão executados em conjunto com o simulador e os demais nós para a execução da aplicação.
+    Será descrito a seguir o desenvolvimento da arquitetura ALLIANCE no pacote \textit{alliance}. Em seguida, esta arquitetura será cadastrada para sua utilização por aplicações no \textit{rqt\_mrta}. Depois, a aplicação será explicada e criada através do \textit{rqt\_mrta}. Por fim, os arquivos de inicialização da arquitetura serão executados em conjunto com o simulador e os demais nós para a execução da aplicação.
 
     \section{\textit{alliance}} \label{sec:alliance}
-        O \textit{alliance} é um projeto baseado em ROS que contém nós que fazem o controle distribuído da alocação de tarefa em um sistema com múltiplos robôs segundo o modelo sugerido por \citeonline{ref:parker1998alliance}, a arquitetura ALLIANCE. Esta arquitetura resolve problema do tipo \textit{ST-SR-IA}, ou seja, cada robô do sistema só pode executar uma tarefa por vez, as tarefas requisitadas só podem ser executadas por um único robô e atribuição das tarefas ocorre instantaneamente, não sendo considerado o estado do sistema no futuro.
+        O \textit{alliance} é um projeto baseado em ROS que contém nós que fazem o controle distribuído da alocação de tarefa em um sistema com múltiplos robôs segundo o modelo sugerido por \citeonline{ref:parker1998alliance}. Esta arquitetura resolve problemas do tipo \textit{ST-SR-IA}, ou seja, cada robô do sistema só pode executar uma tarefa por vez, as tarefas requisitadas só podem ser executadas por um único robô e atribuição das tarefas ocorre instantaneamente, não sendo considerado o estado do sistema no futuro.
         
         Esta abordagem é baseada em comportamento. Cada robô do sistema possui diversos comportamentos. A ativação de um dado comportamento faz com que o robô passe a executar uma tarefa específica. Assim, uma nova alocação acontece sempre que um robô muda de comportamento. 
         
         Cada configuração de comportamento nos robôs possui um mecanismo para o cálculo de motivação que cresce em função de várias variáveis. Quando o nível de motivação de um dado comportamento atinge seu limite, este é ativado. As duas variáveis principais são impaciência e aquiescência. A impaciência do robô aumenta o nível de motivação em função das atividades dos demais robôs do sistema. Porém, a aquiescência leva o nível de motivação para zero, quando o robô verifica que ele deve desistir da tentativa de executar a tarefa especificada pelo comportamento. O Apêndice \ref{app:alliance} dá mais detalhes sobre o funcionamento da arquitetura ALLIANCE.
         
-        Este pacote possui dois nós: \textit{high\_level} e \textit{low\_level}. Cada robô do sistema deve rodar esses dois nós para o bom funcionamento da arquitetura. Não são necessários nós adicionais, no que diz respeito à alocação de tarefa. O nó \textit{high\_level}, possui um nível de abstração maior, pois ele controla a ativação do comportamento a partir da análise do estado do sistema. Este nó possui diversos parâmetros, os quais afetam diretamente no desempenho do sistema. Pois estes parâmetros ditam a dinâmica da motivação de comportamento de um dado robô do sistema. Enquanto isso, o nó \textit{low\_level}, possui uma abstração mais baixa, pois este interage diretamente com o nível de controle de execução de tarefa. Este nó desempenha o papel de cuidar da análise sensorial dos comportamentos do robô e, ainda, direcionar para o nível de controle da execução da tarefa qual tarefa deve ser executada.
+        Este pacote possui dois nós: \textit{high\_level} e \textit{low\_level}. Cada robô do sistema deve rodar esses dois nós para o bom funcionamento da arquitetura. Não são necessários nós adicionais, no que diz respeito à alocação de tarefa. O nó \textit{high\_level}, possui um nível de abstração maior, pois ele controla a ativação do comportamento a partir da análise do estado do sistema. Este nó possui diversos parâmetros, os quais afetam diretamente no desempenho do sistema, pois estes parâmetros ditam a dinâmica da motivação de comportamento de um dado robô do sistema. Enquanto isso, o nó \textit{low\_level}, possui uma abstração mais baixa, pois este interage diretamente com o nível de controle de execução de tarefa. Este nó desempenha o papel de cuidar da análise sensorial dos comportamentos do robô e, ainda, direcionar para o nível de controle da execução da tarefa qual tarefa deve ser executada.
         
-        O nó \textit{low\_level} demanda maior detalhamento, pois ele é altamente dependente de implementações realizadas pelos usuários do pacote \textit{alliance}. Para que fosse possível uma aproximação genérica do ALLIANCE, isto é, que pudesse ser utilizada em qualquer aplicação que atende as premissas desta arquitetura, utilizou-se o pacote \textit{pluginlib}\footnote{\url{http://wiki.ros.org/pluginlib}}. Este pacote contém uma biblioteca C++ para carregar e descarregar \textit{plugins} de pacotes do ROS. \textit{Plugins} são classes dinamicamente carregáveis que são carregadas de uma biblioteca externa em tempo de execução. Desta forma, o usuário pode fazer a análise sensorial e desenvolver a camada de controle de execução de tarefa de forma a atender a sua aplicação. Para isso foram criadas as seguintes classes base: \textit{alliane::Sensor}, \textit{alliance::SensoryEvaluator} e \textit{alliance::Layer}. Será explicado a seguir sobre o desenvolvimento de \textit{plugins} de sensor, avaliação e camada, mostrando o cabeçalho em C++ da classe base de cada tipo de \textit{plugin}.
+        O nó \textit{low\_level} demanda maior detalhamento, pois ele é altamente dependente de implementações realizadas pelos usuários do pacote \textit{alliance}. Para que fosse possível uma aproximação genérica do ALLIANCE, isto é, que pudesse ser utilizada em qualquer aplicação que atende as premissas desta arquitetura, utilizou-se o pacote \textit{pluginlib}\footnote{\url{http://wiki.ros.org/pluginlib}}. Este pacote contém uma biblioteca C++ para carregar e descarregar \textit{plugins} de pacotes do ROS. \textit{Plugins} são classes dinamicamente carregáveis que são carregadas de uma biblioteca externa em tempo de execução. Desta forma, o usuário pode fazer a análise sensorial e desenvolver a camada de controle de execução de tarefa de forma a atender a sua aplicação. Para isso foram criadas as seguintes classes base: \textit{alliane::Sensor}, \textit{alliance::SensoryEvaluator} e \textit{alliance::Layer}. Será explicado a seguir o desenvolvimento de \textit{plugins} de sensor, avaliação e camada, mostrando o cabeçalho em C++ da classe base de cada tipo de \textit{plugin}.
         
         \lstset{language=C++,
                 numbers=left,
@@ -37,7 +37,7 @@
             
             \lstinputlisting{Outros/Arquivos/4_resultados/sensor.h}
             
-            O \textit{plugin} deve sobre-escrever o método \textit{initialize} para que ele possa ser inicializado corretamente. Será disponibilizado à ele o \textit{namespace} do nó \textit{low\_level}, o nome e o \textit{id} do sensor. Porém, o \textit{plugin} pode ser configurado através da leitura de parâmetros do ROS. Para uma melhor organização, é aconselhável sobre-escrever o método \textit{readParameters} para fazer isso. Pois, a classe \textit{alliance::Sensor} já chama este método logo após a inicialização do \textit{plugin}. Enfim, o \textit{plugin} pode sobre-escrever o método \textit{isUpToDate} para informar se os dados providos do sensor real estão sendo recebidos. 
+            O \textit{plugin} deve sobre-escrever o método \textit{initialize} para que ele possa ser inicializado corretamente. Será disponibilizado à ele o \textit{namespace} do nó \textit{low\_level}, o nome e o \textit{id} do sensor. Porém, o \textit{plugin} pode ser configurado através da leitura de parâmetros do ROS. Para uma melhor organização, é aconselhável sobre-escrever o método \textit{readParameters} para fazer isso, pois a classe \textit{alliance::Sensor} já chama este método logo após a inicialização do \textit{plugin}. Enfim, o \textit{plugin} pode sobre-escrever o método \textit{isUpToDate} para informar se os dados providos do sensor real estão sendo recebidos. 
             
             Foi criada uma classe utilitária genérica, denominada \textit{nodes::ROSSensorMessage}, para simplificar o trabalho do usuário do \textit{alliance}. Está classe herda os métodos da classe \textit{alliance::Sensor} e, assim, também pode ser usada como classe base para criação de \textit{plugins} de sensor. Diferentemente da classe \textit{alliance::Sensor}, a classe \textit{nodes::ROSSensorMessage} se inscreve no tópico que transporta mensagens contendo o sinal do sensor desejado. Neste caso, o \textit{id} do sensor é considerado como o nome deste tópico. Esta classe sobre-escreve o método \textit{readParameters} para coletar parâmetros que são utilizados no método \textit{isUpToDate}, o qual é sobre-escrito para identificar se a última mensagem foi recebida dentro do tempo máximo especifidado. Assim, os \textit{plugins} que se baseiam nesta classe terão a última mensagem recebida disponível para a sobre-escrita do método \textit{isApplicable}.
         
@@ -426,7 +426,7 @@
     \section{\textit{patrulha}} \label{sec:patrulha}
         Esta aplicação consiste no patrulhamento realizado por três robôs homogêneos em um ambiente fechado. Foram definidos três comportamentos para cada robô: \textit{wander}, \textit{border\_protection} e \textit{report}. O comportamento \textit{wander} é uma implementação do algoritmo evitador de colisões. O robô permanece avançando para frente até que ele se depara com um anteparo. Sua direção aponta gradativamente para uma direção paralela ao obstáculo com o intuito de evitar uma colisão entre o robô e a parede. O comportamento \textit{border\_protection} implementa um algoritmo seguidor de parede. Através de um controlador P, são comparadas as distâncias aferidas pelos sensores ultrassônicos laterais do robô para mantê-lo dentro de um certo perímetro distante da parede. Enfim, o comportamento \textit{report} é desempenhado pelos robôs de modo a informar ao solicitante da missão sobre o seu progresso.
             
-        Com o auxílio do simulador Stage MobileSim\footnote{\url{http://robots.mobilerobots.com/wiki/MobileSim}} da Adept MobileRobots foram utilizados três robôs diferenciais móveis Pioneer 3 DX \cite{ref:adept2011p3dx}, mostrado na Figura \ref{fig:p3_dx}, para simular a dinâmica dos robôs em um ambiente fechado para a simulação de uma aplicação de patrulhamento. Este robô está disponível para uso no Laboratório de Robótica (LRO) da Universidade Federal de Itajubá (UNIFEI). Dado que o foco deste trabalho está na avaliação do pacote \textit{rqt\_mrta}, a aplicação foi simplificada ao máximo, de modo que foram apenas utilizados: (1) o sensor \textit{encoder} para ter uma estimativa do deslocamento do robô, (2) os sensores ultrassônicos para uma estimativa da distância entre o robô e as paredes do ambiente simulado, assim como, (3) seus motores para deslocar o robô pelo ambiente.
+        Com o auxílio do simulador Stage MobileSim\footnote{\url{http://robots.mobilerobots.com/wiki/MobileSim}} da Adept MobileRobots foram utilizados três robôs diferenciais móveis Pioneer 3 DX \cite{ref:adept2011p3dx}, mostrado na Figura \ref{fig:p3_dx}, para simular a dinâmica dos robôs em um ambiente fechado para a simulação de uma aplicação de patrulhamento. Dado que o foco deste trabalho está na avaliação do pacote \textit{rqt\_mrta}, a aplicação foi simplificada ao máximo, de modo que foram apenas utilizados: (1) o sensor \textit{encoder} para ter uma estimativa do deslocamento do robô, (2) os sensores ultrassônicos para uma estimativa da distância entre o robô e as paredes do ambiente simulado, assim como, (3) seus motores para deslocar o robô pelo ambiente. %Este robô está disponível para uso no Laboratório de Robótica (LRO) da Universidade Federal de Itajubá (UNIFEI).
         
         \begin{figure}[htb]
             \centering
@@ -578,7 +578,7 @@
                 \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha}
             \end{figure}
         
-            Observa-se que o pacote está devidamente organizado, agrupando os arquivos de parâmetros na pasta \textit{config} e os arquivos de inicialização na pasta \textit{launch}. Além disso, verificou-se que os arquivos gerados, possuem a formatação esperada. Os Apêndices \ref{app:app_config} e \ref{app:app_manifest} mostram os arquivos de configuração de aplicação e de manifesto do pacote \textit{patrulha} gerados.
+            Observa-se que o pacote está devidamente organizado, agrupando os arquivos de parâmetros na pasta \textit{config} e os arquivos de inicialização na pasta \textit{launch}. Além disso, verificou-se que os arquivos gerados, possuem a formatação esperada. O Apêndice \ref{app:app_manifest} mostra o arquivo de manifesto do pacote \textit{patrulha} gerado. Devido ao seu tamanho, o arquivo de configuração da aplicação \textit{patrulha} não foi fornecido. %Os Apêndices \ref{app:app_config} e \ref{app:app_manifest} mostram os arquivos de configuração de aplicação e de manifesto do pacote \textit{patrulha} gerados.
         
             Para verificar se o pacote \textit{patrulha} foi configurado como uma aplicação do ponto de vista do \textit{plugin rqt\_mrta}, foi usada a ferramenta \textit{rospack plugin}, só que desta vez, passando como atributo \textit{application}. Como foi dito anteriormente, esta mesma ferramenta é utilizada pelo \textit{rqt\_mrta} para procurar as aplicações e arquiteturas no sistema de arquivos do ROS. O resultado deste comando pode ser visualizado na Figura \ref{fig:rospack_patrulha}.
         
@@ -593,7 +593,7 @@
         \subsection{Simulação a partir dos arquivos gerados} \label{subsec:sim_patrulha}
             Cabe agora a validação dos arquivos gerados através da execução dos arquivos de inicialização gerados através da ferramenta \textit{roslaunch}. 
             
-            A Figura \ref{fig:patrulha_launches} exibe cinco terminais enumerados de 1 à 5. O Terminal 1 mostra as saídas do comando de linha \textit{rosnode list} que mostra os nós em execução no ROS. Este comando foi executado antes e após a inicialização dos nós da arquitetura de cada robô. Logo, verifica-se que inicialmente apenas o nó mestre do ROS que está em execução. Após a inicialização dos nós do robô \textit{/robot1} (vide Terminal 3), os nós \textit{/robot1/alliance/low\_level} e \textit{/robot1/alliance/high\_level} passaram a executar juntamente com o nó mestre do ROS. No Terminal 4, ao inicializar os nós do robô \textit{/robot2}, os nós \textit{low\_level} e \textit{high\_level} com o \textit{namespace /robot2/alliance} passaram a executar juntamente com os demais. Por fim, no Terminal 5, ao executar o comando \textit{roslaunch} para o arquivo de inicialização do robô \textit{/robot3}, os nós \textit{low\_level} e \textit{high\_level} com o \textit{namespace /robot3/alliance} passaram a executar juntamente com os demais. O Terminal 2 lista os tópicos existentes no ROS após a inicialização de todos os nós citados acima.
+            A Figura \ref{fig:patrulha_launches} exibe cinco terminais enumerados de 1 à 5. O Terminal 1 mostra as saídas do comando de linha \textit{rosnode list} que mostra os nós em execução no ROS. Este comando foi executado antes e após a inicialização dos nós da arquitetura de cada robô. Logo, verifica-se que inicialmente apenas o nó mestre do ROS está em execução. Após a inicialização dos nós do robô \textit{/robot1} (vide Terminal 3), os nós \textit{/robot1/alliance/low\_level} e \textit{/robot1/alliance/high\_level} passaram a executar juntamente com o nó mestre do ROS. No Terminal 4, ao inicializar os nós do robô \textit{/robot2}, os nós \textit{low\_level} e \textit{high\_level} com o \textit{namespace /robot2/alliance} passaram a executar juntamente com os demais. Por fim, no Terminal 5, ao executar o comando \textit{roslaunch} para o arquivo de inicialização do robô \textit{/robot3}, os nós \textit{low\_level} e \textit{high\_level} com o \textit{namespace /robot3/alliance} passaram a executar juntamente com os demais. O Terminal 2 lista os tópicos existentes no ROS após a inicialização de todos os nós da arquitetura.
             
             \begin{figure}[htb]
                 \centering
@@ -609,9 +609,9 @@
                 \caption{Grafo da arquitetura \textit{alliance} no ROS para três robôs.} \label{fig:alliance_rosgraph}
             \end{figure}
         
-            Entretanto, até o presente momento, apenas a arquitetura está sendo executada juntamente com o camada de controle de execução das tarefas. Torna-se, ainda, necessário adicionar os robôs ao sistema. Pois os sinais providos dos seus sensores são inexistentes. Além disso, não existem atuadores para serem comandados.
+            Entretanto, até o presente momento, apenas a arquitetura está sendo executada juntamente com a camada de controle de execução das tarefas. Torna-se, ainda, necessário adicionar os robôs ao sistema, pois os sinais providos dos seus sensores são inexistentes. Além disso, não existem atuadores para serem comandados.
             
-            Conforme é exibido na Figura \ref{fig:patrulha_rosgraph}, ao executar todos os nós necessários para a aplicação \textit{patrulha}, verifica-se que o nó \textit{alliance/low\_level} interage diretamente com o nó \textit{RosAria} dentro do \textit{namespace} de cada robô (\textit{/robot1}, \textit{robot2} e \textit{/robot3}). Observa-se que, para cada \textit{namespace}, o nó \textit{alliance/low\_level} publica no tópico \textit{cmd\_vel} e está inscrito nos tópicos \textit{odom} e \textit{sonar}; enquanto que o nó \textit{RosAria} subscreve o tópico \textit{cmd\_vel} e publica nos tópicos \textit{odom} e \textit{sonar}. Isso acontecido devido à subscrições e publicações realizadas pelos \textit{plugins} carregados nos nós \textit{alliance/low\_level} de cada \textit{namespace}. Para cada \textit{namespace}, os tópicos:
+            Conforme é exibido na Figura \ref{fig:patrulha_rosgraph}, ao executar todos os nós necessários para a aplicação \textit{patrulha}, verifica-se que o nó \textit{alliance/low\_level} interage diretamente com o nó \textit{RosAria} dentro do \textit{namespace} de cada robô (\textit{/robot1}, \textit{robot2} e \textit{/robot3}). Observa-se que, para cada \textit{namespace}, o nó \textit{alliance/low\_level} publica no tópico \textit{cmd\_vel} e está inscrito nos tópicos \textit{odom} e \textit{sonar}; enquanto que o nó \textit{RosAria} subscreve o tópico \textit{cmd\_vel} e publica nos tópicos \textit{odom} e \textit{sonar}. Isso tem acontecido devido à subscrições e publicações realizadas pelos \textit{plugins} carregados nos nós \textit{alliance/low\_level} de cada \textit{namespace}. Para cada \textit{namespace}, os tópicos:
             
             \begin{itemize}
                 \item \textit{odom} disponibiliza a informação de odometria do robô;
@@ -628,61 +628,75 @@
             \end{figure}
             
         \subsection{Supervisão}
-            O \textit{plugin rqt\_mrta} também fornece elementos gráficos para a supervisão da aplicação em tempo de execução. E, caso a arquitetura escolhida fornece ferramentas para a sua análise, o \textit{plugin} as 
+            O \textit{plugin rqt\_mrta} também fornece elementos gráficos para a supervisão da aplicação em tempo de execução. Além disso, o \textit{plugin} é capaz de acoplar os \textit{plugins} baseados em \textit{rqt} fornecidos pela arquitetura escolhida.
+            
+            A Figura \ref{fig:rqt_mrta1} mostra o painel principal do \textit{plugin rqt\_mrta} após o carregamento da aplicação \textit{patrulha}. Observa-se que o \textit{plugin} lista os três robôs do sistema com o estado \textit{offline} (círculo preenchido com a cor cinza-escuro). Além disso, o \textit{plugin rqt\_alliance} é acoplado na janela do \textit{rqt\_mrta}. Neste momento, a aplicação ainda não foi iniciada.
         
-            \begin{figure}[p]
+            \begin{figure}[hbt]
                 \centering
                 \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta1.png}
-                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta1}
+                \caption{Painel principal após a aplicação \textit{patrulha} ser carregada.} \label{fig:rqt_mrta1}
             \end{figure}
+            
+            Logo após o início da aplicação, foi capturada a imagem que mostra a Figura \ref{fig:rqt_mrta2}. Percebe-se que todos os robôs do sistema permanecem \textit{offline} pois nenhum eles ativou um comportamento até o momento. Vale lembrar que o nó \textit{high\_level} do pacote \textit{alliance} não publica mensagens no tópico \textit{/alliance/inter\_robot\_communication} enquanto o robô não tem um comportamento ativo. Logo, para a implementação do \textit{alliance}, o \textit{rqt\_mrta} só pode identificar corretamente os estados dos robôs do sistema quando eles se encontram no estado ocupado. Ou seja, usando a aproximação do \textit{alliance}, quando o \textit{plugin} mostrar que o estado de um robô é \textit{offline}, na verdade, este poderá se encontrar no estado disponível ou \textit{offline}.
         
-            \begin{figure}[p]
+            \begin{figure}[htb]
                 \centering
                 \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta2.png}
-                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta2}
+                \caption{Painel principal logo após a aplicação \textit{patrulha} ser iniciada.} \label{fig:rqt_mrta2}
             \end{figure}
+            
+            A Figura \ref{fig:rqt_mrta3} exibe o estado da interface principal do \textit{plugin} momentos após a primeira alocação de tarefa no sistema. Note que o robô identificado como \textit{/robot3} na aplicação passa para o estado ocupado (círculo preenchido com a cor amarela). No momento em que alocação aconteceu, isto é, no momento em que o robô \textit{/robot3} teve seu comportamento \textit{report} ativado, o nó \textit{/robot3/alliance/high\_level} passou a publicar mensagens no tópico \textit{/alliance/inter\_robot\_communication} anunciando as atividades do robô \textit{/robot3}. Com isso, ao receber estas mensagens, o \textit{rqt\_mrta} identificou a alteração de estado do robô \textit{/robot3}, o qual passou do estado \textit{offline} para ocupado.
         
-            \begin{figure}[p]
+            \begin{figure}[htb]
                 \centering
                 \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta3.png}
-                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta3}
+                \caption{Painel principal após a primeira alocação de tarefa no sistema.} \label{fig:rqt_mrta3}
             \end{figure}
-        
-            \begin{figure}[p]
-                \centering
-                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta4.png}
-                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta4}
-            \end{figure}
-        
-            \begin{figure}[p]
-                \centering
-                \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta5.png}
-                \caption{Grafo da aplicação \textit{patrulha} no ROS.} \label{fig:rqt_mrta5}
-            \end{figure}
+            
+            Conforme muda o estado de cada robô no sistema, muda-se a cor do círculo que identifica o estado robô. A Figura \ref{fig:rqt_mrta4} mostra o instante em que todos os robôs do sistema estão executando uma tarefa e a Figura \ref{fig:rqt_mrta5} exibe o instante em que o robô \textit{/robot3} se torna aquiescente à interrupção da execução da tarefa \textit{report}. Assim que isso acontece, o nível da sua motivação deste comportamento é zerado. Consequentemente, o nó \textit{high\_level} do robô \textit{/robot3} cessa a publicação de suas atividades no tópico \textit{/alliance/inter\_robot\_communication}. Como resultado, a camada de controle da interface \textit{rqt\_mrta} identifica que este robô passou para o estado \textit{offline}.
             
             \begin{figure}[htb]
                 \centering
-                \subfloat[Arquivos de parâmetro.]{
+                \subfloat[Painel principal enquanto todos robôs estão ocupados.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta4.png}
+                    \label{fig:rqt_mrta4}
+                }
+                
+                \subfloat[Painel principal após \textit{/robot3} ficar aquiescente.]{
+                    \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta5.png}
+                    \label{fig:rqt_mrta5}
+                }
+                \caption{Alteração de estado dos robôs no sistema.} \label{fig:rqt_mrta_state_change}
+            \end{figure}
+            
+            Finalmente, a Figura \ref{fig:patrulha_robot2_down} mostra uma sequência de imagens do intervalo de tempo em que foi simulada a perca de comunicação do robô \textit{/robot2} com o sistema. Para isso, inicialmente, foi forçada a parada do nó \textit{/robot2/alliance/low\_level}. Isso fez com que o nível de motivação do comportamento \textit{wander} (que estava ativo até então) zerasse, pois o comportamento deixou de ser aplicável (conforme visto no gráfico do \textit{rqt\_alliance} na Figura \ref{fig:rqt_mrta6}) pela falta dos dados dos sensores ultrassônicos. Logo, a publicação de mensagens das atividades de \textit{/robot2} pelo nó \textit{/robot2/alliance/high\_level} cessou. Porém, perceba que o \textit{/robot2} continua no estado ocupado, segundo o \textit{rqt\_mrta}. Isso se dá pelo fato de existir um parâmetro (denominado \textit{timeout}) que estipula o tempo máximo que o \textit{plugin} permite que um dado robô fique sem publicar a permanência do estado em que ele se encontra. Quando este tempo é expirado, o \textit{plugin} altera o estado do robô em questão. Alguns instantes depois da parada forçada do nó \textit{/robot2/alliance/low\_level}, o \textit{rqt\_mrta} indica que o \textit{/robot2} passa para o estado \textit{offline}, conforme mostra a Figura \ref{fig:rqt_mrta7}. Quando foi reestabelecida sua comunicação, a motivação do robô \textit{/robot2} começa a crescer, pois a ativação dos seus comportamentos se tornam aplicáveis novamente, conforme a Figura \ref{fig:rqt_mrta8}. Quando o nível de motivação do comportamento \textit{wander} atinge seu \textit{threshold}, o nó \textit{/robot2/alliance/high\_level} volta a publicar as atividades de \textit{/robot2}. A partir deste momento, o \textit{plugin} passa a considerar o estado de \textit{/robot2} como ocupado, conforme a Figura \ref{fig:rqt_mrta9}.
+            
+            \begin{figure}[htb]
+                \centering
+                \subfloat[Nó \textit{/robot2/alliance/low\_level} é parado forçadamente.]{
                     \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta6.png}
                     \label{fig:rqt_mrta6}
                 }
                 
-                \subfloat[Arquivos de inicialização.]{
+                \subfloat[\textit{robot2} muda de estado instantes depois.]{
                     \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta7.png}
                     \label{fig:rqt_mrta7}
                 }
                 
-                \subfloat[Arquivos de inicialização.]{
+                \subfloat[\textit{/robot2} volta a se comunicar com o sistema.]{
                     \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta8.png}
                     \label{fig:rqt_mrta8}
                 }
                 
-                \subfloat[Arquivos de inicialização.]{
+                \subfloat[\textit{/robot2} volta a estar ocupado.]{
                     \includegraphics[width=.75\textwidth]{Figuras/4_resultados/rqt_mrta9.png}
                     \label{fig:rqt_mrta9}
                 }
-                \caption{Pastas e arquivos gerados após a criação de uma aplicação.} \label{fig:patrulha_rqt_mrta}
+                \caption{Simulação da falha de comunicação de \textit{/robot2} com o sistema.} \label{fig:patrulha_robot2_down}
             \end{figure}
+            
+            
         
     
         %\input{Figuras/capitulo_3/graphes}

@@ -5,7 +5,7 @@
         
         Primeiramente, este trabalho apresentou um estudo sobre sistemas multirrobô, identificando suas vantagens perante um sistema de um único robô, bem como, suas características. Em seguida, foi revisado o problema de alocação de tarefa nesses sistemas e como eles podem ser classificados. Verificou-se a existência de várias arquiteturas que visam resolver estes problemas. Uma análise do ROS foi feita apresentando os seus conceitos básicos e o desenvolvimento de interfaces gráficas de usuário integrada com o \textit{framework}. Por fim, pesquisas relacionadas ao desenvolvimento de arquiteturas MRTA mostraram que existem poucas aproximações genéricas implementadas no ROS e que normalmente elas não possuem boa documentação.
         
-        O capítulo de desenvolvimento mostrou como são estruturados os arquivos de configuração de arquitetura e de  aplicação. Em cada caso, foi apresentado o processo de cadastro de arquiteturas e aplicações de modo que o pacote \textit{rqt\_mrta} identificá-las. Posteriormente, foram explicadas as camadas de modelo, visualização e controle do projeto \textit{rqt\_mrta}. 
+        O capítulo de desenvolvimento mostrou como são estruturados os arquivos de configuração de arquitetura e de  aplicação. Em cada caso, foi apresentado o processo de cadastro de arquiteturas e aplicações de modo que o pacote \textit{rqt\_mrta} pudesse identificá-las. Posteriormente, foram explicadas as camadas de modelo, visualização e controle do projeto \textit{rqt\_mrta}. 
     
         Uma implementação genérica da arquitetura ALLIANCE foi desenvolvida no pacote \textit{alliance} para o teste do pacote \textit{rqt\_mrta}. Para que esta arquitetura pudesse ser utilizada por aplicações multirrobô, foi criado o arquivo de configuração da arquitetura do \textit{alliance}, exportando a localização deste arquivo através do seu manifesto. Em seguida, verificou-se que o cadastro desta arquitetura foi realizado com sucesso.
         
@@ -13,12 +13,14 @@
         
         Com o auxilio de um simulador, a aplicação foi executada juntamente com os nós da arquitetura do pacote \textit{alliance}. Durante sua execução, os recursos de supervisão gráfica do \textit{plugin rqt\_mrta} foi analisado.
         
-        Concluindo, o processo de criação de aplicação multirrobô através do \textit{rqt\_mrta} mostrou que, após a configuração e cadastro da arquitetura, sua parametrização para o uso em aplicações torna-se mais intuitiva devido a existência de uma documentação mínima. %Além disso, o \textit{plugin} facilita a criação dos arquivos exigidos pela arquitetura.
+        Concluindo, o processo de criação de aplicações multirrobô pelo \textit{rqt\_mrta} tornou a parametrização de arquiteturas mais intuitiva por conta das instruções fornecidas pela arquitetura durante o seu cadastro.
+        
+        %Concluindo, o processo de criação de aplicação multirrobô através do \textit{rqt\_mrta} mostrou que, após a configuração e cadastro da arquitetura, sua parametrização para o uso em aplicações torna-se mais intuitiva devido a existência de uma documentação mínima. %Além disso, o \textit{plugin} facilita a criação dos arquivos exigidos pela arquitetura.
         
     \section{Trabalhos Futuros}
-        Uma melhoria significativa desta aplicação seria possibilitar a inscrição de novas arquiteturas devidamente configuradas no repositório deste projeto. De modo que, sempre que uma nova inscrição ocorresse no \textit{rqt\_mrta}, seria solicitada uma nova atualização a todos usuários do pacote \textit{rqt\_mrta} para baixar e instalar a nova arquitetura inscrita. Isso eliminaria a necessidade de procurar novas abordagens de arquitetura por seus usuários e ajudaria o desenvolvedor de arquiteturas a impulsionar seu projeto na comunidade ROS.
+        Uma melhoria significativa desta aplicação seria possibilitar a inscrição de novas arquiteturas devidamente configuradas no repositório deste projeto. Desse modo, sempre que uma nova inscrição ocorresse no \textit{rqt\_mrta}, seria solicitada uma nova atualização a todos usuários do pacote \textit{rqt\_mrta} para baixar e instalar a nova arquitetura inscrita. Isso eliminaria a necessidade de procurar novas abordagens de arquitetura por seus usuários e ajudaria o desenvolvedor de arquiteturas a impulsionar seu projeto na comunidade ROS.
         
-        Enfim, a adição de mais alguns recurso no \textit{plugin} resultaria em um maior envolvimento do desenvolvedores e usuários de arquiteturas, como:
+        A adição de mais alguns recursos no \textit{plugin} resultaria em um maior envolvimento dos desenvolvedores e usuários de arquiteturas, como:
         
         \begin{itemize}
             \item a comparação do uso de arquiteturas diferentes em uma mesma aplicação para a análise de desempenho;
@@ -34,4 +36,4 @@
             \item entre outros.
         \end{itemize}
         
-        
+        Enfim, o tamanho dos arquivos de configuração das arquiteturas e das aplicações poderiam ser reduzidos se as algumas \textit{tags} utilizassem atributos. Isso diminuiria o tamanho da estrutura do arquivo tanto em altura como em profundidade.

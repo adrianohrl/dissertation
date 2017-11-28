@@ -1,7 +1,5 @@
 \chapter[Desenvolvimento]{Desenvolvimento} \label{cap:desenvolvimento}
-    O trabalho de muitos desenvolvedores de arquiteturas de alocação de tarefa para sistemas de vários robôs pode passar desapercebido ou ser ignorado por pessoas que buscam resolver esse problema. A falta de uma documentação mínima leva a maioria dos seus usuários a desistir de compreender tais trabalhos. Além disso, a configuração dessas arquiteturas pode deixar seus usuários confusos devido a imensidão de parâmetros existentes. Levando esses fatos em consideração, foi desenvolvido o pacote \textit{rqt\_mrta} que implementa uma aplicação gráfica para o auxílio na utilização de arquiteturas MRTA do ROS.
-        
-    Este capítulo apresenta detalhes pertinentes sobre o desenvolvimento dos pacotes \textit{rqt\_mrta} para o \textit{framework} ROS.
+    O trabalho de muitos desenvolvedores de arquiteturas de alocação de tarefa para sistemas de vários robôs pode passar desapercebido ou ser ignorado por pessoas que buscam resolver esse problema. A falta de uma documentação mínima leva a maioria dos seus usuários a desistir de compreender tais trabalhos. Além disso, a configuração dessas arquiteturas pode deixar seus usuários confusos devido a imensidão de parâmetros existentes. Levando esses fatos em consideração, foi desenvolvido o pacote \textit{rqt\_mrta} que implementa uma aplicação gráfica para o auxílio na utilização de arquiteturas MRTA do ROS. Este capítulo apresenta detalhes pertinentes sobre o desenvolvimento dos pacotes \textit{rqt\_mrta} para o \textit{framework} ROS.
     
     \lstset{
         language=XML,
@@ -179,7 +177,7 @@
                 </rqt_mrta>
             \end{lstlisting}
             
-            A \textit{tag architecture} possui as \textit{tags name}, \textit{robots}, \textit{tasks} e \textit{allocations}, as quais contêm, respectivamente, informações sobre o nome da arquitetura e considerações sobre os robôs, tarefas e alocações do problema MRTA. A \textit{tag robots} agrupa informações sobre o tipo dos robôs do problema MRTA que ela resolve e, através da \textit{tag topic}, dá detalhes pertinentes para a verificação da alteração de estado dos robôs. A \textit{tag topic} será explicada a seguir. A \textit{tag tasks}, por sua vez, traz dados sobre o tipo de tarefa que a arquitetura considera, bem como, informações para a identificação de novas tarefas que surgem no sistema. A \textit{tag allocations} classifica o tipo de alocação tratada pela arquitetura, assim como, traz informações para a verificação de alteração de estado da alocação. Essas informações são úteis para ajudar o usuário a escolher uma arquitetura válida para o seu problema MRTA. Além disso, elas permitirão a identificação dos estados dos robôs, tarefas e alocações em tempo de execução.
+            A \textit{tag architecture} possui as \textit{tags name}, \textit{robots}, \textit{tasks} e \textit{allocations}, as quais contêm, respectivamente, informações sobre o nome da arquitetura e considerações sobre os robôs, tarefas e alocações do problema MRTA. A \textit{tag robots} agrupa informações sobre o tipo dos robôs do problema MRTA que ela resolve e, através da \textit{tag topic}, dá detalhes pertinentes para a verificação da alteração de estado dos robôs. A \textit{tag topic} será explicada a seguir. A \textit{tag tasks}, por sua vez, traz dados sobre o tipo de tarefa que a arquitetura considera, bem como, informações para a identificação de novas tarefas que surgem no sistema. A \textit{tag allocations} classifica o tipo de alocação tratada pela arquitetura e traz informações para a verificação de alteração de estado da alocação. Essas informações são úteis para ajudar o usuário a escolher uma arquitetura válida para o seu problema MRTA. Além disso, elas permitirão a identificação dos estados dos robôs, tarefas e alocações em tempo de execução.
             
             \begin{lstlisting}
                 <topic>
@@ -198,7 +196,7 @@
             %Para criar um \textit{template} de um arquivo de parâmetros basicamente se faz uso de três \textit{tags}: \textit{params}, \textit{array} e \textit{param}. As duas primeiras são coleções de parâmetros, a única diferença entre elas é que \textit{array} define uma coleção de parâmetros que se repete um dado número de vezes. A \textit{tag param} define o nome, o valor, o tipo, a instrução e o valor padrão de um parâmetro. 
             %
             \begin{itemize}
-                \item \textit{id}: identifica o arquivo de parâmetros, seu valor pode ser usado para associar essa \textit{template} com os robôs;
+                \item \textit{id}: identifica o arquivo de parâmetros. Seu valor pode ser usado para associar essa \textit{template} com os robôs;
                 
                 \item \textit{param}: traz informações importantes sobre o preenchimento de dados de um parâmetro. Esta \textit{tag} contem as \textit{tags name}, \textit{type}, \textit{value}, \textit{default} e \textit{tool\_tip}. Quando a \textit{tag default} não é dada, o parâmetro em questão é considerado obrigatório;
                 
@@ -279,10 +277,10 @@
               </launches>
             \end{lstlisting}
             
-            Finalmente, pode ser informado ao \textit{plugin} uma coleção de outros \textit{plugin} desenvolvidos para a análise da arquitetura em tempo de execução. Para isso, deve-se usar a \textit{tag widgets} informando o nome de cada \textit{plugin}.
+            Finalmente, pode ser informado ao \textit{plugin} uma coleção de outros \textit{plugins} desenvolvidos para a análise da arquitetura em tempo de execução. Para isso, deve-se usar a \textit{tag widgets} informando o nome de cada \textit{plugin}.
         
         \subsection{Registro da arquitetura} \label{subsec:arch_config_rgst}
-            No entanto, torna-se necessário um mecanismo de busca capaz de identificar pacotes ROS que contenham arquivos de configuração de arquitetura; pois, assim, será possível auxiliar o usuário final a escolher uma arquitetura que resolva o seu problema MRTA.
+            No entanto, torna-se necessário um mecanismo de busca capaz de identificar pacotes ROS que contenham arquivos de configuração de arquitetura. Desta forma, será possível auxiliar o usuário final a escolher uma arquitetura que resolva o seu problema MRTA.
             
             A biblioteca \textit{rospack}\footnote{\url{http://wiki.ros.org/rospack}} possui diversas ferramentas de busca de informação de pacotes existentes no sistema de arquivos do ROS. Dentre elas, a ferramenta \textit{rospack plugin} examina os pacotes ROS procurando por aqueles que dependem diretamente do pacote dado, extraindo de cada um deles seu nome acompanhado pelo valor do atributo requisitado. Logo, é possível utilizar esse mecanismo em benefício deste projeto ao adicionar uma dependência do \textit{rqt\_mrta} ao pacote da arquitetura, assim como, exportar a localização relativa do seu arquivo de configuração. 
             
@@ -319,10 +317,10 @@
             O Apêndice \ref{app:arch_manifest} mostra um exemplo de arquivo manifesto de um pacote configurado para ser uma arquitetura MRTA do ponto de vista do \textit{rqt\_mrta}. Note a dependência em tempo de execução do pacote \textit{rqt\_mrta}, bem como, a exportação da sua \textit{tag} com o atributo \textit{architecture}.
     
     \section{Arquivo de configuração de aplicação} \label{sec:app_config}
-        Um arquivo de configuração de aplicação informações gerais da aplicação, identifica os robôs do sistema e armazena as escolhas feitas pelo usuários durante a parametrização da arquitetura. Será apresentado o formato deste arquivo e também como este arquivo é reconhecido pelo \textit{rqt\_mrta}.
+        Um arquivo de configuração de aplicação traz informações gerais da aplicação, identifica os robôs do sistema e armazena as escolhas feitas pelo usuários durante a parametrização da arquitetura. Nesta seção, será apresentado o formato deste arquivo e também como ele é reconhecido pelo \textit{rqt\_mrta}.
         
         \subsection{Formatação} \label{subsec:app_config_fmt}
-            Esse arquivo de extensão XML conta com três \textit{tags} principais: \textit{application} e \textit{configs}, \textit{launches}. É mostrada a seguir uma simplificação de um arquivo de configuração de aplicação. No entanto, o Apêndice \ref{app:app_config} apresenta um exemplo completo, contendo as configurações da aplicação \textit{patrulha}, a qual é discutida na Seção \ref{cap:resultados}.
+            Esse arquivo de extensão XML conta com três \textit{tags} principais: \textit{application}, \textit{configs} e \textit{launches}. É mostrada a seguir uma simplificação de um arquivo de configuração de aplicação. Devido ao seu tamanho, não foi possível fornecer um exemplo completo de um arquivo de configuração de aplicação. %No entanto, o Apêndice \ref{app:app_config} apresenta um exemplo completo, contendo as configurações da aplicação \textit{patrulha}, a qual é discutida na Seção \ref{cap:resultados}.
             
             \begin{lstlisting}
               <rqt_mrta>
@@ -351,7 +349,7 @@
               </rqt_mrta>
             \end{lstlisting}
         
-            A \textit{tag application} armazena metadados sobre o problema MRTA e composta pelas seguintes \textit{tags}:
+            A \textit{tag application} armazena metadados sobre o problema MRTA e é composta pelas seguintes \textit{tags}:
             
             \begin{itemize}
                 \item \textit{architecture}: armazena o nome do pacote que implementa a arquitetura escolhida;
@@ -360,9 +358,9 @@
                 
                 \item \textit{robots}: agrupa uma coleção de \textit{tags} do tipo \textit{robot};
                 
-                \item \textit{robot}: possui uma \textit{tag id} e uma tag \textit{tasks};
+                \item \textit{robot}: possui uma \textit{tag id} e uma \textit{tag tasks} que informa as tarefas que robô é capaz de executar;
                 
-                \item \textit{tasks}: reune um conjunto de \textit{tags} do tipo \textit{task};
+                \item \textit{tasks}: reúne um conjunto de \textit{tags} do tipo \textit{task};
                 
                 \item \textit{task}: possui uma \textit{tag id};
                 
@@ -371,7 +369,7 @@
             
             A \textit{tag application} agrupa metadados sobre o problema, como o nome da aplicação e o nome do pacote que implementa a arquitetura MRTA escolhida. Além disso, a \textit{tag robots} identifica os robôs do sistema. Este arquivo também armazena os parâmetros adotados durante a criação do problema MRTA. Isso permite que os seus valores possam ser atualizados. Por fim, este arquivo também guarda a estrutura dos arquivos de inicialização do ROS que foram gerados após sua criação. 
         
-            As \textit{tags configs} e \textit{launches} permitem a reconfiguração da arquitetura e da aplicação após sua geração. Elas possuem a mesma estrutura descrita em \ref{sec:arch_config}. Porém, este arquivo não possui \textit{tags} do tipo \textit{array}, pois cada uma delas foi substituída por uma coleção de \textit{tags} do tipo \textit{params}, conforme o exemplo extraído do Apêndice \ref{app:app_config} que se seute.
+            As \textit{tags configs} e \textit{launches} permitem a reconfiguração da arquitetura e da aplicação após sua geração. Elas possuem a mesma estrutura descrita em \ref{sec:arch_config}. Porém, este arquivo não possui \textit{tags} do tipo \textit{array}, pois cada uma delas foi substituída por uma coleção de \textit{tags} do tipo \textit{params}, conforme o seguinte exemplo. %, conforme o exemplo extraído do Apêndice \ref{app:app_config} que se segue.
             
             \begin{lstlisting}
               <configs>
@@ -466,9 +464,9 @@
                 
                 \item \textbf{Carregar aplicação}: abre um \textit{dialog} para a seleção de uma aplicação já criada anteriormente. Se uma das aplicações listadas é selecionada, então o \textit{widget} principal do \textit{plugin} se adapta conforme as configurações desta aplicação;
                 
-                \item \textbf{Executar aplicação}: executa os arquivos de inicialização da aplicação carregada. Esta função não está habilitada ainda;
+                %\item \textbf{Executar aplicação}: executa os arquivos de inicialização da aplicação carregada. Esta função não está habilitada ainda;
                 
-                \item \textbf{Nova arquitetura}: abre um novo \textit{wizard} para a configuração e cadastro de uma nova arquitetura. Se este \textit{wizard} é finalizado com sucesso, o \textit{widget} principal do \textit{plugin} se adapta conforme as configurações da nova arquitetura cadastrada. Esta função não está habilitada ainda;
+                %\item \textbf{Nova arquitetura}: abre um novo \textit{wizard} para a configuração e cadastro de uma nova arquitetura. Se este \textit{wizard} é finalizado com sucesso, o \textit{widget} principal do \textit{plugin} se adapta conforme as configurações da nova arquitetura cadastrada. Esta função não está habilitada ainda;
                 
                 \item \textbf{Carregar arquitetura}: abre um \textit{dialog} para a seleção de uma arquitetura já cadastrada. Se uma das arquiteturas listadas é selecionada, então o \textit{widget} principal do \textit{plugin} se adapta conforme as configurações desta arquitetura, isto é, serão carregados os \textit{widgets} fornecidos pela arquitetura.
             \end{itemize}
@@ -520,7 +518,9 @@
             
             Os campos que aparecem o símbolo asterisco (*), identificam para o usuário quais entradas devem ser preenchidas obrigatoriamente. O usuário fica impossibilitado de avançar para a próxima tela enquanto ele não tenha preenchido todas entradas obrigatórias. Isso garante que ao final do procedimento, a arquitetura estará devidamente configurada e será possível gerar o pacote da aplicação com sucesso.
             
-            Na última tela do \textit{wizard}, após o preenchimento de todos parâmetros obrigatórios, o usuário pode ver um resume das ações que serão realizadas pelo \textit{plugin} ao concluir o procedimento. Conforme mostra a Figura \ref{fig:example_summary}, esta tela informa se o \textit{plugin} iniciará um novo \textit{workspace} do ROS (conforme necessidade), mostra o diretório em que o pacote da aplicação será criado, bem como, os arquivos e pastas que serão gerados neste pacote.
+            Na última tela do \textit{wizard}, após o preenchimento de todos parâmetros obrigatórios, o usuário pode ver um resumo das ações que serão realizadas pelo \textit{plugin} ao concluir o procedimento. Conforme mostra a Figura \ref{fig:example_summary}, esta tela informa se o \textit{plugin} iniciará um novo \textit{workspace} do ROS (conforme necessidade), mostra o diretório em que o pacote da aplicação será criado, bem como, os arquivos e pastas que serão gerados neste pacote.
+            
+            A Figura \ref{fig:example} mostra a organização esperada ao finalizar o procedimento de criação de uma nova aplicação. Os arquivos \textit{CMakeLists.txt}, \textit{package.xml} e \textit{rqt\_mrta.xml} ficam localizados na raiz do novo pacote da aplicação. Os arquivos de parâmetros ficam dentro da pasta \textit{config} e os arquivos de inicialização dentro da pasta \textit{launch}.
             
             \begin{figure}[htb]
                 \centering
@@ -571,7 +571,7 @@
         
         As classes \textit{Robot}, \textit{Task} e \textit{Allocation} são muito parecidas. Elas mantêm uma identificação única para cada robô, tarefa e alocação identificados no sistema, respectivamente. Contudo, objetos da classe \textit{Allocation} têm uma instância de \textit{Task} e pode ter um ou vários objetos \textit{Robot}, dependendo do tipo das tarefas que a arquitetura MRTA escolhida resolve. Cada uma dessas três classes ainda possuem um objeto do tipo \textit{History} que armazena \textit{logs} das alterações de estado, o qual é monitorado pelo objeto \textit{StateMonitor} que elas possuem. Objetos \textit{StateMonitor}, por sua vez, são compostos por vários objetos \textit{SampleHolder}, um para cada estado sendo monitorado. Esta classe funciona como se fosse um demultiplexador, direcionando o evento na sua entrada para a saída apropriada. Isto é, se o objeto \textit{StateMonitor} de um dado robô recebe a informação que ele se encontra no estado \textit{Busy} (ocupado), esse encaminha esta informação para o objeto \textit{SampleHolder} que mantém o histórico de notificações desse estado. Portanto, a classe \textit{SampleHolder} é responsável por identificar as rampas de subida e de descida de um dado estado do objeto em monitoramento. Este objeto leva em consideração um parâmetro (\textit{timeout}) que especifica o tempo máximo considerado para manter o dado estado em nível lógico alto.
         
-        Voltando a classe \textit{System}, objetos desse tipo ainda são compostos por vários objetos do tipo \textit{Monitor} que pode ser especificado para os tipos \textit{RobotMonitor}, \textit{TaskMonitor} e \textit{AllocationMonitor}. Cada um tem a função de monitorar um campo específico de uma dada mensagem provida de um tópico específico, conforme os parâmetros do arquivo de configuração da arquitetura MRTA escolhida.  Como objeto \textit{Monitor} analisa um estado específico de um conjunto de entidades da mesma natureza. Por exemplo, objetos \textit{RobotMonitor} analisam um dado estado dos robôs do sistema; objetos do tipo \textit{TaskMonitor} analisam um estado específico para as tarefas do sistema; e, por fim, um estado específico das alocações do sistema é analisado em objetos do tipo \textit{AllocationMonitor}. Assim, de forma semelhante à classe \textit{StateMonitor}, as classes do tipo \textit{Monitor} têm um papel similar a um demultiplexador, entregando a notificação recebida ao objeto \textit{StateMonitor} apropriado. Exemplificando, seja um objeto \textit{RobotMonitor} que observa o tópico \textit{/busy\_robots} onde os robôs do sistema publicam quais atividades eles estão desempenhando. Ao ser notificado da chegada de uma mensagem cujo o remetente é o robô \textit{robot1}, este monitor encaminhará uma notificação para o objeto \textit{StateMonitor} do \textit{robot1} dizendo que ele se encontra no estado \textit{Busy}. Por sua vez, o objeto \textit{StateMonitor} de \textit{robot1} direciona está notificação para o \textit{SampleHolder} que mantém o histórico do estado \textit{Busy} de \textit{robot1}. Finalmente, a cada rampa de subida ou descida de um dos seus estados, \textit{robot1} atualiza seu estado atual.
+        Voltando à classe \textit{System}, objetos desse tipo ainda são compostos por vários objetos do tipo \textit{Monitor} que pode ser especificado para os tipos \textit{RobotMonitor}, \textit{TaskMonitor} e \textit{AllocationMonitor}. Cada um tem a função de monitorar um campo específico de uma dada mensagem provida de um tópico específico, conforme os parâmetros do arquivo de configuração da arquitetura MRTA escolhida.  Como o objeto \textit{Monitor} analisa um estado específico de um conjunto de entidades da mesma natureza. Por exemplo, objetos \textit{RobotMonitor} analisam um dado estado dos robôs do sistema; objetos do tipo \textit{TaskMonitor} analisam um estado específico para as tarefas do sistema; e, por fim, um estado específico das alocações do sistema é analisado em objetos do tipo \textit{AllocationMonitor}. Assim, de forma semelhante à classe \textit{StateMonitor}, as classes do tipo \textit{Monitor} têm um papel similar a um demultiplexador, entregando a notificação recebida ao objeto \textit{StateMonitor} apropriado. Exemplificando, seja um objeto \textit{RobotMonitor} que observa o tópico \textit{/busy\_robots} onde os robôs do sistema publicam quais atividades eles estão desempenhando. Ao ser notificado da chegada de uma mensagem cujo o remetente é o robô \textit{robot1}, este monitor encaminhará uma notificação para o objeto \textit{StateMonitor} do \textit{robot1} dizendo que ele se encontra no estado \textit{Busy}. Por sua vez, o objeto \textit{StateMonitor} de \textit{robot1} direciona esta notificação para o \textit{SampleHolder} que mantém o histórico do estado \textit{Busy} de \textit{robot1}. Finalmente, a cada rampa de subida ou descida de um dos seus estados, \textit{robot1} atualiza seu estado atual.
         
         Perceba que a classe \textit{Monitor} faz uso de duas classes utilitárias:
         
